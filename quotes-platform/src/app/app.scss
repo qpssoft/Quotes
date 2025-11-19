@@ -6,6 +6,124 @@
   flex-direction: column;
   background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, var(--bg-primary) 100%);
   font-family: var(--font-family);
+  position: relative;
+}
+
+// Loading Overlay
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 248, 240, 0.98);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.loading-spinner {
+  text-align: center;
+  animation: fadeIn 0.3s ease-in;
+}
+
+.spinner-icon {
+  font-size: 4rem;
+  animation: spin 2s linear infinite;
+  color: var(--primary-gold);
+}
+
+.spinner-text {
+  margin-top: 1rem;
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+  font-family: var(--font-family);
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+// Error Overlay
+.error-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 248, 240, 0.98);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  padding: 1rem;
+}
+
+.error-container {
+  text-align: center;
+  max-width: 500px;
+  padding: 3rem 2rem;
+  background: var(--bg-card);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(212, 175, 55, 0.15);
+  animation: fadeIn 0.3s ease-in;
+}
+
+.error-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.error-title {
+  font-size: 1.8rem;
+  color: var(--primary-orange);
+  margin-bottom: 1rem;
+  font-family: var(--font-family);
+}
+
+.error-message {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.error-retry {
+  padding: 0.8rem 2rem;
+  font-size: 1rem;
+  background: var(--primary-gold);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: var(--font-family);
+  font-weight: 500;
+
+  &:hover {
+    background: var(--primary-orange);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 140, 66, 0.3);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
 }
 
 // Header

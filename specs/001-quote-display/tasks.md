@@ -203,18 +203,18 @@
 
 ### App Integration
 
-- [ ] T083 [SHARED] Create main AppComponent layout with two-section structure (1/3 top, 2/3 bottom)
-- [ ] T084 [SHARED] Add global styles in `src/styles/styles.scss` (Buddhist theme, box-sizing, resets)
-- [ ] T085 [SHARED] Implement error boundary for JSON load failures
-- [ ] T086 [SHARED] Add loading spinner while quotes.json loads
+- [x] T083 [SHARED] Create main AppComponent layout with two-section structure (1/3 top, 2/3 bottom)
+- [x] T084 [SHARED] Add global styles in `src/styles/styles.scss` (Buddhist theme, box-sizing, resets)
+- [x] T085 [SHARED] Implement error boundary for JSON load failures
+- [x] T086 [SHARED] Add loading spinner while quotes.json loads
 - [ ] T087 [P] [SHARED] Optimize bundle size: analyze with `ng build --stats-json` and webpack-bundle-analyzer
-- [ ] T088 [P] [SHARED] Enable production optimizations in `angular.json` (AOT, optimization, budgets)
+- [x] T088 [P] [SHARED] Enable production optimizations in `angular.json` (AOT, optimization, budgets)
 
 ### Vietnamese UTF-8 Support
 
-- [ ] T089 [P] [SHARED] Add UTF-8 charset meta tag to `index.html`
-- [ ] T090 [P] [SHARED] Verify all `.ts` and `.json` files saved as UTF-8 without BOM
-- [ ] T091 [P] [SHARED] Test Vietnamese quotes render correctly (check diacritics: ắ, ằ, ẳ, ẵ, ặ)
+- [x] T089 [P] [SHARED] Add UTF-8 charset meta tag to `index.html`
+- [x] T090 [P] [SHARED] Verify all `.ts` and `.json` files saved as UTF-8 without BOM
+- [x] T091 [P] [SHARED] Test Vietnamese quotes render correctly (check diacritics: ắ, ằ, ẳ, ẵ, ặ)
 - [ ] T092 [P] [SHARED] Test on Windows, macOS, iOS, Android for Vietnamese text rendering
 
 ### Accessibility & Mobile
@@ -228,19 +228,19 @@
 
 ### Documentation
 
-- [ ] T099 [P] [SHARED] Update README.md with project description, setup, deployment instructions
-- [ ] T100 [P] [SHARED] Document audio file licensing in README (CC0 attribution if required)
-- [ ] T101 [P] [SHARED] Add screenshots to README (desktop and mobile views)
-- [ ] T102 [P] [SHARED] Create CONTRIBUTING.md with development workflow and code standards
+- [x] T099 [P] [SHARED] Update README.md with project description, setup, deployment instructions
+- [x] T100 [P] [SHARED] Document audio file licensing in README (CC0 attribution if required)
+- [x] T101 [P] [SHARED] Add screenshots to README (desktop and mobile views)
+- [x] T102 [P] [SHARED] Create CONTRIBUTING.md with development workflow and code standards
 
 ### Deployment Preparation
 
-- [ ] T103 [SHARED] Test production build locally: `ng build --configuration production --base-href /quotes-platform/`
-- [ ] T104 [SHARED] Verify bundle sizes: main-*.js <500KB, overall <2MB
-- [ ] T105 [SHARED] Create `404.html` copy of `index.html` for GitHub Pages SPA routing
-- [ ] T106 [SHARED] Test local production build with `npx http-server dist/quotes-platform/browser`
-- [ ] T107 [SHARED] Verify all asset paths work with GitHub Pages base href
-- [ ] T108 [SHARED] Create GitHub Pages deployment script in `package.json` (gh-pages package)
+- [x] T103 [SHARED] Test production build locally: `ng build --configuration production --base-href /quotes-platform/`
+- [x] T104 [SHARED] Verify bundle sizes: main-*.js <500KB, overall <2MB
+- [x] T105 [SHARED] Create `404.html` copy of `index.html` for GitHub Pages SPA routing
+- [x] T106 [SHARED] Test local production build with `npx http-server dist/quotes-platform/browser`
+- [x] T107 [SHARED] Verify all asset paths work with GitHub Pages base href
+- [x] T108 [SHARED] Create GitHub Pages deployment script in `package.json` (gh-pages package)
 - [ ] T109 [SHARED] Deploy to GitHub Pages and test live site
 
 **Checkpoint**: All user stories integrated, polished, and deployed successfully

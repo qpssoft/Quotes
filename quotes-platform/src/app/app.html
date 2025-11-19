@@ -1,4 +1,28 @@
 <div class="app-container">
+  <!-- Loading Spinner -->
+  @if (isLoading()) {
+    <div class="loading-overlay">
+      <div class="loading-spinner">
+        <div class="spinner-icon">☸</div>
+        <p class="spinner-text">Đang tải trích dẫn...</p>
+      </div>
+    </div>
+  }
+
+  <!-- Error Boundary -->
+  @if (hasError()) {
+    <div class="error-overlay">
+      <div class="error-container">
+        <div class="error-icon">⚠️</div>
+        <h2 class="error-title">Có lỗi xảy ra</h2>
+        <p class="error-message">{{ errorMessage() }}</p>
+        <button class="error-retry" (click)="retryLoad()" aria-label="Thử lại">
+          🔄 Thử lại
+        </button>
+      </div>
+    </div>
+  }
+
   <!-- Header -->
   <header class="app-header">
     <div class="header-content">

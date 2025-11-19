@@ -12,7 +12,9 @@
     "format": "prettier --write \"src/**/*.{ts,html,scss,json}\"",
     "format:check": "prettier --check \"src/**/*.{ts,html,scss,json}\"",
     "validate:quotes": "node scripts/validate-quotes.js",
-    "build:gh-pages": "ng build --configuration production --base-href /Quotes/"
+    "build:gh-pages": "ng build --configuration production --base-href /Quotes/",
+    "predeploy": "npm run build:gh-pages && node -e \"require('fs').copyFileSync('dist/quotes-platform/browser/index.html', 'dist/quotes-platform/browser/404.html')\"",
+    "deploy:gh-pages": "npm run predeploy && gh-pages -d dist/quotes-platform/browser"
   },
   "prettier": {
     "printWidth": 100,
@@ -45,6 +47,7 @@
     "@types/jasmine": "~5.1.0",
     "angular-eslint": "20.6.0",
     "eslint": "^9.39.0",
+    "gh-pages": "^6.3.0",
     "jasmine-core": "~5.9.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",

@@ -21,7 +21,17 @@ export class DataService {
 
     try {
       const response = await fetch('data/quotes.json');
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
       this.quotes = await response.json();
+      
+      // Validate data
+      if (!Array.isArray(this.quotes) || this.quotes.length === 0) {
+        throw new Error('Invalid quotes data format');
+      }
       
       // Build cache for fast ID lookups
       this.quotes.forEach((quote) => {
@@ -31,7 +41,7 @@ export class DataService {
       return this.quotes;
     } catch (error) {
       console.error('Failed to load quotes:', error);
-      return [];
+      throw error; // Re-throw for app-level error handling
     }
   }
 

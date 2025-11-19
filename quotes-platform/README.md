@@ -1,79 +1,248 @@
-# QuotesPlatform
+# Trích Dẫn Phật Giáo (Buddhist Quotes Platform)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.10.
+A modern web application for displaying and browsing Buddhist wisdom quotes, Vietnamese proverbs (Tục Ngữ), and folk songs (Ca Dao) with automatic rotation, search, and customization features.
 
-## Development server
+## ✨ Features
 
-To start a local development server, run:
+### 🎯 Core Features
+- **Continuous Quote Display**: Auto-rotating quotes at the top of the screen with smooth fade transitions
+- **Playback Controls**: Play/Pause and Next buttons for manual control
+- **Configurable Timer**: Adjust rotation interval from 5 to 60 seconds
+- **Audio Notifications**: Gentle chime sounds on each quote transition
+- **Quote Grid**: Browse multiple quotes in a responsive grid layout
+- **Full-Text Search**: Real-time filtering across quote content, authors, and categories
+- **Display Count**: Configure how many quotes to show (5-30 quotes)
+- **Font Selection**: Choose from 6 beautiful serif fonts for optimal reading
+- **LocalStorage Persistence**: All preferences saved and restored automatically
+- **Responsive Design**: Optimized for desktop, tablet, and mobile devices
+- **Buddhist-Inspired UI**: Warm colors, gold accents, and serene aesthetics
+
+### 🌐 Language Support
+- Vietnamese (primary language)
+- Full UTF-8 support for Vietnamese diacritics (ắ, ằ, ẳ, ẵ, ặ)
+- English quotes also supported
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Node.js 20.x or higher
+- npm 10.x or higher
+- Angular CLI 18.x or higher
+
+### Installation
 
 ```bash
+# Clone the repository
+git clone https://github.com/qpssoft/Quotes-Platform.git
+cd Quotes-Platform/quotes-platform
+
+# Install dependencies
+npm install
+
+# Start development server
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Open your browser and navigate to `http://localhost:4200/`
 
-## Code scaffolding
+### Development Server
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+To start a local development server with live reload:
 
 ```bash
-ng generate component component-name
+npm start
+# or
+ng serve
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+The application will automatically reload when you modify source files.
+
+## 📦 Building for Production
+
+### Local Production Build
 
 ```bash
-ng generate --help
+# Build for production
+npm run build
+
+# Or with specific base href for GitHub Pages
+ng build --configuration production --base-href /Quotes/
 ```
 
-## Building
+Build artifacts will be stored in the `dist/quotes-platform/browser/` directory.
 
-To build the project run:
+### Test Production Build Locally
 
 ```bash
-ng build
+# Install http-server globally (one time)
+npm install -g http-server
+
+# Serve the production build
+npx http-server dist/quotes-platform/browser -p 8080
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Visit `http://localhost:8080` to test the production build.
 
-## Running unit tests
+## 🌍 Deployment
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+### GitHub Pages Deployment
 
 ```bash
+# Build and deploy to GitHub Pages
+npm run deploy:gh-pages
+```
+
+The application will be available at: `https://qpssoft.github.io/Quotes/`
+
+### Manual Deployment Steps
+
+1. Build for production:
+   ```bash
+   ng build --configuration production --base-href /Quotes/
+   ```
+
+2. Copy `dist/quotes-platform/browser/index.html` to `dist/quotes-platform/browser/404.html` for SPA routing
+
+3. Deploy the `dist/quotes-platform/browser/` directory to your hosting service
+
+## 🛠️ Technologies Used
+
+- **Framework**: Angular 18+ (Standalone Components)
+- **Language**: TypeScript 5.5+
+- **Styling**: SCSS with CSS Custom Properties
+- **State Management**: Angular Signals
+- **Storage**: Browser LocalStorage API
+- **Fonts**: Google Fonts (Noto Serif, Georgia, Merriweather, Lora, Playfair Display, Crimson Text)
+- **Build Tool**: Angular CLI with esbuild
+- **Deployment**: GitHub Pages
+
+## 📁 Project Structure
+
+```
+quotes-platform/
+├── src/
+│   ├── app/
+│   │   ├── core/
+│   │   │   ├── models/          # TypeScript interfaces and types
+│   │   │   └── services/        # Data, storage, audio, rotation services
+│   │   ├── features/
+│   │   │   ├── controls/        # Rotation controls component
+│   │   │   ├── quote-display/   # Continuous display component
+│   │   │   └── quote-grid/      # Grid browsing component
+│   │   └── shared/
+│   │       └── components/
+│   │           └── quote-card/  # Reusable quote card component
+│   ├── assets/
+│   │   └── data/
+│   │       └── quotes.json      # Quote database
+│   ├── styles/
+│   │   └── theme.css            # Buddhist-inspired theme variables
+│   └── index.html
+├── public/
+│   └── audio/
+│       └── notification.mp3     # Gentle chime for transitions
+└── specs/
+    └── 001-quote-display/       # Feature specifications and tasks
+```
+
+## 🎨 Customization
+
+### Adding New Quotes
+
+Edit `public/data/quotes.json`:
+
+```json
+{
+  "id": "q001",
+  "content": "Your quote text here",
+  "author": "Author name",
+  "category": "quote",
+  "type": "Quote"
+}
+```
+
+**Categories**: `quote` (Lời Phật Dạy), `proverb` (Tục Ngữ), `cadao` (Ca Dao)
+
+### Changing Theme Colors
+
+Edit `src/styles/theme.css` to customize the Buddhist color palette:
+
+```css
+:root {
+  --primary-gold: #D4AF37;
+  --primary-orange: #FF8C42;
+  --bg-primary: #FFF8F0;
+  /* ... */
+}
+```
+
+### Adjusting Rotation Intervals
+
+Timer intervals are defined in `RotationControlsComponent`. Modify the `intervals` array to add custom durations.
+
+## 🧪 Testing
+
+### Unit Tests
+
+```bash
+npm test
+# or
 ng test
 ```
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
+### End-to-End Tests (Optional)
 
 ```bash
-ng e2e
+# Install Playwright (if not already installed)
+npm install -D @playwright/test
+
+# Run e2e tests
+npm run e2e
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## 📊 Bundle Size
 
-## AI-Assisted Development
+- **Initial Bundle**: ~125 KB (gzipped)
+- **Lazy Loaded**: N/A (all components eager-loaded for performance)
+- **Budget**: Max 2 MB (configured in angular.json)
 
-This project uses Model Context Protocol (MCP) servers to enhance AI-assisted development workflows.
+## ♿ Accessibility
 
-### MCP Servers Configured
+- ✅ Minimum 44x44px touch targets on mobile
+- ✅ Minimum 16px font size for readability
+- ✅ ARIA labels on all interactive elements
+- ✅ Keyboard navigation support (Tab, Enter)
+- ✅ Screen reader compatible
+- ✅ No horizontal scrolling (320px to 4K)
 
-- **Playwright MCP**: Browser automation for testing and web scraping
-- **Figma MCP (Remote)**: Design-to-code workflows using Figma URLs
-- **Figma MCP (Desktop)**: Local design-to-code with selection support
+## 🌏 Browser Support
 
-### Figma Design Agent
+- Chrome/Edge (latest)
+- Firefox (latest)
+- Safari (latest)
+- Mobile browsers (iOS Safari, Chrome Mobile)
 
-Use the `/figma.design` agent to generate code from Figma designs:
+## 📄 License
 
-```
-/figma.design Generate code for https://figma.com/design/abc123/MyFile?node-id=1-2
-```
+This project is licensed under the MIT License.
 
-For detailed setup and usage instructions, see [.vscode/MCP_README.md](../.vscode/MCP_README.md)
+## 👥 Contributing
 
-## Additional Resources
+Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct and development process.
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## 🙏 Acknowledgments
+
+- Buddhist quotes sourced from public domain teachings
+- Vietnamese proverbs and folk songs from cultural heritage
+- Audio notification: Soft bell chime (CC0 Public Domain)
+- Fonts: Google Fonts (Open Font License)
+
+## 📞 Contact
+
+For questions or feedback:
+- GitHub Issues: [https://github.com/qpssoft/Quotes-Platform/issues](https://github.com/qpssoft/Quotes-Platform/issues)
+- Repository: [https://github.com/qpssoft/Quotes-Platform](https://github.com/qpssoft/Quotes-Platform)
+
+---
+
+Built with ❤️ using Angular 18 | Trí Tuệ Phật Giáo • Nguồn Cảm Hứng Mỗi Ngày
