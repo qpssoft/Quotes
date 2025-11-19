@@ -1,0 +1,14 @@
+<div class="quote-card">
+  <div class="quote-content">
+    <blockquote class="quote-text">
+      "{{ quote.content }}"
+    </blockquote>
+  </div>
+  
+  <div class="quote-footer">
+    <div class="quote-author">— {{ quote.author }}</div>
+    <div class="quote-category" [ngClass]="getCategoryClass()">
+      {{ getCategoryDisplay() }}
+    </div>
+  </div>
+</div>

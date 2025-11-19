@@ -1,0 +1,28 @@
+# Test files
+*.spec.ts
+karma.conf.js
+jasmine.config.js
+
+# Documentation
+/docs/
+*.md
+!README.md
+
+# Development
+/src/
+.editorconfig
+.eslintrc*
+.prettierrc
+eslint.config.js
+
+# Build
+.angular/
+/node_modules/
+
+# Git
+.git/
+.gitignore
+
+# IDE
+.vscode/
+.idea/

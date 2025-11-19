@@ -1,0 +1,86 @@
+[
+  {
+    "id": "q001",
+    "content": "Không có gì là vĩnh cửu, mọi thứ đều thay đổi.",
+    "author": "Đức Phật",
+    "category": "quote",
+    "type": "wisdom"
+  },
+  {
+    "id": "q002",
+    "content": "Hạnh phúc không phải là điều gì đó sẵn có. Nó đến từ hành động của chính bạn.",
+    "author": "Đức Phật",
+    "category": "quote",
+    "type": "happiness"
+  },
+  {
+    "id": "q003",
+    "content": "Tâm là nguồn gốc của mọi điều. Những gì ta nghĩ, ta trở thành.",
+    "author": "Đức Phật",
+    "category": "quote",
+    "type": "mindfulness"
+  },
+  {
+    "id": "q004",
+    "content": "Đừng sống trong quá khứ, đừng tưởng tượng về tương lai, hãy tập trung tâm trí vào khoảnh khắc hiện tại.",
+    "author": "Đức Phật",
+    "category": "quote",
+    "type": "mindfulness"
+  },
+  {
+    "id": "q005",
+    "content": "Hãy là ngọn đèn cho chính mình.",
+    "author": "Đức Phật",
+    "category": "quote",
+    "type": "wisdom"
+  },
+  {
+    "id": "p001",
+    "content": "Muốn biết người hiền, xem bạn với ai.",
+    "author": "Tục ngữ Việt Nam",
+    "category": "proverb",
+    "type": "relationships"
+  },
+  {
+    "id": "p002",
+    "content": "Có công mài sắt có ngày nên kim.",
+    "author": "Tục ngữ Việt Nam",
+    "category": "proverb",
+    "type": "perseverance"
+  },
+  {
+    "id": "p003",
+    "content": "Học ăn học nói, học gói học mở.",
+    "author": "Tục ngữ Việt Nam",
+    "category": "proverb",
+    "type": "education"
+  },
+  {
+    "id": "c001",
+    "content": "Một giọt máu đào hơn ao nước lã.",
+    "author": "Ca dao Việt Nam",
+    "category": "cadao",
+    "type": "family"
+  },
+  {
+    "id": "c002",
+    "content": "Chớ khinh nước đục, chớ chê cá khô.",
+    "author": "Ca dao Việt Nam",
+    "category": "cadao",
+    "type": "humility"
+  },
+  {
+    "id": "q006",
+    "content": "Sự thanh thản đến từ bên trong. Đừng tìm kiếm nó ở bên ngoài.",
+    "author": "Đức Phật",
+    "category": "quote",
+    "type": "peace"
+  },
+  {
+    "id": "q007",
+    "content": "Hận thù không bao giờ chấm dứt bằng hận thù. Chỉ có tình yêu mới chấm dứt hận thù.",
+    "author": "Đức Phật",
+    "category": "quote",
+    "type": "compassion"
+  }
+]

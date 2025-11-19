@@ -1,0 +1,111 @@
+@import '../../../../styles/theme.css';
+
+.quote-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xl);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--accent-gold-light);
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 20px -5px var(--accent-shadow);
+  }
+}
+
+.quote-content {
+  margin-bottom: var(--spacing-lg);
+}
+
+.quote-text {
+  font-family: var(--font-family);
+  font-size: var(--font-size-xl);
+  line-height: 1.8;
+  color: var(--text-primary);
+  margin: 0;
+  font-style: italic;
+  text-align: center;
+  quotes: """ """ "'" "'";
+
+  &::before {
+    content: open-quote;
+    color: var(--primary-gold);
+    font-size: 1.5em;
+    line-height: 0;
+    vertical-align: -0.4em;
+  }
+
+  &::after {
+    content: close-quote;
+    color: var(--primary-gold);
+    font-size: 1.5em;
+    line-height: 0;
+    vertical-align: -0.4em;
+  }
+}
+
+.quote-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+}
+
+.quote-author {
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.quote-category {
+  font-size: var(--font-size-sm);
+  padding: var(--spacing-xs) var(--spacing-md);
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.category-quote {
+  background: linear-gradient(135deg, var(--primary-gold) 0%, var(--accent-gold-light) 100%);
+  color: var(--text-primary);
+}
+
+.category-proverb {
+  background: linear-gradient(135deg, var(--primary-orange) 0%, #FFB366 100%);
+  color: white;
+}
+
+.category-cadao {
+  background: linear-gradient(135deg, var(--primary-brown) 0%, #A0643B 100%);
+  color: white;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .quote-card {
+    padding: var(--spacing-lg);
+  }
+
+  .quote-text {
+    font-size: var(--font-size-lg);
+  }
+
+  .quote-footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .quote-card {
+    padding: var(--spacing-md);
+  }
+
+  .quote-text {
+    font-size: var(--font-size-base);
+  }
+}

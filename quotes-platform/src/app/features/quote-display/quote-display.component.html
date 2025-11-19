@@ -1,0 +1,13 @@
+<div class="quote-display-container">
+  <div class="quote-display-content">
+    @if (currentQuote(); as quote) {
+      <div class="quote-wrapper" @fadeInOut>
+        <app-quote-card [quote]="quote"></app-quote-card>
+      </div>
+    } @else {
+      <div class="loading-message">
+        <p>Loading quotes...</p>
+      </div>
+    }
+  </div>
+</div>

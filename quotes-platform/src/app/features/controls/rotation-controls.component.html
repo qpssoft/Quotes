@@ -1,0 +1,45 @@
+<div class="rotation-controls">
+  <div class="control-row">
+    <div class="button-group">
+      <button 
+        class="control-button play-pause"
+        (click)="togglePlayPause()"
+        [attr.aria-label]="getPlayPauseLabel()"
+        [attr.aria-pressed]="isPlaying">
+        <span class="button-icon">{{ getPlayPauseIcon() }}</span>
+        <span class="button-text">{{ getPlayPauseLabel() }}</span>
+      </button>
+
+      <button 
+        class="control-button next"
+        (click)="nextQuote()"
+        aria-label="Câu kế tiếp">
+        <span class="button-icon">⏭</span>
+        <span class="button-text">Kế tiếp</span>
+      </button>
+    </div>
+
+    <div class="timer-group">
+      <label for="timer-select" class="timer-label">Thời gian:</label>
+      <select 
+        id="timer-select"
+        class="timer-select"
+        [value]="timer().interval"
+        (change)="onTimerChange($event)"
+        aria-label="Chọn khoảng thời gian">
+        <option [value]="5">5 giây</option>
+        <option [value]="10">10 giây</option>
+        <option [value]="15">15 giây</option>
+        <option [value]="20">20 giây</option>
+        <option [value]="25">25 giây</option>
+        <option [value]="30">30 giây</option>
+        <option [value]="35">35 giây</option>
+        <option [value]="40">40 giây</option>
+        <option [value]="45">45 giây</option>
+        <option [value]="50">50 giây</option>
+        <option [value]="55">55 giây</option>
+        <option [value]="60">60 giây</option>
+      </select>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,48 @@
+<div class="quote-grid-container">
+  @if (isLoading()) {
+    <div class="loading-state">
+      <p class="loading-text">Đang tải câu trích dẫn...</p>
+    </div>
+  } @else {
+    <!-- Search Bar -->
+    <div class="search-bar">
+      <div class="search-input-wrapper">
+        <input
+          type="text"
+          class="search-input"
+          placeholder="Tìm kiếm theo nội dung, tác giả hoặc danh mục..."
+          [value]="searchQuery()"
+          (input)="onSearchChange($any($event.target).value)"
+          aria-label="Tìm kiếm câu trích dẫn"
+        />
+        @if (searchQuery()) {
+          <button 
+            class="clear-button"
+            (click)="clearSearch()"
+            aria-label="Xóa tìm kiếm"
+            type="button">
+            ✕
+          </button>
+        }
+      </div>
+    </div>
+
+    <!-- Grid Results -->
+    @if (filteredQuotes().length === 0) {
+      <div class="empty-state">
+        <p class="empty-text">Không tìm thấy câu trích dẫn nào</p>
+        <button class="clear-search-button" (click)="clearSearch()">
+          Xóa tìm kiếm
+        </button>
+      </div>
+    } @else {
+      <div class="quote-grid">
+        @for (quote of filteredQuotes(); track quote.id) {
+          <div class="grid-item">
+            <app-quote-card [quote]="quote"></app-quote-card>
+          </div>
+        }
+      </div>
+    }
+  }
+</div>
