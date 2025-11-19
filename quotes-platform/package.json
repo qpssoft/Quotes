@@ -13,7 +13,7 @@
     "format:check": "prettier --check \"src/**/*.{ts,html,scss,json}\"",
     "validate:quotes": "node scripts/validate-quotes.js",
     "build:gh-pages": "ng build --configuration production --base-href /Quotes/",
-    "predeploy": "npm run build:gh-pages && node -e \"require('fs').copyFileSync('dist/quotes-platform/browser/index.html', 'dist/quotes-platform/browser/404.html')\"",
+    "predeploy": "npm run build:gh-pages && node -e \"const fs = require('fs'); fs.copyFileSync('dist/quotes-platform/browser/index.html', 'dist/quotes-platform/browser/404.html'); fs.writeFileSync('dist/quotes-platform/browser/.nojekyll', '');\"",
     "deploy:gh-pages": "npm run predeploy && gh-pages -d dist/quotes-platform/browser"
   },
   "prettier": {

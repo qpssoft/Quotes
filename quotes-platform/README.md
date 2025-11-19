@@ -87,12 +87,20 @@ Visit `http://localhost:8080` to test the production build.
 
 ### GitHub Pages Deployment
 
+**Live Site**: [https://qpssoft.github.io/Quotes/](https://qpssoft.github.io/Quotes/)
+
+#### Automatic Deployment (Recommended)
+Every push to `main` branch automatically deploys via GitHub Actions. No manual steps needed!
+
+#### Manual Deployment
 ```bash
-# Build and deploy to GitHub Pages
+# From this directory (quotes-platform/)
 npm run deploy:gh-pages
 ```
 
 The application will be available at: `https://qpssoft.github.io/Quotes/`
+
+**Note**: This project is in a monorepo. The deployment is configured to build from the `quotes-platform/` subfolder and deploy to the root GitHub Pages URL.
 
 ### Manual Deployment Steps
 
@@ -101,9 +109,15 @@ The application will be available at: `https://qpssoft.github.io/Quotes/`
    ng build --configuration production --base-href /Quotes/
    ```
 
-2. Copy `dist/quotes-platform/browser/index.html` to `dist/quotes-platform/browser/404.html` for SPA routing
+2. The build automatically creates:
+   - `404.html` for SPA routing
+   - `.nojekyll` to disable Jekyll processing
 
 3. Deploy the `dist/quotes-platform/browser/` directory to your hosting service
+
+### Troubleshooting
+
+For detailed deployment configuration, troubleshooting, and GitHub Pages setup, see [DEPLOYMENT.md](../DEPLOYMENT.md) in the repository root.
 
 ## 🛠️ Technologies Used
 

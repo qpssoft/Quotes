@@ -159,12 +159,22 @@ The application is deployed automatically to GitHub Pages:
 
 **Live Site**: [https://qpssoft.github.io/Quotes/](https://qpssoft.github.io/Quotes/)
 
+#### Automatic Deployment
+Every push to `main` branch triggers automatic deployment via GitHub Actions. The workflow:
+1. Builds from `quotes-platform/` subfolder
+2. Deploys to GitHub Pages
+3. Goes live in 2-5 minutes
+
+#### Manual Deployment
 ```bash
-# Deploy from quotes-platform directory
+# From quotes-platform directory
+cd quotes-platform
 npm run deploy:gh-pages
 ```
 
-### Manual Deployment
+**For detailed deployment guide, troubleshooting, and configuration details, see [DEPLOYMENT.md](./DEPLOYMENT.md)**
+
+### Other Hosting Services
 
 ```bash
 # Build for production
