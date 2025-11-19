@@ -241,7 +241,8 @@
 - [x] T106 [SHARED] Test local production build with `npx http-server dist/quotes-platform/browser`
 - [x] T107 [SHARED] Verify all asset paths work with GitHub Pages base href
 - [x] T108 [SHARED] Create GitHub Pages deployment script in `package.json` (gh-pages package)
-- [ ] T109 [SHARED] Deploy to GitHub Pages and test live site
+- [ ] T109 [SHARED] Create GitHub Actions workflow in `.github/workflows/deploy.yml` for automatic deployment on push to main
+- [ ] T110 [SHARED] Deploy to GitHub Pages and test live site
 
 **Checkpoint**: All user stories integrated, polished, and deployed successfully
 
