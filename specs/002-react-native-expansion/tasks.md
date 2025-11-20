@@ -235,28 +235,28 @@
 
 ### Bare Workflow Migration
 
-- [ ] T107 [US2] Eject from Expo managed workflow to bare workflow (run `expo eject` in quotes-native/, choose "bare workflow")
+- [X] T107 [US2] Eject from Expo managed workflow to bare workflow (run `expo eject` in quotes-native/, choose "bare workflow")
 - [ ] T108 [US2] Verify iOS build still works after ejection (`npx react-native run-ios`)
-- [ ] T109 [US2] Verify Android build still works after ejection (`npx react-native run-android`)
+- [X] T109 [US2] Verify Android build still works after ejection (`npx react-native run-android`)
 - [ ] T110 [US2] Migrate from Expo Audio to React Native Sound if needed (update NativeAudioService.ts to use react-native-sound)
 - [ ] T111 [US2] Migrate from Expo Haptics to React Native Haptic Feedback if needed (update HapticService.ts)
 
 ### React Native Windows Setup
 
-- [ ] T112 [US2] Initialize React Native Windows in quotes-native (`npx react-native-windows-init --overwrite`)
-- [ ] T113 [US2] Verify windows/ directory created with Visual Studio solution (.sln)
-- [ ] T114 [P] [US2] Create WindowsStorageService.ts in quotes-native/src/services/storage/windows/ implementing IStorageService using Windows.Storage.LocalSettings API
-- [ ] T115 [P] [US2] Create WindowsAudioService.ts in quotes-native/src/services/audio/windows/ implementing IAudioService using Windows.Media.Playback API
-- [ ] T116 [US2] Test Windows build (`npx react-native run-windows`)
+- [X] T112 [US2] Initialize React Native Windows in quotes-native (`npx react-native-windows-init --overwrite`)
+- [X] T113 [US2] Verify windows/ directory created with Visual Studio solution (.sln)
+- [X] T114 [P] [US2] Create WindowsStorageService.ts in quotes-native/src/services/storage/windows/ implementing IStorageService using Windows.Storage.LocalSettings API
+- [X] T115 [P] [US2] Create WindowsAudioService.ts in quotes-native/src/services/audio/windows/ implementing IAudioService using Windows.Media.Playback API
+- [X] T116 [US2] Test Windows build (`npx react-native run-windows`)
 
 ### Windows Desktop-Specific Features
 
-- [ ] T117 [P] [US2] Implement system tray icon integration for Windows (create native module or use community package)
-- [ ] T118 [P] [US2] Implement global keyboard shortcuts for Windows (register Ctrl+C/Ctrl+X for show quote, Ctrl+V/Ctrl+N for next quote)
-- [ ] T119 [US2] Create quote notification overlay component for Windows (display in user-configured corner position, 9 position options)
-- [ ] T120 [US2] Implement notification positioning logic (detect mouse cursor location for multi-display support)
-- [ ] T121 [P] [US2] Implement auto-launch on startup for Windows (optional user setting, add registry entry)
-- [ ] T122 [US2] Add settings UI for keyboard shortcut customization and notification position selection
+- [X] T117 [P] [US2] Implement system tray icon integration for Windows (create native module or use community package)
+- [X] T118 [P] [US2] Implement global keyboard shortcuts for Windows (register Ctrl+C/Ctrl+X for show quote, Ctrl+V/Ctrl+N for next quote)
+- [X] T119 [US2] Create quote notification overlay component for Windows (display in user-configured corner position, 9 position options)
+- [X] T120 [US2] Implement notification positioning logic (detect mouse cursor location for multi-display support)
+- [X] T121 [P] [US2] Implement auto-launch on startup for Windows (optional user setting, add registry entry)
+- [X] T122 [US2] Add settings UI for keyboard shortcut customization and notification position selection
 
 ### React Native macOS Setup
 
@@ -277,8 +277,8 @@
 
 ### Desktop UI Polish
 
-- [ ] T134 [P] [US2] Increase font sizes for desktop readability (16-18px minimum, larger than mobile)
-- [ ] T135 [P] [US2] Optimize layouts for mouse interaction (larger click targets, hover states)
+- [X] T134 [P] [US2] Increase font sizes for desktop readability (16-18px minimum, larger than mobile)
+- [X] T135 [P] [US2] Optimize layouts for mouse interaction (larger click targets, hover states)
 - [ ] T136 [US2] Test keyboard navigation (Tab, Enter, Arrow keys for all interactive elements)
 - [ ] T137 [US2] Implement native menus for Windows and macOS (File, Edit, View, Help)
 

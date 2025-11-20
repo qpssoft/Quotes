@@ -4,9 +4,11 @@
   "main": "index.ts",
   "scripts": {
     "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "web": "expo start --web"
+    "android": "expo run:android",
+    "ios": "expo run:ios",
+    "web": "expo start --web",
+    "windows": "npx @react-native-community/cli run-windows",
+    "test:windows": "jest --config jest.config.windows.js"
   },
   "dependencies": {
     "@quotes/shared-modules": "1.0.0",
@@ -28,7 +30,16 @@
     "@typescript-eslint/parser": "^7.0.0",
     "eslint": "^8.57.0",
     "prettier": "^3.0.0",
-    "typescript": "~5.9.2"
+    "react-native-windows": "^0.80.1",
+    "typescript": "~5.9.2",
+    "@rnx-kit/jest-preset": "^0.1.17"
   },
-  "private": true
+  "private": true,
+  "react-native-windows": {
+    "init-windows": {
+      "name": "QuotesNative",
+      "namespace": "QuotesNative",
+      "template": "cpp-app"
+    }
+  }
 }

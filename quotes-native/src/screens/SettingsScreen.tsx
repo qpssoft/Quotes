@@ -14,10 +14,13 @@ import {
   Switch,
   TouchableOpacity,
   Alert,
+  Platform,
 } from 'react-native';
 import { usePreferences } from '../hooks/usePreferences';
 import { Colors } from '../constants/Colors';
 import { Spacing } from '../constants/Colors';
+import { DesktopSettings } from '../components/desktop/DesktopSettings';
+import { KeyboardShortcut, NotificationPosition } from '@quotes/shared-modules';
 
 const INTERVAL_OPTIONS = [5, 10, 15, 20, 30, 45, 60];
 
@@ -30,8 +33,29 @@ export function SettingsScreen() {
     resetPreferences,
   } = usePreferences();
 
+  const [autoLaunchEnabled, setAutoLaunchEnabled] = React.useState(false);
+
   const handleIntervalChange = async (seconds: number) => {
     await updateTimerInterval(seconds);
+  };
+
+  const handleNotificationPositionChange = async (position: NotificationPosition) => {
+    // TODO: Implement preference update for notification position
+    console.log('Notification position changed:', position);
+  };
+
+  const handleKeyboardShortcutChange = async (
+    type: 'showQuote' | 'nextQuote',
+    shortcut: KeyboardShortcut
+  ) => {
+    // TODO: Implement preference update for keyboard shortcuts
+    console.log('Keyboard shortcut changed:', type, shortcut);
+  };
+
+  const handleAutoLaunchToggle = async () => {
+    setAutoLaunchEnabled(!autoLaunchEnabled);
+    // TODO: Implement auto-launch configuration
+    console.log('Auto-launch toggled:', !autoLaunchEnabled);
   };
 
   const handleReset = async () => {
@@ -129,6 +153,21 @@ export function SettingsScreen() {
             />
           </View>
         </View>
+
+        {/* Desktop-Specific Settings */}
+        {(Platform.OS === 'windows' || Platform.OS === 'macos') && (
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Desktop Settings</Text>
+            <DesktopSettings
+              notificationPosition={preferences.notificationPosition}
+              keyboardShortcuts={preferences.keyboardShortcuts}
+              autoLaunchEnabled={autoLaunchEnabled}
+              onNotificationPositionChange={handleNotificationPositionChange}
+              onKeyboardShortcutChange={handleKeyboardShortcutChange}
+              onAutoLaunchToggle={handleAutoLaunchToggle}
+            />
+          </View>
+        )}
 
         {/* Stats Section */}
         <View style={styles.section}>

@@ -5,9 +5,9 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { UserPreferences, NotificationPosition, KeyboardShortcut } from '@quotes/shared-modules';
-import { NativeStorageService } from '../services/storage/NativeStorageService';
+import { getStorageService } from '../services/PlatformServiceFactory';
 
-const storageService = new NativeStorageService();
+const storageService = getStorageService();
 const PREFERENCES_KEY = 'user_preferences';
 const FAVORITES_KEY = 'favorites';
 const DEVICE_ID_KEY = 'device_id';

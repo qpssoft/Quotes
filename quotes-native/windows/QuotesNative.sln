@@ -1,0 +1,91 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32929.385
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "QuotesNative.Package", "QuotesNative.Package\QuotesNative.Package.wapproj", "{2AFA84BB-3488-4174-9781-DD3BE0F4D3CF}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QuotesNative", "QuotesNative\QuotesNative.vcxproj", "{C6BA2E29-37D5-4BFA-840F-DCEEF3C41F8F}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ReactNativeAsyncStorage", "..\..\node_modules\@react-native-async-storage\async-storage\windows\ReactNativeAsyncStorage\ReactNativeAsyncStorage.vcxproj", "{4855D892-E16C-404D-8286-0089E0F7F9C4}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RNScreens", "..\..\node_modules\react-native-screens\windows\RNScreens\RNScreens.vcxproj", "{D638F49E-29D2-4699-AC52-FACD82FA7138}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Debug|ARM64 = Debug|ARM64
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+		Release|ARM64 = Release|ARM64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2AFA84BB-3488-4174-9781-DD3BE0F4D3CF}.Debug|x64.ActiveCfg = Debug|x64
+		{2AFA84BB-3488-4174-9781-DD3BE0F4D3CF}.Debug|x64.Build.0 = Debug|x64
+		{2AFA84BB-3488-4174-9781-DD3BE0F4D3CF}.Debug|x64.Deploy.0 = Debug|x64
+		{2AFA84BB-3488-4174-9781-DD3BE0F4D3CF}.Debug|x86.ActiveCfg = Debug|x86
+		{2AFA84BB-3488-4174-9781-DD3BE0F4D3CF}.Debug|x86.Build.0 = Debug|x86
+		{2AFA84BB-3488-4174-9781-DD3BE0F4D3CF}.Debug|x86.Deploy.0 = Debug|x86
+		{2AFA84BB-3488-4174-9781-DD3BE0F4D3CF}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{2AFA84BB-3488-4174-9781-DD3BE0F4D3CF}.Debug|ARM64.Build.0 = Debug|ARM64
+		{2AFA84BB-3488-4174-9781-DD3BE0F4D3CF}.Debug|ARM64.Deploy.0 = Debug|ARM64
+		{2AFA84BB-3488-4174-9781-DD3BE0F4D3CF}.Release|x64.ActiveCfg = Release|x64
+		{2AFA84BB-3488-4174-9781-DD3BE0F4D3CF}.Release|x64.Build.0 = Release|x64
+		{2AFA84BB-3488-4174-9781-DD3BE0F4D3CF}.Release|x64.Deploy.0 = Release|x64
+		{2AFA84BB-3488-4174-9781-DD3BE0F4D3CF}.Release|x86.ActiveCfg = Release|x86
+		{2AFA84BB-3488-4174-9781-DD3BE0F4D3CF}.Release|x86.Build.0 = Release|x86
+		{2AFA84BB-3488-4174-9781-DD3BE0F4D3CF}.Release|x86.Deploy.0 = Release|x86
+		{2AFA84BB-3488-4174-9781-DD3BE0F4D3CF}.Release|ARM64.ActiveCfg = Release|ARM64
+		{2AFA84BB-3488-4174-9781-DD3BE0F4D3CF}.Release|ARM64.Build.0 = Release|ARM64
+		{2AFA84BB-3488-4174-9781-DD3BE0F4D3CF}.Release|ARM64.Deploy.0 = Release|ARM64
+		{C6BA2E29-37D5-4BFA-840F-DCEEF3C41F8F}.Debug|x64.ActiveCfg = Debug|x64
+		{C6BA2E29-37D5-4BFA-840F-DCEEF3C41F8F}.Debug|x64.Build.0 = Debug|x64
+		{C6BA2E29-37D5-4BFA-840F-DCEEF3C41F8F}.Debug|x64.Deploy.0 = Debug|x64
+		{C6BA2E29-37D5-4BFA-840F-DCEEF3C41F8F}.Debug|x86.ActiveCfg = Debug|Win32
+		{C6BA2E29-37D5-4BFA-840F-DCEEF3C41F8F}.Debug|x86.Build.0 = Debug|Win32
+		{C6BA2E29-37D5-4BFA-840F-DCEEF3C41F8F}.Debug|x86.Deploy.0 = Debug|Win32
+		{C6BA2E29-37D5-4BFA-840F-DCEEF3C41F8F}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{C6BA2E29-37D5-4BFA-840F-DCEEF3C41F8F}.Debug|ARM64.Build.0 = Debug|ARM64
+		{C6BA2E29-37D5-4BFA-840F-DCEEF3C41F8F}.Debug|ARM64.Deploy.0 = Debug|ARM64
+		{C6BA2E29-37D5-4BFA-840F-DCEEF3C41F8F}.Release|x64.ActiveCfg = Release|x64
+		{C6BA2E29-37D5-4BFA-840F-DCEEF3C41F8F}.Release|x64.Build.0 = Release|x64
+		{C6BA2E29-37D5-4BFA-840F-DCEEF3C41F8F}.Release|x64.Deploy.0 = Release|x64
+		{C6BA2E29-37D5-4BFA-840F-DCEEF3C41F8F}.Release|x86.ActiveCfg = Release|Win32
+		{C6BA2E29-37D5-4BFA-840F-DCEEF3C41F8F}.Release|x86.Build.0 = Release|Win32
+		{C6BA2E29-37D5-4BFA-840F-DCEEF3C41F8F}.Release|x86.Deploy.0 = Release|Win32
+		{C6BA2E29-37D5-4BFA-840F-DCEEF3C41F8F}.Release|ARM64.ActiveCfg = Release|ARM64
+		{C6BA2E29-37D5-4BFA-840F-DCEEF3C41F8F}.Release|ARM64.Build.0 = Release|ARM64
+		{C6BA2E29-37D5-4BFA-840F-DCEEF3C41F8F}.Release|ARM64.Deploy.0 = Release|ARM64
+		{4855D892-E16C-404D-8286-0089E0F7F9C4}.Debug|x64.ActiveCfg = Debug|x64
+		{4855D892-E16C-404D-8286-0089E0F7F9C4}.Debug|x64.Build.0 = Debug|x64
+		{4855D892-E16C-404D-8286-0089E0F7F9C4}.Debug|x86.ActiveCfg = Debug|Win32
+		{4855D892-E16C-404D-8286-0089E0F7F9C4}.Debug|x86.Build.0 = Debug|Win32
+		{4855D892-E16C-404D-8286-0089E0F7F9C4}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{4855D892-E16C-404D-8286-0089E0F7F9C4}.Debug|ARM64.Build.0 = Debug|ARM64
+		{4855D892-E16C-404D-8286-0089E0F7F9C4}.Release|x64.ActiveCfg = Release|x64
+		{4855D892-E16C-404D-8286-0089E0F7F9C4}.Release|x64.Build.0 = Release|x64
+		{4855D892-E16C-404D-8286-0089E0F7F9C4}.Release|x86.ActiveCfg = Release|Win32
+		{4855D892-E16C-404D-8286-0089E0F7F9C4}.Release|x86.Build.0 = Release|Win32
+		{4855D892-E16C-404D-8286-0089E0F7F9C4}.Release|ARM64.ActiveCfg = Release|ARM64
+		{4855D892-E16C-404D-8286-0089E0F7F9C4}.Release|ARM64.Build.0 = Release|ARM64
+		{D638F49E-29D2-4699-AC52-FACD82FA7138}.Debug|x64.ActiveCfg = Debug|x64
+		{D638F49E-29D2-4699-AC52-FACD82FA7138}.Debug|x64.Build.0 = Debug|x64
+		{D638F49E-29D2-4699-AC52-FACD82FA7138}.Debug|x86.ActiveCfg = Debug|Win32
+		{D638F49E-29D2-4699-AC52-FACD82FA7138}.Debug|x86.Build.0 = Debug|Win32
+		{D638F49E-29D2-4699-AC52-FACD82FA7138}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{D638F49E-29D2-4699-AC52-FACD82FA7138}.Debug|ARM64.Build.0 = Debug|ARM64
+		{D638F49E-29D2-4699-AC52-FACD82FA7138}.Release|x64.ActiveCfg = Release|x64
+		{D638F49E-29D2-4699-AC52-FACD82FA7138}.Release|x64.Build.0 = Release|x64
+		{D638F49E-29D2-4699-AC52-FACD82FA7138}.Release|x86.ActiveCfg = Release|Win32
+		{D638F49E-29D2-4699-AC52-FACD82FA7138}.Release|x86.Build.0 = Release|Win32
+		{D638F49E-29D2-4699-AC52-FACD82FA7138}.Release|ARM64.ActiveCfg = Release|ARM64
+		{D638F49E-29D2-4699-AC52-FACD82FA7138}.Release|ARM64.Build.0 = Release|ARM64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D43FAD39-F619-437D-BB40-04A3982ACB6A}
+	EndGlobalSection
+EndGlobal
