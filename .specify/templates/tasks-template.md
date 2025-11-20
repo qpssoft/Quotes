@@ -20,11 +20,14 @@ description: "Task list template for feature implementation"
 
 ## Path Conventions
 
-- **Angular web app (Quotes Platform)**: `src/app/`, `src/assets/`, `tests/` at repository root or under `frontend/`
-- **BDD E2E tests (if included)**: `tests/features/*.feature` (Gherkin), `tests/steps/*.ts` (Playwright step definitions)
-- **Single project**: `src/`, `tests/` at repository root (for libraries or backend services)
-- **Mobile**: `api/src/`, `ios/src/` or `android/src/`
-- Paths shown below assume Angular web app structure - adjust based on plan.md if different
+- **Angular web app (Web Platform)**: `quotes-platform/src/app/`, `quotes-platform/src/assets/`, `quotes-platform/tests/`
+- **React Native app (Native Platforms)**: `quotes-native/src/`, `quotes-native/ios/`, `quotes-native/android/`, `quotes-native/windows/`, `quotes-native/macos/`, `quotes-native/__tests__/`
+- **Shared modules**: `shared-modules/models/`, `shared-modules/services/`, `shared-modules/utils/`, `shared-modules/__tests__/`
+- **BDD E2E tests**: 
+  - Web: `quotes-platform/tests/features/*.feature` (Gherkin), `quotes-platform/tests/steps/*.ts` (Playwright)
+  - Native: `quotes-native/e2e/*.spec.js` (Detox/Maestro)
+- **Single project (if applicable)**: `src/`, `tests/` at repository root (for libraries or backend services)
+- Paths shown below are EXAMPLES - adjust based on plan.md project structure
 
 <!-- 
   ============================================================================
@@ -49,10 +52,28 @@ description: "Task list template for feature implementation"
 
 **Purpose**: Project initialization and basic structure
 
+**For Web Platform (Angular)**:
 - [ ] T001 Create Angular project using Angular CLI with routing and SCSS/CSS
 - [ ] T002 Configure TypeScript strict mode and ESLint with Angular rules
 - [ ] T003 [P] Setup Prettier formatting and editor config
 - [ ] T004 [P] Initialize Git repository with .gitignore for Angular projects
+
+**For Native Platform (React Native)**:
+- [ ] T001 Create React Native project using Expo CLI or React Native CLI
+- [ ] T002 Configure TypeScript strict mode and ESLint with React Native rules
+- [ ] T003 [P] Setup Prettier formatting and editor config (shared with web)
+- [ ] T004 Setup iOS project (Xcode, CocoaPods)
+- [ ] T005 Setup Android project (Android Studio, Gradle)
+- [ ] T006 [P] Setup Windows project (React Native Windows, Visual Studio)
+- [ ] T007 [P] Setup macOS project (React Native macOS, Xcode)
+- [ ] T008 [P] Configure platform-specific build scripts
+
+**For Monorepo (Both Platforms)**:
+- [ ] T001 Initialize monorepo structure with Lerna, Nx, or Yarn Workspaces
+- [ ] T002 Create shared-modules package with TypeScript configuration
+- [ ] T003 [P] Setup cross-platform Prettier and ESLint configuration
+- [ ] T004 Configure build scripts for all platforms
+- [ ] T005 Setup Git with .gitignore for multi-platform monorepo
 
 ---
 
@@ -62,17 +83,39 @@ description: "Task list template for feature implementation"
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-Examples of foundational tasks for Angular + JSON data platform:
+**For Web Platform (Angular)**:
+- [ ] T010 Create core module structure (src/app/core/, src/app/shared/)
+- [ ] T011 [P] Setup JSON data loading service with chunking strategy
+- [ ] T012 [P] Implement routing structure and lazy-loading configuration (GitHub Pages base path)
+- [ ] T013 Create base models/interfaces for content entities in src/app/models/
+- [ ] T014 Configure error handling service and HTTP interceptors (if needed)
+- [ ] T015 Setup environment configuration (development/production with GitHub Pages paths)
+- [ ] T016 [P] Create shared UI components (card layout, loading states, Buddhist-inspired styles)
+- [ ] T017 [P] Setup search indexing strategy for JSON data
+- [ ] T018 [P] Implement localStorage/IndexedDB caching service
 
-- [ ] T004 Create core module structure (src/app/core/, src/app/shared/)
-- [ ] T005 [P] Setup JSON data loading service with chunking strategy
-- [ ] T006 [P] Implement routing structure and lazy-loading configuration (GitHub Pages base path)
-- [ ] T007 Create base models/interfaces for content entities (Quote, Proverb, CaDao, WisdomSaying - TypeScript types)
-- [ ] T008 Configure error handling service and HTTP interceptors (if needed)
-- [ ] T009 Setup environment configuration (development/production with GitHub Pages paths)
-- [ ] T010 [P] Create shared UI components (card layout, loading states, Buddhist-inspired styles)
-- [ ] T011 [P] Setup search indexing strategy for JSON data
-- [ ] T012 [P] Implement localStorage caching service for random content items
+**For Native Platform (React Native)**:
+- [ ] T010 Create project structure (src/components/, src/screens/, src/services/, src/navigation/)
+- [ ] T011 [P] Setup JSON data bundling and loading service
+- [ ] T012 [P] Implement React Navigation configuration (Stack, Tab, Drawer as needed)
+- [ ] T013 Create shared TypeScript models/interfaces for content entities in src/models/
+- [ ] T014 Configure error handling and global error boundary
+- [ ] T015 Setup environment configuration (development/production, platform-specific configs)
+- [ ] T016 [P] Create shared React Native components (Quote card, Loading states, Buddhist UI)
+- [ ] T017 [P] Setup search service with background thread support
+- [ ] T018 [P] Implement AsyncStorage/MMKV caching service
+- [ ] T019 [P] Setup platform detection utilities (Platform.OS checks)
+- [ ] T020 [P] Configure audio service (React Native Sound or Expo Audio)
+- [ ] T021 [P] Configure haptic feedback service (platform-specific)
+
+**For Shared Modules (Monorepo)**:
+- [ ] T010 Create shared data models package (shared-modules/models/)
+- [ ] T011 [P] Create shared business logic package (shared-modules/services/)
+- [ ] T012 [P] Create shared utilities package (shared-modules/utils/)
+- [ ] T013 Implement shared SearchService (platform-agnostic search logic)
+- [ ] T014 Implement shared RotationService (random selection, timer logic)
+- [ ] T015 [P] Setup shared TypeScript configuration and build scripts
+- [ ] T016 [P] Configure Jest for shared module unit tests
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
