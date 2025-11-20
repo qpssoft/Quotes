@@ -73,8 +73,25 @@ When('I refresh the page', async function (this: BuddhistQuotesWorld) {
 Given('I have paused the quote rotation', async function (this: BuddhistQuotesWorld) {
   // Wait for controls to be fully rendered
   await this.page!.waitForSelector('[data-testid="timer-dropdown"]', { timeout: 5000 });
-  await this.page!.waitForSelector('[data-testid="pause-button"]', { timeout: 10000 });
-  await this.page!.click('[data-testid="pause-button"]');
+  await this.page!.waitForTimeout(2000); // Give rotation service time to start
+  
+  // Check if rotation is playing (pause button visible) or not (play button visible)
+  const pauseButton = await this.page!.locator('[data-testid="pause-button"]').isVisible({ timeout: 5000 }).catch(() => false);
+  const playButton = await this.page!.locator('[data-testid="play-button"]').isVisible({ timeout: 1000 }).catch(() => false);
+  
+  if (playButton) {
+    // Rotation not started, start it first then pause
+    await this.page!.click('[data-testid="play-button"]');
+    await this.page!.waitForTimeout(1000);
+    await this.page!.waitForSelector('[data-testid="pause-button"]', { timeout: 5000 });
+    await this.page!.click('[data-testid="pause-button"]');
+  } else if (pauseButton) {
+    // Already playing, just pause
+    await this.page!.click('[data-testid="pause-button"]');
+  } else {
+    throw new Error('Could not find either play or pause button');
+  }
+  
   await this.page!.waitForTimeout(500);
 });
 
@@ -117,17 +134,28 @@ Then('I should see options for: {int}, {int}, {int}, {int}, {int}, {int}, {int},
   async function (this: BuddhistQuotesWorld, opt1: number, opt2: number, opt3: number, opt4: number, 
     opt5: number, opt6: number, opt7: number, opt8: number, opt9: number, opt10: number, opt11: number, opt12: number) {
     // The feature file lists all expected intervals
-    const dropdown = await this.page!.locator('[data-testid="timer-dropdown"]');
-    const options = await dropdown.locator('option').allTextContents();
+    const dropdown = this.page!.locator('[data-testid="timer-dropdown"]');
+    const options = await dropdown.locator('option').all();
+    
+    const optionTexts = await Promise.all(options.map(opt => opt.textContent()));
+    console.log('Timer options found:', optionTexts);
     
     // Verify we have at least 12 options
     expect(options.length).toBeGreaterThanOrEqual(12);
     
-    // Verify all specified intervals are present
+    // Verify all specified intervals are present (extract numbers from Vietnamese text)
     const expectedIntervals = [opt1, opt2, opt3, opt4, opt5, opt6, opt7, opt8, opt9, opt10, opt11, opt12];
+    const foundIntervals = optionTexts.map(text => {
+      const match = text?.match(/(\d+)/);
+      return match ? parseInt(match[1]) : null;
+    }).filter(n => n !== null);
+    
+    console.log('Expected intervals:', expectedIntervals);
+    console.log('Found intervals:', foundIntervals);
+    
     for (const interval of expectedIntervals) {
-      const hasOption = options.some(opt => opt.includes(interval.toString()));
-      expect(hasOption).toBeTruthy();
+      const hasOption = foundIntervals.includes(interval);
+      expect(hasOption).toBe(true);
     }
 });
 
