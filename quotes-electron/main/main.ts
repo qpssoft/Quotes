@@ -7,6 +7,8 @@ let trayManager: TrayManager | null = null;
 let isQuitting = false;
 
 function createWindow(): void {
+  console.log('Creating main window...');
+  
   mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
@@ -22,7 +24,12 @@ function createWindow(): void {
 
   // Load Angular app
   const rendererPath = path.join(__dirname, '../../renderer/index.html');
-  mainWindow.loadFile(rendererPath);
+  console.log('Loading renderer from:', rendererPath);
+  console.log('Renderer exists:', require('fs').existsSync(rendererPath));
+  
+  mainWindow.loadFile(rendererPath)
+    .then(() => console.log('✓ Renderer loaded successfully'))
+    .catch((err: Error) => console.error('✗ Failed to load renderer:', err));
 
   // Open DevTools in development
   if (!app.isPackaged) {
@@ -39,12 +46,15 @@ function createWindow(): void {
     if (!isQuitting) {
       event.preventDefault();
       mainWindow?.hide();
+      console.log('Window hidden to tray');
     }
   });
 
   // Create system tray
+  console.log('Creating system tray...');
   trayManager = new TrayManager(mainWindow);
   trayManager.create();
+  console.log('✓ System tray created');
 }
 
 // App lifecycle
