@@ -63,7 +63,7 @@ electron-app/
 - Launch time: <2s
 - Memory: <300MB active
 - CPU: <5% during transitions
-- Package size: <150MB
+- Package size: <500MB
 
 ## Constitution Check
 
@@ -627,7 +627,7 @@ All success criteria from spec.md must be met:
 - ✅ SC-003: Global shortcuts respond in <100ms
 - ✅ SC-004: Quote overlay appears within 200ms
 - ✅ SC-005: Auto-launch works reliably
-- ✅ SC-006: App size <150MB
+- ✅ SC-006: App size <500MB (all platforms)
 - ✅ SC-007: Memory usage <300MB
 - ✅ SC-008: 100% feature parity with web app
 - ✅ SC-009: Users rate 4.5+ stars
@@ -643,7 +643,7 @@ All success criteria from spec.md must be met:
 - Multi-platform packaging (3 installers)
 - Auto-update mechanism
 
-**Justification**: Minimal complexity compared to React Native Windows. Electron provides abstractions for cross-platform features. 95%+ code reuse with Angular app. Trade-off: Larger package size (~100-150MB) for drastically simpler development.
+**Justification**: Minimal complexity compared to React Native Windows. Electron provides abstractions for cross-platform features. 95%+ code reuse with Angular app. Trade-off: Larger package size (acceptable up to 500MB) for drastically simpler development.
 
 ## Next Steps
 

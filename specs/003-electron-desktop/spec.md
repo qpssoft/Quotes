@@ -68,7 +68,6 @@ This replaces the React Native Windows implementation (Phase 4 of 002-react-nati
 - And the overlay auto-dismisses after configured duration (5-30 seconds)
 - And the overlay is semi-transparent (default 80% opacity)
 - And I can click the overlay to dismiss it immediately
-- And clicking opens full quote in main window before dismissing
 
 ### US-004: Auto-Launch on Startup
 **As a** desktop user  
@@ -115,20 +114,20 @@ This replaces the React Native Windows implementation (Phase 4 of 002-react-nati
 - Quote notification overlay:
   - 9 position options (corners, edges, center)
   - Auto-dismiss after configurable duration (5-30s)
-  - Click to dismiss immediately
+  - Click to dismiss immediately (no other action)
   - Display quote text + author
-  - Default 80% opacity (configurable 50-100%)
-  - Click opens full quote in main window
+  - Opacity: Preset buttons (50%, 70%, 80%, 90%, 100%), default 80%
 - Auto-launch on system startup
 - Always-on-top window mode
 - Native window frame or frameless design
 - Multi-monitor support
 
 ### FR-003: Window Management
-- Main window: Quote display + search + grid
-- Overlay window: Floating quote notification
-- Both windows share same Angular app instance
+- Main window: Full Angular app (separate BrowserWindow)
+- Overlay window: Minimal HTML + IPC for quote display (separate BrowserWindow)
+- State sharing: Main process tracks current quote, overlay requests via IPC
 - Window state persistence (size, position, monitor)
+- Not a shared Angular instance (separate renderer processes)
 
 ### FR-004: Cross-Platform Support
 - Windows 10+ (x64)
@@ -163,9 +162,16 @@ electron-app/
 - Main → Renderer: Quote rotation events, overlay triggers
 - Renderer → Main: Window control, tray menu actions, preferences
 - Use Electron IPC with type-safe contracts
+- **Channel Naming Convention**: `<domain>:<action>` pattern
+  - Examples: `window:minimize`, `tray:update-menu`, `overlay:show`, `prefs:load`, `shortcut:register`
+- **Communication Patterns**:
+  - `invoke/handle`: Request-response (async, returns result) - Use for queries/commands needing response
+  - `send/on`: Fire-and-forget (one-way notification) - Use for events/notifications
+- **Timeout**: 5 seconds for `invoke` calls (reject promise on timeout)
+- **Error Handling**: No automatic retry (caller decides retry strategy)
 
 ### TR-004: Package Size
-- Target: <100MB installed (Windows), <150MB (macOS)
+- Target: <500MB installed (all platforms)
 - Optimize: Tree-shaking, compression, lazy loading
 
 ### TR-005: Performance
@@ -213,7 +219,7 @@ electron-app/
 - SC-003: Global shortcuts respond in <100ms
 - SC-004: Quote overlay appears within 200ms
 - SC-005: Auto-launch works reliably on all platforms
-- SC-006: App size <100MB (Windows), <150MB (macOS)
+- SC-006: App size <500MB (all platforms)
 - SC-007: Memory usage <300MB during active use
 - SC-008: 100% feature parity with web app (quotes, search, rotation)
 - SC-009: Users rate desktop experience 4.5+ stars
@@ -238,7 +244,7 @@ electron-app/
 ## Constraints
 
 - Must maintain code reuse with web app (single Angular codebase)
-- Package size must be reasonable (<150MB)
+- Package size must be reasonable (<500MB)
 - No backend server (offline-first)
 - Must comply with app store guidelines if distributed via Microsoft Store / Mac App Store
 
