@@ -6,7 +6,7 @@
     "start": "expo start --dev-client",
     "android": "expo run:android",
     "ios": "expo run:ios",
-    "windows": "expo run:windows",
+    "windows": "npx @react-native-community/cli run-windows",
     "prebuild": "expo prebuild",
     "build:web": "expo export --platform web --output-dir dist && node scripts/fix-paths.js",
     "test": "jest"
@@ -22,28 +22,29 @@
     "expo-status-bar": "~3.0.8",
     "react": "19.1.0",
     "react-dom": "19.1.0",
-    "react-native": "0.81.5",
-    "react-native-web": "^0.19.13",
+    "react-native": "0.76.9",
     "react-native-safe-area-context": "^5.6.2",
-    "react-native-screens": "^4.18.0"
+    "react-native-screens": "^4.18.0",
+    "react-native-web": "^0.19.13"
   },
   "devDependencies": {
+    "@rnx-kit/jest-preset": "^0.1.17",
     "@types/react": "~19.1.0",
     "@typescript-eslint/eslint-plugin": "^7.0.0",
     "@typescript-eslint/parser": "^7.0.0",
     "eslint": "^8.57.0",
+    "gh-pages": "^6.1.0",
+    "metro-config": "^0.81.5",
     "prettier": "^3.0.0",
-    "react-native-windows": "^0.80.1",
-    "typescript": "~5.9.2",
-    "@rnx-kit/jest-preset": "^0.1.17",
-    "gh-pages": "^6.1.0"
+    "react-native-windows": "^0.76.17",
+    "typescript": "~5.9.2"
   },
   "private": true,
   "react-native-windows": {
     "init-windows": {
       "name": "QuotesNative",
       "namespace": "QuotesNative",
-      "template": "cpp-app"
+      "template": "old/uwp-cpp-app"
     }
   }
 }
