@@ -1,0 +1,52 @@
+appId: com.buddhistquotes.desktop
+productName: Buddhist Quotes
+copyright: Copyright © 2025 Buddhist Quotes Team
+
+directories:
+  output: release
+  buildResources: build
+
+files:
+  - dist/**/*
+  - renderer/**/*
+  - package.json
+  - "!**/*.ts"
+  - "!**/*.map"
+  - "!node_modules"
+
+compression: maximum
+
+win:
+  target:
+    - target: nsis
+      arch:
+        - x64
+  artifactName: ${productName}-Setup-${version}.${ext}
+  icon: build/icon.ico
+
+mac:
+  target:
+    - target: dmg
+      arch:
+        - x64
+        - arm64
+  category: public.app-category.lifestyle
+  icon: build/icon.icns
+  hardenedRuntime: true
+  gatekeeperAssess: false
+  entitlements: build/entitlements.mac.plist
+  entitlementsInherit: build/entitlements.mac.plist
+
+linux:
+  target:
+    - target: AppImage
+      arch:
+        - x64
+  category: Utility
+  icon: build/icon.png
+  synopsis: Buddhist Quotes Desktop Application
+  description: A desktop application for displaying Buddhist quotes with rotation, search, and favorites.
+
+publish:
+  provider: generic
+  url: https://releases.buddhistquotes.com

@@ -1,0 +1,677 @@
+[
+  {
+    "id": "q001",
+    "content": "Không có gì là vĩnh cửu, mọi thứ đều thay đổi.",
+    "author": "Đức Phật",
+    "category": "quote",
+    "type": "wisdom",
+    "language": "vi",
+    "tags": ["impermanence", "change", "wisdom"]
+  },
+  {
+    "id": "q002",
+    "content": "Hạnh phúc không phải là điều gì đó sẵn có. Nó đến từ hành động của chính bạn.",
+    "author": "Đức Phật",
+    "category": "quote",
+    "type": "happiness",
+    "language": "vi",
+    "tags": ["happiness", "action", "self-responsibility"]
+  },
+  {
+    "id": "q003",
+    "content": "Tâm là nguồn gốc của mọi điều. Những gì ta nghĩ, ta trở thành.",
+    "author": "Đức Phật",
+    "category": "quote",
+    "type": "mindfulness",
+    "language": "vi",
+    "tags": ["mind", "thought", "transformation"]
+  },
+  {
+    "id": "q004",
+    "content": "Đừng sống trong quá khứ, đừng tưởng tượng về tương lai, hãy tập trung tâm trí vào khoảnh khắc hiện tại.",
+    "author": "Đức Phật",
+    "category": "quote",
+    "type": "mindfulness",
+    "language": "vi",
+    "tags": ["present-moment", "mindfulness", "awareness"]
+  },
+  {
+    "id": "q005",
+    "content": "Hãy là ngọn đèn cho chính mình.",
+    "author": "Đức Phật",
+    "category": "quote",
+    "type": "wisdom",
+    "language": "vi",
+    "tags": ["self-reliance", "enlightenment", "guidance"]
+  },
+  {
+    "id": "q006",
+    "content": "Sự thanh thản đến từ bên trong. Đừng tìm kiếm nó ở bên ngoài.",
+    "author": "Đức Phật",
+    "category": "quote",
+    "type": "peace",
+    "language": "vi",
+    "tags": ["inner-peace", "contentment", "seeking"]
+  },
+  {
+    "id": "q007",
+    "content": "Hận thù không bao giờ chấm dứt bằng hận thù. Chỉ có tình yêu mới chấm dứt hận thù.",
+    "author": "Đức Phật",
+    "category": "quote",
+    "type": "compassion",
+    "language": "vi",
+    "tags": ["love", "hatred", "compassion", "forgiveness"]
+  },
+  {
+    "id": "q008",
+    "content": "Ba điều không thể giấu lâu: mặt trời, mặt trăng và sự thật.",
+    "author": "Đức Phật",
+    "category": "quote",
+    "type": "wisdom",
+    "language": "vi",
+    "tags": ["truth", "honesty", "transparency"]
+  },
+  {
+    "id": "q009",
+    "content": "Hơi thở là cây cầu nối liền thân và tâm.",
+    "author": "Thích Nhất Hạnh",
+    "category": "quote",
+    "type": "mindfulness",
+    "language": "vi",
+    "tags": ["breath", "body", "mind", "unity"]
+  },
+  {
+    "id": "q010",
+    "content": "Mỗi bước chân trong chánh niệm có thể mang lại sự bình an và niềm vui.",
+    "author": "Thích Nhất Hạnh",
+    "category": "quote",
+    "type": "mindfulness",
+    "language": "vi",
+    "tags": ["walking", "mindfulness", "peace", "joy"]
+  },
+  {
+    "id": "q011",
+    "content": "Nếu chúng ta không biết cách chăm sóc cho chính mình, làm sao chúng ta có thể chăm sóc người khác.",
+    "author": "Thích Nhất Hạnh",
+    "category": "quote",
+    "type": "compassion",
+    "language": "vi",
+    "tags": ["self-care", "compassion", "care-for-others"]
+  },
+  {
+    "id": "q012",
+    "content": "Cảm xúc giống như cơn bão, hãy để nó đi qua mà không bị cuốn theo.",
+    "author": "Thích Nhất Hạnh",
+    "category": "quote",
+    "type": "mindfulness",
+    "language": "vi",
+    "tags": ["emotions", "equanimity", "non-attachment"]
+  },
+  {
+    "id": "q013",
+    "content": "Bạn phải yêu thương theo cách mà người kia cảm nhận được tình yêu của bạn.",
+    "author": "Thích Nhất Hạnh",
+    "category": "quote",
+    "type": "compassion",
+    "language": "vi",
+    "tags": ["love", "understanding", "communication"]
+  },
+  {
+    "id": "q014",
+    "content": "Thiền không phải là để chạy trốn cuộc sống, mà là để học cách đối diện với nó.",
+    "author": "Thích Nhất Hạnh",
+    "category": "quote",
+    "type": "meditation",
+    "language": "vi",
+    "tags": ["meditation", "courage", "facing-life"]
+  },
+  {
+    "id": "q015",
+    "content": "Khi bạn nói điều gì đó tốt đẹp với người khác, bạn cũng đang nuôi dưỡng hạt giống tốt đẹp trong chính bạn.",
+    "author": "Thích Nhất Hạnh",
+    "category": "quote",
+    "type": "compassion",
+    "language": "vi",
+    "tags": ["kindness", "speech", "inner-growth"]
+  },
+  {
+    "id": "q016",
+    "content": "Hiểu biết là nền tảng của tình yêu thương.",
+    "author": "Thích Nhất Hạnh",
+    "category": "quote",
+    "type": "wisdom",
+    "language": "vi",
+    "tags": ["understanding", "love", "compassion"]
+  },
+  {
+    "id": "q017",
+    "content": "Thương yêu không có điều kiện, không cần phải làm gì để xứng đáng được yêu thương.",
+    "author": "Thích Nhất Hạnh",
+    "category": "quote",
+    "type": "compassion",
+    "language": "vi",
+    "tags": ["unconditional-love", "acceptance", "compassion"]
+  },
+  {
+    "id": "q018",
+    "content": "Sự hiện diện thực sự là món quà quý giá nhất bạn có thể tặng cho người khác.",
+    "author": "Thích Nhất Hạnh",
+    "category": "quote",
+    "type": "mindfulness",
+    "language": "vi",
+    "tags": ["presence", "gift", "attention"]
+  },
+  {
+    "id": "q019",
+    "content": "Đau khổ không phải là để trừng phạt bạn, mà là để giúp bạn tỉnh thức.",
+    "author": "Đức Phật",
+    "category": "quote",
+    "type": "suffering",
+    "language": "vi",
+    "tags": ["suffering", "awakening", "teacher"]
+  },
+  {
+    "id": "q020",
+    "content": "Giữ gìn thân, giữ gìn lời, giữ gìn ý. Đó là con đường của bậc trí.",
+    "author": "Đức Phật",
+    "category": "quote",
+    "type": "wisdom",
+    "language": "vi",
+    "tags": ["discipline", "mindfulness", "virtue"]
+  },
+  {
+    "id": "q021",
+    "content": "Không có người nào sinh ra để làm kẻ thù của bạn, không có người nào sinh ra để làm bạn của bạn. Mọi thứ phụ thuộc vào tâm.",
+    "author": "Đức Phật",
+    "category": "quote",
+    "type": "wisdom",
+    "language": "vi",
+    "tags": ["mind", "perception", "relationships"]
+  },
+  {
+    "id": "q022",
+    "content": "Người khôn ngoan không hành động vì lợi ích cá nhân, nhưng vì lợi ích của tất cả chúng sinh.",
+    "author": "Đức Phật",
+    "category": "quote",
+    "type": "compassion",
+    "language": "vi",
+    "tags": ["wisdom", "selflessness", "all-beings"]
+  },
+  {
+    "id": "q023",
+    "content": "Hãy tin vào chính mình. Bạn đủ dũng cảm, đủ mạnh mẽ và đủ thông minh.",
+    "author": "Đức Phật",
+    "category": "quote",
+    "type": "wisdom",
+    "language": "vi",
+    "tags": ["self-confidence", "courage", "strength"]
+  },
+  {
+    "id": "q024",
+    "content": "Sức khỏe là của cải lớn nhất, sự mãn nguyện là kho báu lớn nhất, lòng tin là người bạn tốt nhất.",
+    "author": "Đức Phật",
+    "category": "quote",
+    "type": "wisdom",
+    "language": "vi",
+    "tags": ["health", "contentment", "trust"]
+  },
+  {
+    "id": "q025",
+    "content": "Như hoa sen mọc từ bùn nhưng không dính bùn, người tu hành sống trong thế gian nhưng không nhiễm thế tục.",
+    "author": "Đức Phật",
+    "category": "quote",
+    "type": "wisdom",
+    "language": "vi",
+    "tags": ["lotus", "purity", "detachment"]
+  },
+  {
+    "id": "q026",
+    "content": "The mind is everything. What you think you become.",
+    "author": "Buddha",
+    "category": "quote",
+    "type": "mindfulness",
+    "language": "en",
+    "tags": ["mind", "thought", "becoming"]
+  },
+  {
+    "id": "q027",
+    "content": "Peace comes from within. Do not seek it without.",
+    "author": "Buddha",
+    "category": "quote",
+    "type": "peace",
+    "language": "en",
+    "tags": ["inner-peace", "seeking", "self"]
+  },
+  {
+    "id": "q028",
+    "content": "Do not dwell in the past, do not dream of the future, concentrate the mind on the present moment.",
+    "author": "Buddha",
+    "category": "quote",
+    "type": "mindfulness",
+    "language": "en",
+    "tags": ["present", "past", "future"]
+  },
+  {
+    "id": "q029",
+    "content": "The only real failure in life is not to be true to the best one knows.",
+    "author": "Buddha",
+    "category": "quote",
+    "type": "wisdom",
+    "language": "en",
+    "tags": ["integrity", "failure", "truth"]
+  },
+  {
+    "id": "q030",
+    "content": "You yourself, as much as anybody in the entire universe, deserve your love and affection.",
+    "author": "Buddha",
+    "category": "quote",
+    "type": "compassion",
+    "language": "en",
+    "tags": ["self-love", "worthiness", "compassion"]
+  },
+  {
+    "id": "q031",
+    "content": "In the end, only three things matter: how much you loved, how gently you lived, and how gracefully you let go.",
+    "author": "Buddha",
+    "category": "quote",
+    "type": "wisdom",
+    "language": "en",
+    "tags": ["love", "gentleness", "letting-go"]
+  },
+  {
+    "id": "q032",
+    "content": "Better than a thousand hollow words is one word that brings peace.",
+    "author": "Buddha",
+    "category": "quote",
+    "type": "peace",
+    "language": "en",
+    "tags": ["words", "peace", "speech"]
+  },
+  {
+    "id": "q033",
+    "content": "Be where you are; otherwise you will miss your life.",
+    "author": "Buddha",
+    "category": "quote",
+    "type": "mindfulness",
+    "language": "en",
+    "tags": ["presence", "awareness", "life"]
+  },
+  {
+    "id": "q034",
+    "content": "Every morning we are born again. What we do today is what matters most.",
+    "author": "Buddha",
+    "category": "quote",
+    "type": "impermanence",
+    "language": "en",
+    "tags": ["rebirth", "today", "action"]
+  },
+  {
+    "id": "q035",
+    "content": "To understand everything is to forgive everything.",
+    "author": "Buddha",
+    "category": "quote",
+    "type": "compassion",
+    "language": "en",
+    "tags": ["understanding", "forgiveness", "compassion"]
+  },
+  {
+    "id": "q036",
+    "content": "Happiness will never come to those who fail to appreciate what they already have.",
+    "author": "Buddha",
+    "category": "quote",
+    "type": "wisdom",
+    "language": "en",
+    "tags": ["happiness", "gratitude", "appreciation"]
+  },
+  {
+    "id": "q037",
+    "content": "Work out your own salvation. Do not depend on others.",
+    "author": "Buddha",
+    "category": "quote",
+    "type": "wisdom",
+    "language": "en",
+    "tags": ["self-reliance", "independence", "effort"]
+  },
+  {
+    "id": "q038",
+    "content": "If you truly loved yourself, you could never hurt another.",
+    "author": "Buddha",
+    "category": "quote",
+    "type": "compassion",
+    "language": "en",
+    "tags": ["self-love", "non-violence", "compassion"]
+  },
+  {
+    "id": "q039",
+    "content": "Silence the angry man with love. Silence the ill-natured man with kindness.",
+    "author": "Buddha",
+    "category": "quote",
+    "type": "compassion",
+    "language": "en",
+    "tags": ["love", "kindness", "anger"]
+  },
+  {
+    "id": "q040",
+    "content": "A jug fills drop by drop.",
+    "author": "Buddha",
+    "category": "quote",
+    "type": "wisdom",
+    "language": "en",
+    "tags": ["patience", "persistence", "gradual-progress"]
+  },
+  {
+    "id": "q041",
+    "content": "Wherever you go, go with all your heart.",
+    "author": "Buddha",
+    "category": "quote",
+    "type": "mindfulness",
+    "language": "en",
+    "tags": ["commitment", "heart", "presence"]
+  },
+  {
+    "id": "q042",
+    "content": "The root of suffering is attachment.",
+    "author": "Buddha",
+    "category": "quote",
+    "type": "suffering",
+    "language": "en",
+    "tags": ["attachment", "suffering", "letting-go"]
+  },
+  {
+    "id": "q043",
+    "content": "Nothing ever exists entirely alone. Everything is in relation to everything else.",
+    "author": "Buddha",
+    "category": "quote",
+    "type": "wisdom",
+    "language": "en",
+    "tags": ["interconnection", "relationships", "dependent-origination"]
+  },
+  {
+    "id": "q044",
+    "content": "Just as a candle cannot burn without fire, men cannot live without a spiritual life.",
+    "author": "Buddha",
+    "category": "quote",
+    "type": "wisdom",
+    "language": "en",
+    "tags": ["spirituality", "inner-life", "meaning"]
+  },
+  {
+    "id": "q045",
+    "content": "The trouble is, you think you have time.",
+    "author": "Buddha",
+    "category": "quote",
+    "type": "impermanence",
+    "language": "en",
+    "tags": ["time", "urgency", "impermanence"]
+  },
+  {
+    "id": "q046",
+    "content": "Meditation brings wisdom; lack of meditation leaves ignorance.",
+    "author": "Buddha",
+    "category": "quote",
+    "type": "meditation",
+    "language": "en",
+    "tags": ["meditation", "wisdom", "ignorance"]
+  },
+  {
+    "id": "q047",
+    "content": "The wise adapt themselves to circumstances, as water molds itself to the pitcher.",
+    "author": "Buddha",
+    "category": "quote",
+    "type": "wisdom",
+    "language": "en",
+    "tags": ["adaptability", "flexibility", "wisdom"]
+  },
+  {
+    "id": "q048",
+    "content": "When you realize how perfect everything is, you will tilt your head back and laugh at the sky.",
+    "author": "Buddha",
+    "category": "quote",
+    "type": "enlightenment",
+    "language": "en",
+    "tags": ["perfection", "enlightenment", "joy"]
+  },
+  {
+    "id": "q049",
+    "content": "The greatest prayer is patience.",
+    "author": "Buddha",
+    "category": "quote",
+    "type": "wisdom",
+    "language": "en",
+    "tags": ["patience", "prayer", "virtue"]
+  },
+  {
+    "id": "q050",
+    "content": "Be kind whenever possible. It is always possible.",
+    "author": "Dalai Lama",
+    "category": "quote",
+    "type": "compassion",
+    "language": "en",
+    "tags": ["kindness", "compassion", "possibility"]
+  },
+  {
+    "id": "p001",
+    "content": "Muốn biết người hiền, xem bạn với ai.",
+    "author": "Tục ngữ Việt Nam",
+    "category": "proverb",
+    "type": "relationships",
+    "language": "vi",
+    "tags": ["friendship", "character", "wisdom"]
+  },
+  {
+    "id": "p002",
+    "content": "Có công mài sắt có ngày nên kim.",
+    "author": "Tục ngữ Việt Nam",
+    "category": "proverb",
+    "type": "perseverance",
+    "language": "vi",
+    "tags": ["persistence", "effort", "achievement"]
+  },
+  {
+    "id": "p003",
+    "content": "Học ăn học nói, học gói học mở.",
+    "author": "Tục ngữ Việt Nam",
+    "category": "proverb",
+    "type": "education",
+    "language": "vi",
+    "tags": ["learning", "manners", "education"]
+  },
+  {
+    "id": "p004",
+    "content": "Ăn quả nhớ người trồng cây.",
+    "author": "Tục ngữ Việt Nam",
+    "category": "proverb",
+    "type": "gratitude",
+    "language": "vi",
+    "tags": ["gratitude", "appreciation", "respect"]
+  },
+  {
+    "id": "p005",
+    "content": "Một cây làm chẳng nên non, ba cây chụm lại nên hòn núi cao.",
+    "author": "Tục ngữ Việt Nam",
+    "category": "proverb",
+    "type": "unity",
+    "language": "vi",
+    "tags": ["unity", "teamwork", "strength"]
+  },
+  {
+    "id": "p006",
+    "content": "Gần mực thì đen, gần đèn thì sáng.",
+    "author": "Tục ngữ Việt Nam",
+    "category": "proverb",
+    "type": "influence",
+    "language": "vi",
+    "tags": ["influence", "environment", "character"]
+  },
+  {
+    "id": "p007",
+    "content": "Của cho không bằng cách cho.",
+    "author": "Tục ngữ Việt Nam",
+    "category": "proverb",
+    "type": "compassion",
+    "language": "vi",
+    "tags": ["giving", "kindness", "manner"]
+  },
+  {
+    "id": "p008",
+    "content": "Lời nói chẳng mất tiền mua, lựa lời mà nói cho vừa lòng nhau.",
+    "author": "Tục ngữ Việt Nam",
+    "category": "proverb",
+    "type": "communication",
+    "language": "vi",
+    "tags": ["speech", "harmony", "consideration"]
+  },
+  {
+    "id": "p009",
+    "content": "Tốt gỗ hơn tốt nước sơn.",
+    "author": "Tục ngữ Việt Nam",
+    "category": "proverb",
+    "type": "character",
+    "language": "vi",
+    "tags": ["authenticity", "substance", "character"]
+  },
+  {
+    "id": "p010",
+    "content": "Trăm hay không bằng tay quen.",
+    "author": "Tục ngữ Việt Nam",
+    "category": "proverb",
+    "type": "practice",
+    "language": "vi",
+    "tags": ["practice", "experience", "skill"]
+  },
+  {
+    "id": "p011",
+    "content": "Chớ thấy sóng cả mà ngã tay chèo.",
+    "author": "Tục ngữ Việt Nam",
+    "category": "proverb",
+    "type": "perseverance",
+    "language": "vi",
+    "tags": ["courage", "persistence", "difficulty"]
+  },
+  {
+    "id": "p012",
+    "content": "Uống nước nhớ nguồn.",
+    "author": "Tục ngữ Việt Nam",
+    "category": "proverb",
+    "type": "gratitude",
+    "language": "vi",
+    "tags": ["gratitude", "ancestors", "remembrance"]
+  },
+  {
+    "id": "p013",
+    "content": "Thương người như thể thương thân.",
+    "author": "Tục ngữ Việt Nam",
+    "category": "proverb",
+    "type": "compassion",
+    "language": "vi",
+    "tags": ["love", "compassion", "empathy"]
+  },
+  {
+    "id": "p014",
+    "content": "Chậm mà chắc.",
+    "author": "Tục ngữ Việt Nam",
+    "category": "proverb",
+    "type": "patience",
+    "language": "vi",
+    "tags": ["patience", "certainty", "careful"]
+  },
+  {
+    "id": "p015",
+    "content": "Không thầy đố mày làm nên.",
+    "author": "Tục ngữ Việt Nam",
+    "category": "proverb",
+    "type": "teacher",
+    "language": "vi",
+    "tags": ["teacher", "guidance", "learning"]
+  },
+  {
+    "id": "c001",
+    "content": "Một giọt máu đào hơn ao nước lã.",
+    "author": "Ca dao Việt Nam",
+    "category": "cadao",
+    "type": "family",
+    "language": "vi",
+    "tags": ["family", "blood", "kinship"]
+  },
+  {
+    "id": "c002",
+    "content": "Chớ khinh nước đục, chớ chê cá khô.",
+    "author": "Ca dao Việt Nam",
+    "category": "cadao",
+    "type": "humility",
+    "language": "vi",
+    "tags": ["humility", "respect", "contentment"]
+  },
+  {
+    "id": "c003",
+    "content": "Công cha như núi Thái Sơn, nghĩa mẹ như nước trong nguồn chảy ra.",
+    "author": "Ca dao Việt Nam",
+    "category": "cadao",
+    "type": "family",
+    "language": "vi",
+    "tags": ["parents", "gratitude", "love"]
+  },
+  {
+    "id": "c004",
+    "content": "Thương nhau thì lạt cũng ngon, không yêu thì mật cũng chê chua.",
+    "author": "Ca dao Việt Nam",
+    "category": "cadao",
+    "type": "love",
+    "language": "vi",
+    "tags": ["love", "affection", "perception"]
+  },
+  {
+    "id": "c005",
+    "content": "Gần bùn mà chẳng hôi tanh mùi bùn, gần mực thì đen cũng là người ngoan.",
+    "author": "Ca dao Việt Nam",
+    "category": "cadao",
+    "type": "character",
+    "language": "vi",
+    "tags": ["integrity", "character", "purity"]
+  },
+  {
+    "id": "c006",
+    "content": "Dòng sông nào chẳng có khúc quanh, bến đò nào chẳng có lúc sầu.",
+    "author": "Ca dao Việt Nam",
+    "category": "cadao",
+    "type": "life",
+    "language": "vi",
+    "tags": ["life", "difficulties", "acceptance"]
+  },
+  {
+    "id": "c007",
+    "content": "Xa mặt cách lòng.",
+    "author": "Ca dao Việt Nam",
+    "category": "cadao",
+    "type": "relationships",
+    "language": "vi",
+    "tags": ["distance", "relationships", "connection"]
+  },
+  {
+    "id": "c008",
+    "content": "Chim khôn kêu ở cội, người khôn nói ở chốn.",
+    "author": "Ca dao Việt Nam",
+    "category": "cadao",
+    "type": "wisdom",
+    "language": "vi",
+    "tags": ["wisdom", "timing", "appropriateness"]
+  },
+  {
+    "id": "c009",
+    "content": "Có công mài sắt có ngày nên kim, có mài mà đến ngần ấy thì kim cũng thành kim.",
+    "author": "Ca dao Việt Nam",
+    "category": "cadao",
+    "type": "perseverance",
+    "language": "vi",
+    "tags": ["effort", "persistence", "success"]
+  },
+  {
+    "id": "c010",
+    "content": "Lửa thử vàng, gian nan thử sức.",
+    "author": "Ca dao Việt Nam",
+    "category": "cadao",
+    "type": "resilience",
+    "language": "vi",
+    "tags": ["adversity", "strength", "testing"]
+  }
+]
