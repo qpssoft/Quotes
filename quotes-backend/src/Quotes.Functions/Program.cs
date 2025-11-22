@@ -13,7 +13,9 @@ using Quotes.Functions.Middleware;
 var host = new HostBuilder()
     .ConfigureFunctionsWorkerDefaults(builder =>
     {
-        // Add authentication middleware first
+        // Add CORS middleware first
+        builder.UseMiddleware<CorsMiddleware>();
+        // Add authentication middleware
         builder.UseMiddleware<AuthenticationMiddleware>();
         // Then rate limiting middleware
         builder.UseMiddleware<RateLimitingMiddleware>();
