@@ -105,9 +105,9 @@
 
 - [X] T054 Configure Startup.cs in quotes-backend/src/Quotes.Functions/Startup.cs (dependency injection, Key Vault, Application Insights)
 - [X] T055 Create QuotesFunction in quotes-backend/src/Quotes.Functions/QuotesFunction.cs (GET /api/v1/quotes, GET /api/v1/quotes/{id})
-- [ ] T056 [P] Implement rate limiting middleware in quotes-backend/src/Quotes.Functions/Middleware/RateLimitingMiddleware.cs (100/500/1000 req/min per user/IP)
-- [ ] T057 [P] Implement CORS configuration in quotes-backend/src/Quotes.Functions/Startup.cs (localhost, GitHub Pages, Electron, React Native)
-- [ ] T058 [P] Configure Swagger/OpenAPI in quotes-backend/src/Quotes.Functions/Startup.cs (Swashbuckle)
+- [X] T056 [P] Implement rate limiting middleware in quotes-backend/src/Quotes.Functions/Middleware/RateLimitingMiddleware.cs (100/500/1000 req/min per user/IP)
+- [X] T057 [P] Implement CORS configuration in quotes-backend/src/Quotes.Functions/Startup.cs (localhost, GitHub Pages, Electron, React Native)
+- [X] T058 [P] Configure Swagger/OpenAPI in quotes-backend/src/Quotes.Functions/Startup.cs (Swashbuckle)
 - [X] T059 Configure host.json and local.settings.json with Key Vault references
 - [ ] T060 Deploy Functions App to dev environment and verify health endpoint
 
@@ -123,14 +123,14 @@
 
 ### Implementation for User Story 1
 
-- [ ] T061 [P] [US1] Implement GET /api/v1/quotes endpoint in quotes-backend/src/Quotes.Functions/QuotesFunction.cs (calls GetAllQuotesUseCase)
-- [ ] T062 [P] [US1] Implement GET /api/v1/quotes?category={category}&language={lang}&author={author} query parameter handling
-- [ ] T063 [P] [US1] Implement GET /api/v1/quotes/{id} endpoint in quotes-backend/src/Quotes.Functions/QuotesFunction.cs (calls GetQuoteByIdUseCase)
-- [ ] T064 [US1] Add memory caching to GetAllQuotesUseCase (5-minute TTL, cache key by language)
-- [ ] T065 [US1] Add rate limiting to anonymous requests (100 req/min per IP address)
-- [ ] T066 [US1] Add CORS headers for client origins (localhost, GitHub Pages, Electron, React Native)
-- [ ] T067 [US1] Add Application Insights logging for quote retrieval (request ID, duration, result count)
-- [ ] T068 [P] [US1] Upload seed data (data_vi.json, data_en.json) to Azure Blob Storage quotes container
+- [X] T061 [P] [US1] Implement GET /api/v1/quotes endpoint in quotes-backend/src/Quotes.Functions/QuotesFunction.cs (calls GetAllQuotesUseCase)
+- [X] T062 [P] [US1] Implement GET /api/v1/quotes?category={category}&language={lang}&author={author} query parameter handling
+- [X] T063 [P] [US1] Implement GET /api/v1/quotes/{id} endpoint in quotes-backend/src/Quotes.Functions/QuotesFunction.cs (calls GetQuoteByIdUseCase)
+- [X] T064 [US1] Add memory caching to GetAllQuotesUseCase (5-minute TTL, cache key by language)
+- [X] T065 [US1] Add rate limiting to anonymous requests (100 req/min per IP address)
+- [X] T066 [US1] Add CORS headers for client origins (localhost, GitHub Pages, Electron, React Native)
+- [X] T067 [US1] Add Application Insights logging for quote retrieval (request ID, duration, result count)
+- [X] T068 [P] [US1] Upload seed data (data_vi.json, data_en.json) to Azure Blob Storage quotes container
 - [ ] T069 [US1] Test quote retrieval: curl https://<function-app>.azurewebsites.net/api/v1/quotes
 - [ ] T070 [US1] Test filtering: curl "https://<function-app>.azurewebsites.net/api/v1/quotes?category=wisdom&language=vi"
 - [ ] T071 [US1] Test single quote: curl https://<function-app>.azurewebsites.net/api/v1/quotes/{id}
