@@ -11,6 +11,10 @@ public class BlobQuoteRepository : IQuoteRepository
     private readonly string _containerName = "quotes";
     private readonly string _publicFileVi = "data_vi.json";
     private readonly string _publicFileEn = "data_en.json";
+    private readonly JsonSerializerOptions _jsonOptions = new() 
+    { 
+        PropertyNameCaseInsensitive = true 
+    };
 
     public BlobQuoteRepository(BlobServiceClient blobServiceClient)
     {
@@ -36,7 +40,7 @@ public class BlobQuoteRepository : IQuoteRepository
             if (await blobClient.ExistsAsync())
             {
                 var response = await blobClient.DownloadAsync();
-                var fileQuotes = await JsonSerializer.DeserializeAsync<List<Quote>>(response.Value.Content);
+                var fileQuotes = await JsonSerializer.DeserializeAsync<List<Quote>>(response.Value.Content, _jsonOptions);
                 if (fileQuotes != null)
                     quotes.AddRange(fileQuotes);
             }
@@ -73,7 +77,7 @@ public class BlobQuoteRepository : IQuoteRepository
         if (await blobClient.ExistsAsync())
         {
             var response = await blobClient.DownloadAsync();
-            var existingQuotes = await JsonSerializer.DeserializeAsync<List<Quote>>(response.Value.Content);
+            var existingQuotes = await JsonSerializer.DeserializeAsync<List<Quote>>(response.Value.Content, _jsonOptions);
             if (existingQuotes != null)
                 quotes = existingQuotes;
         }
@@ -99,7 +103,7 @@ public class BlobQuoteRepository : IQuoteRepository
 
         // Read existing quotes
         var response = await blobClient.DownloadAsync();
-        var quotes = await JsonSerializer.DeserializeAsync<List<Quote>>(response.Value.Content);
+        var quotes = await JsonSerializer.DeserializeAsync<List<Quote>>(response.Value.Content, _jsonOptions);
         if (quotes == null)
             throw new InvalidOperationException("Quotes file not found");
 
@@ -130,7 +134,7 @@ public class BlobQuoteRepository : IQuoteRepository
                 continue;
 
             var response = await blobClient.DownloadAsync();
-            var quotes = await JsonSerializer.DeserializeAsync<List<Quote>>(response.Value.Content);
+            var quotes = await JsonSerializer.DeserializeAsync<List<Quote>>(response.Value.Content, _jsonOptions);
             if (quotes == null)
                 continue;
 

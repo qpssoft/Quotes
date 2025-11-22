@@ -1,0 +1,122 @@
+[
+  {
+    "id": "1",
+    "content": "Hạnh phúc không phải là điều gì đó có sẵn. Nó đến từ chính hành động của bạn.",
+    "author": "Đức Đạt Lai Lạt Ma",
+    "category": "Hạnh phúc",
+    "tags": ["hạnh phúc", "hành động", "phật giáo"],
+    "language": "vi",
+    "type": "quote",
+    "createdAt": "2025-01-01T00:00:00Z",
+    "createdBy": "system",
+    "isPublic": true
+  },
+  {
+    "id": "2",
+    "content": "Tâm thanh tịnh thì cõi thanh tịnh.",
+    "author": "Kinh Duy Ma Cật",
+    "category": "Trí tuệ",
+    "tags": ["tâm", "thanh tịnh", "kinh điển"],
+    "language": "vi",
+    "type": "quote",
+    "createdAt": "2025-01-01T00:00:00Z",
+    "createdBy": "system",
+    "isPublic": true
+  },
+  {
+    "id": "3",
+    "content": "Ba việc không thể dấu được lâu: mặt trời, mặt trăng và chân lý.",
+    "author": "Đức Phật",
+    "category": "Chân lý",
+    "tags": ["chân lý", "đức phật", "tri thức"],
+    "language": "vi",
+    "type": "quote",
+    "createdAt": "2025-01-01T00:00:00Z",
+    "createdBy": "system",
+    "isPublic": true
+  },
+  {
+    "id": "4",
+    "content": "Nghịch cảnh là thầy tốt nhất của chúng ta.",
+    "author": "Đức Đạt Lai Lạt Ma",
+    "category": "Thử thách",
+    "tags": ["nghịch cảnh", "học hỏi", "thử thách"],
+    "language": "vi",
+    "type": "quote",
+    "createdAt": "2025-01-01T00:00:00Z",
+    "createdBy": "system",
+    "isPublic": true
+  },
+  {
+    "id": "5",
+    "content": "Người chiến thắng nghìn quân địch chưa bằng người tự thắng mình.",
+    "author": "Kinh Pháp Cú",
+    "category": "Tự chủ",
+    "tags": ["tự chủ", "chiến thắng", "kinh điển"],
+    "language": "vi",
+    "type": "quote",
+    "createdAt": "2025-01-01T00:00:00Z",
+    "createdBy": "system",
+    "isPublic": true
+  },
+  {
+    "id": "6",
+    "content": "Có ba thứ không thể che giấu mãi: mặt trời, mặt trăng và sự thật.",
+    "author": "Ca dao Việt Nam",
+    "category": "Chân lý",
+    "tags": ["ca dao", "chân lý", "dân gian"],
+    "language": "vi",
+    "type": "cadao",
+    "createdAt": "2025-01-01T00:00:00Z",
+    "createdBy": "system",
+    "isPublic": true
+  },
+  {
+    "id": "7",
+    "content": "Khổ do dục sinh, tham ái tạo khổ.",
+    "author": "Kinh Tứ Diệu Đế",
+    "category": "Khổ đau",
+    "tags": ["khổ đau", "tham ái", "kinh điển"],
+    "language": "vi",
+    "type": "quote",
+    "createdAt": "2025-01-01T00:00:00Z",
+    "createdBy": "system",
+    "isPublic": true
+  },
+  {
+    "id": "8",
+    "content": "Ở đời như khách qua đường, chớ quá chấp trước điều gì.",
+    "author": "Thiền sư Nhất Hạnh",
+    "category": "Vô thường",
+    "tags": ["vô thường", "buông xả", "thiền"],
+    "language": "vi",
+    "type": "quote",
+    "createdAt": "2025-01-01T00:00:00Z",
+    "createdBy": "system",
+    "isPublic": true
+  },
+  {
+    "id": "9",
+    "content": "Muốn biết quá khứ, hãy nhìn hiện tại. Muốn biết tương lai, hãy nhìn hiện tại.",
+    "author": "Đức Phật",
+    "category": "Nhân quả",
+    "tags": ["nhân quả", "hiện tại", "nghiệp"],
+    "language": "vi",
+    "type": "quote",
+    "createdAt": "2025-01-01T00:00:00Z",
+    "createdBy": "system",
+    "isPublic": true
+  },
+  {
+    "id": "10",
+    "content": "Giận người khác là tự mình uống thuốc độc mà mong người ta chết.",
+    "author": "Đức Phật",
+    "category": "Giận dữ",
+    "tags": ["giận dữ", "tự hại", "cảm xúc"],
+    "language": "vi",
+    "type": "quote",
+    "createdAt": "2025-01-01T00:00:00Z",
+    "createdBy": "system",
+    "isPublic": true
+  }
+]

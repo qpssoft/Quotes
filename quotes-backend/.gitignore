@@ -9,6 +9,12 @@ packages/
 # Azure Functions
 local.settings.json
 .func/
+__blobstorage__/
+__queuestorage__/
+__azurite*/
+
+# Azurite storage emulator data
+azurite-data/
 
 # Test results
 TestResults/
@@ -23,3 +29,13 @@ coverage/
 
 # User secrets
 secrets.json
+
+# Node modules (if using npm for tools)
+node_modules/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db

@@ -7,9 +7,14 @@ using Quotes.Core.Interfaces;
 using Quotes.Infrastructure.Repositories;
 using Quotes.Infrastructure.Services;
 using Quotes.Application.UseCases;
+using Quotes.Functions.Middleware;
 
 var host = new HostBuilder()
-    .ConfigureFunctionsWorkerDefaults()
+    .ConfigureFunctionsWorkerDefaults(builder =>
+    {
+        // Add rate limiting middleware
+        builder.UseMiddleware<RateLimitingMiddleware>();
+    })
     .ConfigureServices((context, services) =>
     {
         // Memory Cache

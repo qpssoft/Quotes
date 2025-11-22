@@ -1,0 +1,122 @@
+[
+  {
+    "id": "en-1",
+    "content": "Happiness is not something ready made. It comes from your own actions.",
+    "author": "Dalai Lama",
+    "category": "Happiness",
+    "tags": ["happiness", "action", "buddhism"],
+    "language": "en",
+    "type": "quote",
+    "createdAt": "2025-01-01T00:00:00Z",
+    "createdBy": "system",
+    "isPublic": true
+  },
+  {
+    "id": "en-2",
+    "content": "Peace comes from within. Do not seek it without.",
+    "author": "Buddha",
+    "category": "Peace",
+    "tags": ["peace", "inner", "wisdom"],
+    "language": "en",
+    "type": "quote",
+    "createdAt": "2025-01-01T00:00:00Z",
+    "createdBy": "system",
+    "isPublic": true
+  },
+  {
+    "id": "en-3",
+    "content": "Three things cannot be long hidden: the sun, the moon, and the truth.",
+    "author": "Buddha",
+    "category": "Truth",
+    "tags": ["truth", "buddha", "wisdom"],
+    "language": "en",
+    "type": "quote",
+    "createdAt": "2025-01-01T00:00:00Z",
+    "createdBy": "system",
+    "isPublic": true
+  },
+  {
+    "id": "en-4",
+    "content": "The mind is everything. What you think you become.",
+    "author": "Buddha",
+    "category": "Mind",
+    "tags": ["mind", "thoughts", "transformation"],
+    "language": "en",
+    "type": "quote",
+    "createdAt": "2025-01-01T00:00:00Z",
+    "createdBy": "system",
+    "isPublic": true
+  },
+  {
+    "id": "en-5",
+    "content": "Better than a thousand hollow words, is one word that brings peace.",
+    "author": "Buddha",
+    "category": "Words",
+    "tags": ["words", "peace", "communication"],
+    "language": "en",
+    "type": "quote",
+    "createdAt": "2025-01-01T00:00:00Z",
+    "createdBy": "system",
+    "isPublic": true
+  },
+  {
+    "id": "en-6",
+    "content": "Do not dwell in the past, do not dream of the future, concentrate the mind on the present moment.",
+    "author": "Buddha",
+    "category": "Mindfulness",
+    "tags": ["mindfulness", "present", "meditation"],
+    "language": "en",
+    "type": "quote",
+    "createdAt": "2025-01-01T00:00:00Z",
+    "createdBy": "system",
+    "isPublic": true
+  },
+  {
+    "id": "en-7",
+    "content": "Holding on to anger is like grasping a hot coal with the intent of throwing it at someone else; you are the one who gets burned.",
+    "author": "Buddha",
+    "category": "Anger",
+    "tags": ["anger", "suffering", "emotions"],
+    "language": "en",
+    "type": "quote",
+    "createdAt": "2025-01-01T00:00:00Z",
+    "createdBy": "system",
+    "isPublic": true
+  },
+  {
+    "id": "en-8",
+    "content": "You yourself, as much as anybody in the entire universe, deserve your love and affection.",
+    "author": "Buddha",
+    "category": "Self-love",
+    "tags": ["self-love", "compassion", "worthiness"],
+    "language": "en",
+    "type": "quote",
+    "createdAt": "2025-01-01T00:00:00Z",
+    "createdBy": "system",
+    "isPublic": true
+  },
+  {
+    "id": "en-9",
+    "content": "In the end, only three things matter: how much you loved, how gently you lived, and how gracefully you let go of things not meant for you.",
+    "author": "Buddha",
+    "category": "Life",
+    "tags": ["life", "love", "letting go"],
+    "language": "en",
+    "type": "quote",
+    "createdAt": "2025-01-01T00:00:00Z",
+    "createdBy": "system",
+    "isPublic": true
+  },
+  {
+    "id": "en-10",
+    "content": "The root of suffering is attachment.",
+    "author": "Buddha",
+    "category": "Suffering",
+    "tags": ["suffering", "attachment", "freedom"],
+    "language": "en",
+    "type": "quote",
+    "createdAt": "2025-01-01T00:00:00Z",
+    "createdBy": "system",
+    "isPublic": true
+  }
+]
