@@ -15,7 +15,7 @@ This document provides a detailed task breakdown for implementing the Electron d
 | Phase 4: Overlay | 5 tasks | 3-4 days | ✅ Complete |
 | Phase 5: Desktop Features | 4 tasks | 2-3 days | ✅ Complete |
 | Phase 6: Settings | 4 tasks | 2-3 days | ✅ Core Complete (UI deferred) |
-| Phase 7: Packaging | 5 tasks | 3-4 days | ⏳ In Progress (1/5 complete) |
+| Phase 7: Packaging | 5 tasks | 3-4 days | ⏳ In Progress (2/5 config complete, builds pending) |
 | Phase 8: Testing | 5 tasks | 2-3 days | ⏸️ Pending |
 | **TOTAL** | **42 tasks** | **20-30 days** | **76% Complete** |
 
@@ -990,34 +990,46 @@ This document provides a detailed task breakdown for implementing the Electron d
 - **Verification**: Installers work on Windows 10/11
 - **Status**: ✅ Build Complete (Testing on physical devices pending)
 
-### T703: macOS Packaging
+### T703: macOS Packaging ⏳
 - **Description**: Build and test macOS installer
 - **Effort**: 2-3 hours
 - **Dependencies**: T701
 - **Steps**:
-  1. Build DMG: `npm run build:mac`
-  2. Test on macOS 13+ Intel:
+  1. ✅ Configure electron-builder for macOS (DMG target, universal binary)
+  2. ✅ Create entitlements.mac.plist with required permissions
+  3. ✅ Create icon generation script and guide
+  4. ✅ Document build process and requirements
+  5. ⏸️ Create icon.icns (requires macOS system):
+     - Run `node scripts/create-mac-icon.js` for instructions
+     - Or use online converter at cloudconvert.com
+  6. ⏸️ Build DMG on macOS: `npm run package:mac`
+  7. ⏸️ Test on macOS 13+ Intel:
      - Mount DMG
      - Drag to Applications
      - Launch app
      - Test all features
-  3. Test on macOS 13+ Apple Silicon (M1/M2):
-     - Verify universal binary or separate arm64 build
-     - Test Rosetta compatibility if Intel-only
-  4. Add code signing (optional, requires Apple Developer):
+  8. ⏸️ Test on macOS 13+ Apple Silicon (M1/M2):
+     - Verify universal binary works natively
+     - Test all features
+     - Verify performance
+  9. ⏸️ Add code signing (optional, requires Apple Developer):
      - Enroll in Apple Developer Program ($99/year)
      - Create signing certificate
      - Configure electron-builder
      - Sign app
-  5. Add notarization (optional, required for distribution):
+  10. ⏸️ Add notarization (optional, required for distribution):
      - Configure notarization credentials
      - Add notarize script
      - Verify notarized app
-  6. Test auto-update mechanism
+  11. ⏸️ Test auto-update mechanism
 - **Files**:
-  - `dist/Buddhist Quotes.dmg`
+  - `build/entitlements.mac.plist` (✅ created)
+  - `scripts/create-mac-icon.js` (✅ created)
+  - `MACOS_PACKAGING_GUIDE.md` (✅ created)
+  - `release/Buddhist Quotes-2.0.0-universal.dmg` (⏸️ pending)
 - **Verification**: DMG works on macOS 13+ (Intel + Apple Silicon)
-- **Status**: ⏸️ Pending
+- **Status**: ⏳ Configuration Complete - Build Requires macOS System
+- **Note**: Building macOS packages requires a macOS machine or CI/CD with macOS runners
 
 ### T704: Linux Packaging
 - **Description**: Build and test Linux packages
