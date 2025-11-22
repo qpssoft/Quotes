@@ -158,9 +158,9 @@
 - [X] T080 [P] [US2] Implement logout endpoint in AuthFunction (POST /api/v1/auth/logout, clears token)
 - [X] T081 [US2] Add rate limiting to authenticated requests (500 req/min per user ID from JWT)
 - [X] T082 [US2] Add Application Insights logging for authentication events (provider, success/failure, user ID)
-- [ ] T083 [P] [US2] Update Admin Center with OAuth login buttons (Google, Facebook, Microsoft) in quotes-admin/src/components/Login.tsx
-- [ ] T084 [P] [US2] Implement authService in quotes-admin/src/services/authService.ts (login, logout, getToken, getUser)
-- [ ] T085 [P] [US2] Create useAuth hook in quotes-admin/src/hooks/useAuth.ts (manages auth state)
+- [X] T083 [P] [US2] Update Admin Center with OAuth login buttons (Google, Facebook, Microsoft) in quotes-admin/src/components/Login.tsx
+- [X] T084 [P] [US2] Implement authService in quotes-admin/src/services/authService.ts (login, logout, getToken, getUser)
+- [X] T085 [P] [US2] Create useAuth hook in quotes-admin/src/hooks/useAuth.ts (manages auth state)
 - [ ] T086 [US2] Test Google OAuth flow: sign in, verify JWT token, verify user profile retrieval
 - [ ] T087 [US2] Test Facebook OAuth flow: sign in, verify JWT token
 - [ ] T088 [US2] Test Microsoft OAuth flow: sign in, verify JWT token
