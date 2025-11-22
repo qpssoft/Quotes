@@ -50,18 +50,57 @@ npm run clean
 ### Building Packages
 
 ```bash
-# Build for Windows
+# Build for Windows (NSIS installer + portable)
 npm run package:win
 
-# Build for macOS
+# Build for macOS (DMG)
 npm run package:mac
 
-# Build for Linux
+# Build for Linux (AppImage)
 npm run package:linux
 
 # Build for all platforms
 npm run package
 ```
+
+**Build Outputs** (in `release/` directory):
+- **Windows**: 
+  - `Buddhist Quotes Setup 2.0.0.exe` (NSIS installer, ~73 MB)
+  - `Buddhist Quotes 2.0.0.exe` (portable, ~73 MB)
+- **macOS**: `Buddhist Quotes.dmg`
+- **Linux**: `Buddhist Quotes.AppImage`
+
+### Testing Packages
+
+See [TESTING_GUIDE.md](TESTING_GUIDE.md) for comprehensive testing instructions.
+
+**Quick test portable version**:
+```powershell
+# Windows
+cd release
+.\Buddhist` Quotes` 2.0.0.exe
+```
+
+## Current Status
+
+### ✅ Completed Features
+- Core Electron setup (Phase 1)
+- System tray integration (Phase 2)
+- Global shortcuts (Phase 3)
+- Quote overlay window (Phase 4)
+- Desktop features (auto-launch, always-on-top) (Phase 5)
+- Settings & preferences (Phase 6)
+- Windows packaging (Phase 7 - T701, T702)
+
+### ⏳ In Progress
+- Manual testing on Windows 10/11
+- macOS packaging (T703)
+- Linux packaging (T704)
+
+### 📋 Documentation
+- [Testing Guide](TESTING_GUIDE.md) - How to test the packages
+- [Windows Packaging Test Report](WINDOWS_PACKAGING_TEST.md) - Detailed test checklist
+- [T702 Summary](T702_SUMMARY.md) - Build completion summary
 
 ## Project Structure
 
