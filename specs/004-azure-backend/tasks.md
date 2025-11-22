@@ -58,57 +58,57 @@
 
 ### Infrastructure as Code (Bicep)
 
-- [ ] T021 [P] Create main.bicep with parameters for environment (dev/staging/production)
-- [ ] T022 [P] Create resourceGroup.bicep module in infrastructure/modules/
-- [ ] T023 [P] Create storageAccount.bicep module (Blob containers: quotes, users)
-- [ ] T024 [P] Create keyVault.bicep module with access policies for Function App managed identity
-- [ ] T025 [P] Create appConfiguration.bicep module for environment settings
-- [ ] T026 [P] Create applicationInsights.bicep module for logging/monitoring
-- [ ] T027 [P] Create functionApp.bicep module (consumption plan, managed identity)
-- [ ] T028 [P] Create staticWebApp.bicep module for Admin Center hosting
-- [ ] T029 Create parameter files: dev.parameters.json, staging.parameters.json, production.parameters.json in infrastructure/parameters/
+- [X] T021 [P] Create main.bicep with parameters for environment (dev/staging/production)
+- [X] T022 [P] Create resourceGroup.bicep module in infrastructure/modules/
+- [X] T023 [P] Create storageAccount.bicep module (Blob containers: quotes, users)
+- [X] T024 [P] Create keyVault.bicep module with access policies for Function App managed identity
+- [X] T025 [P] Create appConfiguration.bicep module for environment settings
+- [X] T026 [P] Create applicationInsights.bicep module for logging/monitoring
+- [X] T027 [P] Create functionApp.bicep module (consumption plan, managed identity)
+- [X] T028 [P] Create staticWebApp.bicep module for Admin Center hosting
+- [X] T029 Create parameter files: dev.parameters.json, staging.parameters.json, production.parameters.json in infrastructure/parameters/
 - [ ] T030 Deploy Bicep to dev environment: `az deployment sub create --location eastus --template-file main.bicep --parameters dev.parameters.json`
 - [ ] T031 Verify all Azure resources created: Storage, Key Vault, App Configuration, Functions, Static Web App, Application Insights
 
 ### Core Layer (Entities)
 
-- [ ] T032 [P] Create Quote entity in quotes-backend/src/Quotes.Core/Entities/Quote.cs (id, content, author, category, tags, language, type, createdAt, createdBy, isPublic)
-- [ ] T033 [P] Create User entity in quotes-backend/src/Quotes.Core/Entities/User.cs (id, email, name, profilePicture, provider, role, createdAt, lastLogin, isActive)
-- [ ] T034 [P] Create Category entity in quotes-backend/src/Quotes.Core/Entities/Category.cs (id, nameVi, nameEn, description, icon)
-- [ ] T035 [P] Create UserQuoteSubmission entity in quotes-backend/src/Quotes.Core/Entities/UserQuoteSubmission.cs (id, quoteId, userId, status, submittedAt, reviewedAt, reviewedBy, rejectionReason)
-- [ ] T036 [P] Create AuditLog entity in quotes-backend/src/Quotes.Core/Entities/AuditLog.cs (id, userId, action, targetId, targetType, timestamp, details)
-- [ ] T037 [P] Create IQuoteRepository interface in quotes-backend/src/Quotes.Core/Interfaces/IQuoteRepository.cs
-- [ ] T038 [P] Create IUserRepository interface in quotes-backend/src/Quotes.Core/Interfaces/IUserRepository.cs
-- [ ] T039 [P] Create IEmailService interface in quotes-backend/src/Quotes.Core/Interfaces/IEmailService.cs
+- [X] T032 [P] Create Quote entity in quotes-backend/src/Quotes.Core/Entities/Quote.cs (id, content, author, category, tags, language, type, createdAt, createdBy, isPublic)
+- [X] T033 [P] Create User entity in quotes-backend/src/Quotes.Core/Entities/User.cs (id, email, name, profilePicture, provider, role, createdAt, lastLogin, isActive)
+- [X] T034 [P] Create Category entity in quotes-backend/src/Quotes.Core/Entities/Category.cs (id, nameVi, nameEn, description, icon)
+- [X] T035 [P] Create UserQuoteSubmission entity in quotes-backend/src/Quotes.Core/Entities/UserQuoteSubmission.cs (id, quoteId, userId, status, submittedAt, reviewedAt, reviewedBy, rejectionReason)
+- [X] T036 [P] Create AuditLog entity in quotes-backend/src/Quotes.Core/Entities/AuditLog.cs (id, userId, action, targetId, targetType, timestamp, details)
+- [X] T037 [P] Create IQuoteRepository interface in quotes-backend/src/Quotes.Core/Interfaces/IQuoteRepository.cs
+- [X] T038 [P] Create IUserRepository interface in quotes-backend/src/Quotes.Core/Interfaces/IUserRepository.cs
+- [X] T039 [P] Create IEmailService interface in quotes-backend/src/Quotes.Core/Interfaces/IEmailService.cs
 
 ### Infrastructure Layer (Azure Integrations)
 
-- [ ] T040 Create BlobQuoteRepository in quotes-backend/src/Quotes.Infrastructure/Repositories/BlobQuoteRepository.cs (GetAllAsync, GetByIdAsync, AddAsync, UpdateAsync, DeleteAsync)
-- [ ] T041 Create BlobUserRepository in quotes-backend/src/Quotes.Infrastructure/Repositories/BlobUserRepository.cs (GetAllAsync, GetByIdAsync, UpdateAsync)
-- [ ] T042 [P] Implement Key Vault integration in quotes-backend/src/Quotes.Infrastructure/Configuration/KeyVaultConfigurationProvider.cs (managed identity)
-- [ ] T043 [P] Implement SendGrid email service in quotes-backend/src/Quotes.Infrastructure/Email/SendGridEmailService.cs (SendNotificationAsync)
+- [X] T040 Create BlobQuoteRepository in quotes-backend/src/Quotes.Infrastructure/Repositories/BlobQuoteRepository.cs (GetAllAsync, GetByIdAsync, AddAsync, UpdateAsync, DeleteAsync)
+- [X] T041 Create BlobUserRepository in quotes-backend/src/Quotes.Infrastructure/Repositories/BlobUserRepository.cs (GetAllAsync, GetByIdAsync, UpdateAsync)
+- [X] T042 [P] Implement Key Vault integration in quotes-backend/src/Quotes.Infrastructure/Configuration/KeyVaultConfigurationProvider.cs (managed identity)
+- [X] T043 [P] Implement SendGrid email service in quotes-backend/src/Quotes.Infrastructure/Email/SendGridEmailService.cs (SendNotificationAsync)
 - [ ] T044 [P] Implement Azure AD B2C authentication middleware in quotes-backend/src/Quotes.Infrastructure/Auth/AzureAdB2CAuthService.cs (JWT validation)
-- [ ] T045 [P] Implement MemoryCacheService in quotes-backend/src/Quotes.Infrastructure/Caching/MemoryCacheService.cs (5-minute TTL)
-- [ ] T046 Configure Application Insights telemetry in quotes-backend/src/Quotes.Infrastructure/Logging/ApplicationInsightsTelemetry.cs
+- [X] T045 [P] Implement MemoryCacheService in quotes-backend/src/Quotes.Infrastructure/Caching/MemoryCacheService.cs (5-minute TTL)
+- [X] T046 Configure Application Insights telemetry in quotes-backend/src/Quotes.Infrastructure/Logging/ApplicationInsightsTelemetry.cs
 
 ### Application Layer (Use Cases)
 
-- [ ] T047 [P] Create GetAllQuotesUseCase in quotes-backend/src/Quotes.Application/UseCases/GetAllQuotesUseCase.cs (with filtering by category, language, author)
-- [ ] T048 [P] Create GetQuoteByIdUseCase in quotes-backend/src/Quotes.Application/UseCases/GetQuoteByIdUseCase.cs
-- [ ] T049 [P] Create SubmitUserQuoteUseCase in quotes-backend/src/Quotes.Application/UseCases/SubmitUserQuoteUseCase.cs (validation, email notification)
-- [ ] T050 [P] Create ApproveQuoteUseCase in quotes-backend/src/Quotes.Application/UseCases/ApproveQuoteUseCase.cs (move to public collection)
-- [ ] T051 [P] Create RejectQuoteUseCase in quotes-backend/src/Quotes.Application/UseCases/RejectQuoteUseCase.cs (delete from user collection)
-- [ ] T052 [P] Create ManageUserUseCase in quotes-backend/src/Quotes.Application/UseCases/ManageUserUseCase.cs (assign role, ban, delete)
-- [ ] T053 [P] Create DTOs: QuoteDto, UserDto, CreateQuoteDto, UpdateQuoteDto in quotes-backend/src/Quotes.Application/DTOs/
+- [X] T047 [P] Create GetAllQuotesUseCase in quotes-backend/src/Quotes.Application/UseCases/GetAllQuotesUseCase.cs (with filtering by category, language, author)
+- [X] T048 [P] Create GetQuoteByIdUseCase in quotes-backend/src/Quotes.Application/UseCases/GetQuoteByIdUseCase.cs
+- [X] T049 [P] Create SubmitUserQuoteUseCase in quotes-backend/src/Quotes.Application/UseCases/SubmitUserQuoteUseCase.cs (validation, email notification)
+- [X] T050 [P] Create ApproveQuoteUseCase in quotes-backend/src/Quotes.Application/UseCases/ApproveQuoteUseCase.cs (move to public collection)
+- [X] T051 [P] Create RejectQuoteUseCase in quotes-backend/src/Quotes.Application/UseCases/RejectQuoteUseCase.cs (delete from user collection)
+- [X] T052 [P] Create ManageUserUseCase in quotes-backend/src/Quotes.Application/UseCases/ManageUserUseCase.cs (assign role, ban, delete)
+- [X] T053 [P] Create DTOs: QuoteDto, UserDto, CreateQuoteDto, UpdateQuoteDto in quotes-backend/src/Quotes.Application/DTOs/
 
 ### Presentation Layer (Azure Functions)
 
-- [ ] T054 Configure Startup.cs in quotes-backend/src/Quotes.Functions/Startup.cs (dependency injection, Key Vault, Application Insights)
-- [ ] T055 Create QuotesFunction in quotes-backend/src/Quotes.Functions/QuotesFunction.cs (GET /api/v1/quotes, GET /api/v1/quotes/{id})
+- [X] T054 Configure Startup.cs in quotes-backend/src/Quotes.Functions/Startup.cs (dependency injection, Key Vault, Application Insights)
+- [X] T055 Create QuotesFunction in quotes-backend/src/Quotes.Functions/QuotesFunction.cs (GET /api/v1/quotes, GET /api/v1/quotes/{id})
 - [ ] T056 [P] Implement rate limiting middleware in quotes-backend/src/Quotes.Functions/Middleware/RateLimitingMiddleware.cs (100/500/1000 req/min per user/IP)
 - [ ] T057 [P] Implement CORS configuration in quotes-backend/src/Quotes.Functions/Startup.cs (localhost, GitHub Pages, Electron, React Native)
 - [ ] T058 [P] Configure Swagger/OpenAPI in quotes-backend/src/Quotes.Functions/Startup.cs (Swashbuckle)
-- [ ] T059 Configure host.json and local.settings.json with Key Vault references
+- [X] T059 Configure host.json and local.settings.json with Key Vault references
 - [ ] T060 Deploy Functions App to dev environment and verify health endpoint
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel

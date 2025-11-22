@@ -59,3 +59,11 @@ build/
 /quotes-platform/coverage
 /quotes-native/__tests__/coverage
 /shared-modules/coverage
+# .NET / C# Backend
+/quotes-backend/src/*/bin/
+/quotes-backend/src/*/obj/
+/quotes-backend/*.user
+/quotes-backend/*.suo
+/quotes-backend/.vs/
+/quotes-backend/packages/
+/quotes-backend/src/Quotes.Core/bin

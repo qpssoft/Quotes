@@ -1,0 +1,25 @@
+# .NET / C# Build outputs
+bin/
+obj/
+*.user
+*.suo
+.vs/
+packages/
+
+# Azure Functions
+local.settings.json
+.func/
+
+# Test results
+TestResults/
+coverage/
+
+# NuGet
+*.nupkg
+*.snupkg
+
+# Rider
+.idea/
+
+# User secrets
+secrets.json
