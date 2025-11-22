@@ -150,14 +150,14 @@
 ### Implementation for User Story 2
 
 - [ ] T074 [P] [US2] Configure Azure AD B2C user flows (sign-up-sign-in) via Azure Portal
-- [ ] T075 [P] [US2] Create AuthFunction in quotes-backend/src/Quotes.Functions/AuthFunction.cs (GET /api/v1/auth/login, POST /api/v1/auth/callback)
-- [ ] T076 [US2] Implement JWT validation middleware in quotes-backend/src/Quotes.Infrastructure/Auth/JwtValidationMiddleware.cs (validate signature, claims, expiration)
-- [ ] T077 [US2] Implement GET /api/v1/users/me endpoint in quotes-backend/src/Quotes.Functions/UsersFunction.cs (returns user profile from JWT)
-- [ ] T078 [P] [US2] Create user profile on first login (store in Blob Storage users/{userId}.json)
-- [ ] T079 [P] [US2] Implement token refresh logic in AuthFunction (POST /api/v1/auth/refresh)
-- [ ] T080 [P] [US2] Implement logout endpoint in AuthFunction (POST /api/v1/auth/logout, clears token)
-- [ ] T081 [US2] Add rate limiting to authenticated requests (500 req/min per user ID from JWT)
-- [ ] T082 [US2] Add Application Insights logging for authentication events (provider, success/failure, user ID)
+- [X] T075 [P] [US2] Create AuthFunction in quotes-backend/src/Quotes.Functions/AuthFunction.cs (GET /api/v1/auth/login, POST /api/v1/auth/callback)
+- [X] T076 [US2] Implement JWT validation middleware in quotes-backend/src/Quotes.Infrastructure/Auth/JwtValidationMiddleware.cs (validate signature, claims, expiration)
+- [X] T077 [US2] Implement GET /api/v1/users/me endpoint in quotes-backend/src/Quotes.Functions/UsersFunction.cs (returns user profile from JWT)
+- [X] T078 [P] [US2] Create user profile on first login (store in Blob Storage users/{userId}.json)
+- [X] T079 [P] [US2] Implement token refresh logic in AuthFunction (POST /api/v1/auth/refresh)
+- [X] T080 [P] [US2] Implement logout endpoint in AuthFunction (POST /api/v1/auth/logout, clears token)
+- [X] T081 [US2] Add rate limiting to authenticated requests (500 req/min per user ID from JWT)
+- [X] T082 [US2] Add Application Insights logging for authentication events (provider, success/failure, user ID)
 - [ ] T083 [P] [US2] Update Admin Center with OAuth login buttons (Google, Facebook, Microsoft) in quotes-admin/src/components/Login.tsx
 - [ ] T084 [P] [US2] Implement authService in quotes-admin/src/services/authService.ts (login, logout, getToken, getUser)
 - [ ] T085 [P] [US2] Create useAuth hook in quotes-admin/src/hooks/useAuth.ts (manages auth state)

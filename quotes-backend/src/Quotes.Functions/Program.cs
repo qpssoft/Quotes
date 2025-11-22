@@ -6,13 +6,16 @@ using Azure.Storage.Blobs;
 using Quotes.Core.Interfaces;
 using Quotes.Infrastructure.Repositories;
 using Quotes.Infrastructure.Services;
+using Quotes.Infrastructure.Auth;
 using Quotes.Application.UseCases;
 using Quotes.Functions.Middleware;
 
 var host = new HostBuilder()
     .ConfigureFunctionsWorkerDefaults(builder =>
     {
-        // Add rate limiting middleware
+        // Add authentication middleware first
+        builder.UseMiddleware<AuthenticationMiddleware>();
+        // Then rate limiting middleware
         builder.UseMiddleware<RateLimitingMiddleware>();
     })
     .ConfigureServices((context, services) =>
@@ -25,6 +28,18 @@ var host = new HostBuilder()
         var storageConnectionString = Environment.GetEnvironmentVariable("AzureWebJobsStorage") 
             ?? throw new InvalidOperationException("AzureWebJobsStorage not configured");
         services.AddSingleton(new BlobServiceClient(storageConnectionString));
+
+        // JWT Authentication
+        var jwtSettings = new JwtSettings
+        {
+            SecretKey = Environment.GetEnvironmentVariable("JwtSecretKey") ?? "your-256-bit-secret-key-here-change-in-production-min-32-chars",
+            Issuer = Environment.GetEnvironmentVariable("JwtIssuer") ?? "https://quotes-api.azurewebsites.net",
+            Audience = Environment.GetEnvironmentVariable("JwtAudience") ?? "quotes-api-clients",
+            ExpirationMinutes = int.TryParse(Environment.GetEnvironmentVariable("JwtExpirationMinutes"), out var exp) ? exp : 60,
+            RefreshTokenExpirationDays = 7
+        };
+        services.AddSingleton(jwtSettings);
+        services.AddSingleton<IJwtTokenService, JwtTokenService>();
 
         // Repositories
         services.AddScoped<IQuoteRepository, BlobQuoteRepository>();
@@ -56,3 +71,4 @@ var host = new HostBuilder()
     .Build();
 
 host.Run();
+
