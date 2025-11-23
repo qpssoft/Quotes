@@ -80,6 +80,11 @@ When('I enter {string} in the email field', async function (this: QuotesAdminWor
 When('I enter {string} in the name field', async function (this: QuotesAdminWorld, name: string) {
   const nameInput = this.page!.locator('#name');
   await nameInput.fill(name);
+  // Wait a bit for React to update state
+  await this.page!.waitForTimeout(100);
+  // Verify the field was filled correctly
+  const value = await nameInput.inputValue();
+  expect(value).toBe(name);
 });
 
 When('I leave the email field empty', async function (this: QuotesAdminWorld) {

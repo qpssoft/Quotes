@@ -8,6 +8,21 @@ const USE_MOCK_AUTH = process.env.REACT_APP_MOCK_AUTH === 'true';
 
 // Mock test accounts
 const MOCK_ACCOUNTS = {
+  ROOT_ADMIN: {
+    email: 'root@quotes.com',
+    user: {
+      Id: 'root-admin-001',
+      Email: 'root@quotes.com',
+      Name: 'Root Admin',
+      Role: 'Admin',
+      Provider: 'email',
+      ProfilePicture: undefined,
+      CreatedAt: new Date().toISOString(),
+      LastLogin: new Date().toISOString(),
+    },
+    accessToken: 'mock_root_admin_access_token_' + Date.now(),
+    refreshToken: 'mock_root_admin_refresh_token_' + Date.now(),
+  },
   ADMIN: {
     email: 'admin@test.com',
     user: {
@@ -24,11 +39,11 @@ const MOCK_ACCOUNTS = {
     refreshToken: 'mock_admin_refresh_token_' + Date.now(),
   },
   CONTRIBUTOR: {
-    email: 'contributor@test.com',
+    email: 'editor@test.com',
     user: {
       Id: 'test-contributor-001',
-      Email: 'contributor@test.com',
-      Name: 'Test Contributor',
+      Email: 'editor@test.com',
+      Name: 'Test Editor',
       Role: 'Contributor',
       Provider: 'email',
       ProfilePicture: undefined,
@@ -132,26 +147,38 @@ class AuthService {
    */
   private mockLogin(request: LoginRequest): Promise<LoginResponse> {
     console.log('[MOCK AUTH] Using mock authentication');
+    console.log('[MOCK AUTH] Login request:', { email: request.email, name: request.name, provider: request.provider });
     
     // Determine which mock account to use based on email
     let mockAccount = MOCK_ACCOUNTS.USER;
     
-    if (request.email === MOCK_ACCOUNTS.ADMIN.email) {
+    if (request.email === MOCK_ACCOUNTS.ROOT_ADMIN.email) {
+      mockAccount = MOCK_ACCOUNTS.ROOT_ADMIN;
+      console.log('[MOCK AUTH] Using ROOT_ADMIN account');
+    } else if (request.email === MOCK_ACCOUNTS.ADMIN.email) {
       mockAccount = MOCK_ACCOUNTS.ADMIN;
+      console.log('[MOCK AUTH] Using ADMIN account');
     } else if (request.email === MOCK_ACCOUNTS.CONTRIBUTOR.email) {
       mockAccount = MOCK_ACCOUNTS.CONTRIBUTOR;
+      console.log('[MOCK AUTH] Using CONTRIBUTOR account');
+    } else {
+      console.log('[MOCK AUTH] Using USER account (fallback)');
     }
+    
+    // Create a copy of the user object to avoid modifying the original
+    const user: User = { ...mockAccount.user };
     
     // Override name if provided
     if (request.name) {
-      mockAccount.user.Name = request.name;
+      user.Name = request.name;
+      console.log('[MOCK AUTH] Overriding name to:', request.name);
     }
     
     const response: LoginResponse = {
       accessToken: mockAccount.accessToken,
       refreshToken: mockAccount.refreshToken,
       expiresIn: 3600,
-      user: { ...mockAccount.user },
+      user,
     };
     
     // Store tokens and user data
@@ -159,7 +186,8 @@ class AuthService {
     this.setRefreshToken(response.refreshToken);
     this.setUser(response.user);
     
-    console.log('[MOCK AUTH] Login successful:', response.user);
+    console.log('[MOCK AUTH] Login successful. User stored:', response.user);
+    console.log('[MOCK AUTH] Name in response:', response.user.Name, 'Role:', response.user.Role);
     return Promise.resolve(response);
   }
 
