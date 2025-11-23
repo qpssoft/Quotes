@@ -19,9 +19,10 @@ public class CreateQuoteDto
     public string Content { get; set; } = string.Empty;
     public string Author { get; set; } = string.Empty;
     public string Category { get; set; } = string.Empty;
-    public List<string> Tags { get; set; } = new();
+    public List<string>? Tags { get; set; }
     public string Language { get; set; } = "vi";
     public string Type { get; set; } = "quote";
+    public bool IsPublic { get; set; } = true;
 }
 
 public class UpdateQuoteDto
@@ -30,4 +31,7 @@ public class UpdateQuoteDto
     public string? Author { get; set; }
     public string? Category { get; set; }
     public List<string>? Tags { get; set; }
+    public string? Language { get; set; }
+    public string? Type { get; set; }
+    public bool? IsPublic { get; set; }
 }

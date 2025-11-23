@@ -68,10 +68,19 @@ var host = new HostBuilder()
         // Use Cases
         services.AddScoped<GetAllQuotesUseCase>();
         services.AddScoped<GetQuoteByIdUseCase>();
+        services.AddScoped<CreateQuoteUseCase>();
+        services.AddScoped<UpdateQuoteUseCase>();
+        services.AddScoped<DeleteQuoteUseCase>();
+        services.AddScoped<GetUserQuotesUseCase>();
         services.AddScoped<SubmitUserQuoteUseCase>();
         services.AddScoped<ApproveQuoteUseCase>();
         services.AddScoped<RejectQuoteUseCase>();
         services.AddScoped<ManageUserUseCase>();
+        services.AddScoped<GetAllUsersUseCase>();
+        services.AddScoped<GetUserByIdUseCase>();
+        services.AddScoped<UpdateUserUseCase>();
+        services.AddScoped<DeleteUserUseCase>();
+        services.AddScoped<BanUserUseCase>();
     })
     .Build();
 

@@ -12,3 +12,11 @@ public class UserDto
     public DateTime? LastLogin { get; set; }
     public bool IsActive { get; set; }
 }
+
+public class UpdateUserDto
+{
+    public string? Name { get; set; }
+    public string? Role { get; set; }
+    public bool? IsActive { get; set; }
+    public string? ProfilePicture { get; set; }
+}
