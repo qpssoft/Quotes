@@ -32,7 +32,10 @@
     "test:e2e:2": "npx ts-node --project tsconfig.test.json test2-token-persistence.ts",
     "test:e2e:3": "npx ts-node --project tsconfig.test.json test3-protected-routes.ts",
     "test:e2e:4": "npx ts-node --project tsconfig.test.json test4-logout-flow.ts",
-    "test:e2e:all": "npm run test:e2e:1 && npm run test:e2e:2 && npm run test:e2e:3 && npm run test:e2e:4"
+    "test:e2e:all": "npm run test:e2e:1 && npm run test:e2e:2 && npm run test:e2e:3 && npm run test:e2e:4",
+    "test:bdd": "cross-env TS_NODE_PROJECT=tsconfig.test.json cucumber-js tests/features --require-module ts-node/register --require tests/**/*.ts",
+    "test:bdd:debug": "SLOWMO=500 HEADLESS=false npm run test:bdd",
+    "test:bdd:login": "cross-env TS_NODE_PROJECT=tsconfig.test.json cucumber-js tests/features/authentication.feature --require-module ts-node/register --require tests/**/*.ts"
   },
   "eslintConfig": {
     "extends": [
@@ -53,7 +56,10 @@
     ]
   },
   "devDependencies": {
+    "@cucumber/cucumber": "^10.0.0",
+    "@cucumber/pretty-formatter": "^1.0.0",
     "@types/node": "^24.10.1",
+    "cross-env": "^7.0.3",
     "ts-node": "^10.9.2"
   }
 }

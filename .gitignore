@@ -67,3 +67,4 @@ build/
 /quotes-backend/.vs/
 /quotes-backend/packages/
 /quotes-backend/src/Quotes.Core/bin
+/quotes-admin/test-results
