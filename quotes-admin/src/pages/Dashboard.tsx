@@ -1,21 +1,16 @@
 import { useEffect } from 'react';
 import { useAuth } from '../hooks/useAuth';
+import { Layout } from '../components/Layout';
 import './Dashboard.css';
 
 export function Dashboard() {
-  const { user, logout, refreshUser, isLoading } = useAuth();
+  const { user, refreshUser, isLoading } = useAuth();
 
   useEffect(() => {
     // Refresh user data on mount
     refreshUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const handleLogout = async () => {
-    if (window.confirm('Are you sure you want to logout?')) {
-      await logout();
-      window.location.href = '/login';
-    }
-  };
 
   if (isLoading) {
     return (
@@ -31,32 +26,11 @@ export function Dashboard() {
   }
 
   return (
-    <div className="dashboard-container">
-      <header className="dashboard-header">
-        <div className="header-content">
-          <h1>Quotes Admin Center</h1>
-          <div className="user-info">
-            <div className="user-details">
-              <div className="user-name">{user.Name}</div>
-              <div className="user-email">{user.Email}</div>
-              <div className="user-role">
-                <span className={`role-badge role-${user.Role.toLowerCase()}`}>
-                  {user.Role}
-                </span>
-              </div>
-            </div>
-            <button className="btn btn-logout" onClick={handleLogout}>
-              Logout
-            </button>
-          </div>
-        </div>
-      </header>
-
-      <main className="dashboard-main">
-        <div className="welcome-section">
-          <h2>Welcome back, {user.Name}!</h2>
-          <p>You're logged in as <strong>{user.Role}</strong></p>
-        </div>
+    <Layout>
+      <div className="welcome-section">
+        <h2>Welcome back, {user.Name}!</h2>
+        <p>You're logged in as <strong>{user.Role}</strong></p>
+      </div>
 
         <div className="stats-grid">
           <div className="stat-card">
@@ -166,7 +140,7 @@ export function Dashboard() {
             )}
           </div>
         </div>
-      </main>
-    </div>
-  );
+      </Layout>
+    );
 }
+

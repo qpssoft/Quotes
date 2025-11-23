@@ -79,6 +79,7 @@ export interface User {
   ProfilePicture?: string;
   CreatedAt?: string;
   LastLogin?: string;
+  IsActive?: boolean;
 }
 
 export interface LoginRequest {
