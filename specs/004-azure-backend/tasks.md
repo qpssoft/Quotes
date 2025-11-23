@@ -111,6 +111,20 @@
 - [X] T059 Configure host.json and local.settings.json with Key Vault references
 - [ ] T060 Deploy Functions App to dev environment and verify health endpoint
 
+**NEW TASKS - Backend Startup & Testing**:
+- [X] T060.1 Create start-backend.ps1 PowerShell script to launch Azurite, Azure Functions, and Quotes Admin
+- [X] T060.2 Create stop-backend.ps1 PowerShell script to stop all backend services
+- [X] T060.3 Create backend README.md with prerequisites, setup, and troubleshooting documentation
+- [X] T060.4 Add .gitignore entries for Azurite database files
+- [X] T060.5 Implement mock authentication system for Admin Center with predefined test accounts
+- [X] T060.6 Create E2E test suite with Playwright for authentication flows (4 test scenarios)
+- [X] T060.7 Add TypeScript test configuration and npm scripts for test execution
+- [X] T060.8 Create TESTING.md documentation for mock auth and testing procedures
+- [X] T060.9 Create shared authentication services (auth-base, auth.service, http-client)
+- [X] T060.10 Implement cross-platform auth hooks (useAuth) for admin, native, and electron
+- [X] T060.11 Add CLIENT_AUTHENTICATION.md and CLIENT_AUTH_SETUP.md documentation
+- [X] T060.12 Create MOCK_AUTH_IMPLEMENTATION.md summary documentation
+
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
 ---
