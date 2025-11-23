@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CORS Test - Comprehensive</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            color: #333;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .result {
+            margin: 15px 0;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .success {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        .error {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        .info {
+            background-color: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        button:disabled {
+            background-color: #6c757d;
+            cursor: not-allowed;
+        }
+        .header-display {
+            font-size: 12px;
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 CORS Test Suite</h1>
+    <p><strong>Testing from:</strong> <span id="currentOrigin"></span></p>
+    <p><strong>API Target:</strong> http://localhost:7071/api/v1/auth/*</p>
+
+    <div class="test-section">
+        <h2>Test 1: Preflight OPTIONS Request</h2>
+        <button onclick="testPreflight()">Test Preflight</button>
+        <div id="preflightResult"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Test 2: Login POST Request</h2>
+        <button onclick="testLogin()">Test Login</button>
+        <div id="loginResult"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Test 3: Check Response Headers</h2>
+        <button onclick="testHeaders()">Check Headers</button>
+        <div id="headersResult"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Test 4: Multiple Requests</h2>
+        <button onclick="testMultiple()">Run 3 Requests</button>
+        <div id="multipleResult"></div>
+    </div>
+
+    <script>
+        document.getElementById('currentOrigin').textContent = window.location.origin;
+
+        async function testPreflight() {
+            const resultDiv = document.getElementById('preflightResult');
+            resultDiv.innerHTML = '<div class="result info">Testing OPTIONS preflight...</div>';
+            
+            try {
+                const response = await fetch('http://localhost:7071/api/v1/auth/login', {
+                    method: 'OPTIONS',
+                    headers: {
+                        'Origin': window.location.origin,
+                        'Access-Control-Request-Method': 'POST',
+                        'Access-Control-Request-Headers': 'Content-Type'
+                    }
+                });
+
+                const corsHeaders = {
+                    'Access-Control-Allow-Origin': response.headers.get('Access-Control-Allow-Origin'),
+                    'Access-Control-Allow-Methods': response.headers.get('Access-Control-Allow-Methods'),
+                    'Access-Control-Allow-Headers': response.headers.get('Access-Control-Allow-Headers'),
+                    'Access-Control-Allow-Credentials': response.headers.get('Access-Control-Allow-Credentials'),
+                    'Access-Control-Max-Age': response.headers.get('Access-Control-Max-Age')
+                };
+
+                if (response.ok) {
+                    resultDiv.innerHTML = `
+                        <div class="result success">
+                            <h3>✅ Preflight SUCCESS</h3>
+                            <p><strong>Status:</strong> ${response.status} ${response.statusText}</p>
+                            <div class="header-display">
+                                <strong>CORS Headers:</strong><br/>
+                                ${JSON.stringify(corsHeaders, null, 2)}
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `
+                        <div class="result error">
+                            <h3>⚠️ Preflight Failed</h3>
+                            <p><strong>Status:</strong> ${response.status} ${response.statusText}</p>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="result error">
+                        <h3>❌ Preflight Error</h3>
+                        <p><strong>Error:</strong> ${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        async function testLogin() {
+            const resultDiv = document.getElementById('loginResult');
+            resultDiv.innerHTML = '<div class="result info">Testing POST login...</div>';
+            
+            try {
+                const response = await fetch('http://localhost:7071/api/v1/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify({
+                        email: 'admin@test.com',
+                        name: 'Admin User',
+                        provider: 'mock'
+                    })
+                });
+
+                const corsOrigin = response.headers.get('Access-Control-Allow-Origin');
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    resultDiv.innerHTML = `
+                        <div class="result success">
+                            <h3>✅ Login SUCCESS - No CORS Errors!</h3>
+                            <p><strong>Status:</strong> ${response.status}</p>
+                            <p><strong>User:</strong> ${data.user.email}</p>
+                            <p><strong>Access Token:</strong> ${data.accessToken.substring(0, 40)}...</p>
+                            <p><strong>CORS Header:</strong> ${corsOrigin || 'Not present'}</p>
+                            ${corsOrigin && corsOrigin.split(',').length > 1 
+                                ? '<p style="color:red;">⚠️ WARNING: Multiple origins detected!</p>' 
+                                : '<p style="color:green;">✓ Single origin header</p>'}
+                        </div>
+                    `;
+                } else {
+                    const data = await response.json();
+                    resultDiv.innerHTML = `
+                        <div class="result error">
+                            <h3>⚠️ API Error</h3>
+                            <p><strong>Status:</strong> ${response.status}</p>
+                            <p><strong>Error:</strong> ${JSON.stringify(data)}</p>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="result error">
+                        <h3>❌ CORS Error Detected</h3>
+                        <p><strong>Error Type:</strong> ${error.name}</p>
+                        <p><strong>Message:</strong> ${error.message}</p>
+                        <p>This indicates CORS headers are missing, duplicate, or incorrect.</p>
+                    </div>
+                `;
+                console.error('Login CORS Error:', error);
+            }
+        }
+
+        async function testHeaders() {
+            const resultDiv = document.getElementById('headersResult');
+            resultDiv.innerHTML = '<div class="result info">Checking all response headers...</div>';
+            
+            try {
+                const response = await fetch('http://localhost:7071/api/v1/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify({
+                        email: 'test@test.com',
+                        name: 'Test User',
+                        provider: 'mock'
+                    })
+                });
+
+                const allHeaders = {};
+                response.headers.forEach((value, key) => {
+                    allHeaders[key] = value;
+                });
+
+                const corsHeaders = Object.keys(allHeaders)
+                    .filter(key => key.toLowerCase().startsWith('access-control'))
+                    .reduce((obj, key) => {
+                        obj[key] = allHeaders[key];
+                        return obj;
+                    }, {});
+
+                const hasDuplicates = Object.values(corsHeaders).some(value => 
+                    value && value.includes(',http://localhost')
+                );
+
+                resultDiv.innerHTML = `
+                    <div class="result ${hasDuplicates ? 'error' : 'success'}">
+                        <h3>${hasDuplicates ? '❌ Duplicate Headers Found' : '✅ Headers OK'}</h3>
+                        <div class="header-display">
+                            <strong>All CORS Headers:</strong><br/>
+                            ${JSON.stringify(corsHeaders, null, 2)}
+                        </div>
+                        ${hasDuplicates ? '<p style="color:red;"><strong>⚠️ PROBLEM: Multiple values detected in CORS headers!</strong></p>' : '<p style="color:green;"><strong>✓ No duplicate CORS headers</strong></p>'}
+                    </div>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="result error">
+                        <h3>❌ Error</h3>
+                        <p>${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        async function testMultiple() {
+            const resultDiv = document.getElementById('multipleResult');
+            resultDiv.innerHTML = '<div class="result info">Running 3 consecutive requests...</div>';
+            
+            let results = [];
+            
+            for (let i = 1; i <= 3; i++) {
+                try {
+                    const response = await fetch('http://localhost:7071/api/v1/auth/login', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        credentials: 'include',
+                        body: JSON.stringify({
+                            email: `test${i}@test.com`,
+                            name: `Test User ${i}`,
+                            provider: 'mock'
+                        })
+                    });
+
+                    const corsOrigin = response.headers.get('Access-Control-Allow-Origin');
+                    const hasDuplicate = corsOrigin && corsOrigin.includes(',');
+                    
+                    results.push({
+                        request: i,
+                        status: response.status,
+                        ok: response.ok,
+                        corsOrigin,
+                        hasDuplicate
+                    });
+                } catch (error) {
+                    results.push({
+                        request: i,
+                        error: error.message
+                    });
+                }
+            }
+
+            const allSuccess = results.every(r => r.ok);
+            const anyDuplicates = results.some(r => r.hasDuplicate);
+
+            resultDiv.innerHTML = `
+                <div class="result ${allSuccess && !anyDuplicates ? 'success' : 'error'}">
+                    <h3>${allSuccess && !anyDuplicates ? '✅ All Requests Successful' : '❌ Issues Detected'}</h3>
+                    <div class="header-display">
+                        ${results.map(r => `
+                            <strong>Request ${r.request}:</strong>
+                            Status: ${r.status || 'ERROR'}
+                            ${r.corsOrigin ? `CORS Origin: ${r.corsOrigin}` : ''}
+                            ${r.hasDuplicate ? '⚠️ DUPLICATE DETECTED' : r.ok ? '✓ OK' : ''}
+                            ${r.error ? `Error: ${r.error}` : ''}
+                        `).join('\n\n')}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Auto-run tests on load (optional)
+        // window.onload = () => setTimeout(testLogin, 1000);
+    </script>
+</body>
+</html>

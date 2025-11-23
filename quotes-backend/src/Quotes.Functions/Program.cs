@@ -47,6 +47,9 @@ var host = new HostBuilder()
         services.AddScoped<IQuoteRepository, BlobQuoteRepository>();
         services.AddScoped<IUserRepository, BlobUserRepository>();
 
+        // Database Initialization (registered but not auto-run)
+        services.AddScoped<DatabaseInitializer>();
+
         // Services
         var sendGridApiKey = Environment.GetEnvironmentVariable("SendGridApiKey") ?? "";
         services.AddScoped<IEmailService>(sp => new SendGridEmailService(sendGridApiKey));

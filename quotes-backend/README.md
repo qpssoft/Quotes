@@ -33,10 +33,29 @@ dotnet --version
 
 ## Quick Start
 
-### Option 1: Using PowerShell Scripts (Recommended)
+### Option 1: One-Click Start (Easiest! ⭐)
+
+**Just double-click these files:**
+
+- 📂 `START_BACKEND.bat` - Starts everything (build + all services)
+- 📂 `STOP_BACKEND.bat` - Stops all services (kills by process name and port)
+
+**Features:**
+- Auto-build before starting
+- Kills processes by name (azurite, func, node) and port (7071, 10000-10002, 3000)
+- Force terminates stubborn processes
+- No manual cleanup needed
+
+That's it! Wait 15-20 seconds, then go to:
+- **Admin Portal:** http://localhost:3000
+- **Login with:** `root@quotes.com`
+
+See [QUICK_START.md](QUICK_START.md) for detailed instructions.
+
+### Option 2: Using PowerShell Scripts
 
 ```powershell
-# Start all services (Azurite + Functions + Admin Portal)
+# Start all services (Build + Azurite + Functions + Admin Portal)
 .\start-backend.ps1
 
 # Start without Admin Portal
@@ -49,7 +68,7 @@ dotnet --version
 .\stop-backend.ps1
 ```
 
-### Option 2: Manual Start
+### Option 3: Manual Start
 
 **Terminal 1 - Start Azurite:**
 ```powershell
@@ -111,12 +130,38 @@ dotnet build
 
 When running locally, the Functions app is available at: `http://localhost:7071`
 
-Available endpoints:
+### Authentication Endpoints
+
+- `POST /api/v1/auth/login` - Login (creates user if not exists)
+- `POST /api/v1/auth/logout` - Logout
+- `POST /api/v1/auth/refresh` - Refresh token
+- `GET /api/v1/users/me` - Get current user
+
+### Quote Endpoints
+
 - `GET /api/quotes` - List quotes
 - `POST /api/quotes` - Create quote
 - `GET /api/quotes/{id}` - Get quote by ID
 - `PUT /api/quotes/{id}` - Update quote
 - `DELETE /api/quotes/{id}` - Delete quote
+
+### Default Admin Account
+
+On first login, a root administrator account is automatically created:
+
+- **Email:** `root@quotes.com`
+- **Role:** Admin (full permissions)
+- **Claims:** IsRootAdmin, CanManageUsers, CanManageQuotes, CanAccessAllFeatures
+
+See [ROOT_ADMIN_GUIDE.md](ROOT_ADMIN_GUIDE.md) for complete login instructions.
+
+### Test Accounts
+
+Additional test accounts are created automatically:
+
+- `admin@test.com` - Admin role
+- `editor@test.com` - Contributor role
+- `user@test.com` - Authenticated role
 
 ## Storage Services
 
@@ -155,16 +200,36 @@ quotes-backend/
 ├── src/
 │   ├── Quotes.Core/          # Domain layer
 │   ├── Quotes.Application/   # Business logic
-│   ├── Quotes.Infrastructure/# Data access
+│   ├── Quotes.Infrastructure/# Data access & services
+│   │   └── Services/
+│   │       ├── DatabaseInitializer.cs          # Root admin setup
+│   │       └── DatabaseInitializerHostedService.cs
 │   └── Quotes.Functions/     # API layer
+│       ├── Functions/
+│       │   └── AuthFunction.cs  # Authentication endpoints
+│       └── Middleware/
+│           ├── CorsMiddleware.cs     # CORS handling
+│           └── AuthenticationMiddleware.cs
 ├── azurite-data/             # Local storage data
 ├── scripts/                  # Utility scripts
 ├── seed-data/                # Sample data
-├── start-backend.ps1         # Start all services
-├── stop-backend.ps1          # Stop all services
+├── START_BACKEND.bat         # ⭐ One-click start (double-click me!)
+├── STOP_BACKEND.bat          # ⭐ One-click stop (double-click me!)
+├── start-backend.ps1         # Start all services (PowerShell)
+├── stop-backend.ps1          # Stop all services (PowerShell)
+├── test-root-admin.html      # Test root admin login
+├── test-cors.html            # Test CORS configuration
+├── QUICK_START.md            # Quick start guide
+├── ROOT_ADMIN_GUIDE.md       # Root admin documentation
+├── ROOT_ADMIN_SETUP_COMPLETE.md  # Setup summary
+├── CORS_FIX_SUMMARY.md       # CORS implementation details
 └── Quotes.Backend.sln        # Solution file
 ```
 
-## Deployment
+## Documentation
 
-See [DEPLOYMENT.md](../DEPLOYMENT.md) for Azure deployment instructions.
+- **[QUICK_START.md](QUICK_START.md)** - Fast start guide with one-click scripts
+- **[ROOT_ADMIN_GUIDE.md](ROOT_ADMIN_GUIDE.md)** - Complete root admin documentation
+- **[CORS_FIX_SUMMARY.md](CORS_FIX_SUMMARY.md)** - CORS implementation and troubleshooting
+- **[TESTING.md](TESTING.md)** - Testing guide and test accounts
+- **[DEPLOYMENT.md](../DEPLOYMENT.md)** - Azure deployment instructions

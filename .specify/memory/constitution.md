@@ -152,7 +152,7 @@ The platform MUST prioritize content discovery and contemplative engagement with
 - **Desktop**: Native menus, keyboard shortcuts, system tray integration
 - **Wearables**: Digital crown/bezel navigation, complications, force touch
 
-**Auto-Rotation & Notifications** (Platform-Adapted):
+**Auto-Rotation & Notifications** (Platform-Adapted):Install
 - Continuous display with configurable interval (5-60s in 5s increments, default: 15s)
 - Quote transition: fade-out current quote, then immediately fade-in next quote
 - Notification sound/haptic feedback on every transition:

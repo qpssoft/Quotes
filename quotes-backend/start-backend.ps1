@@ -114,13 +114,24 @@ if (!(Test-Path $azuriteDataPath)) {
 if (!$SkipAzurite) {
     Write-Info "Starting Azurite (Storage Emulator)..."
     try {
-        $azuriteProcess = Start-Process -FilePath "azurite" -ArgumentList "--silent", "--location", $azuriteDataPath, "--debug", "$azuriteDataPath\debug.log" -WorkingDirectory $backendRoot -PassThru -WindowStyle Hidden
+        # Start Azurite in a new minimized window (not hidden, as hidden causes issues)
+        $psi = New-Object System.Diagnostics.ProcessStartInfo
+        $psi.FileName = "azurite"
+        $psi.Arguments = "--silent --location `"$azuriteDataPath`" --debug `"$azuriteDataPath\debug.log`""
+        $psi.WorkingDirectory = $backendRoot
+        $psi.UseShellExecute = $true
+        $psi.WindowStyle = [System.Diagnostics.ProcessWindowStyle]::Minimized
+        
+        $azuriteProcess = [System.Diagnostics.Process]::Start($psi)
         
         $script:processes += $azuriteProcess
-        Start-Sleep -Seconds 2
+        Start-Sleep -Seconds 3
         
+        # Check if process is still running
+        $azuriteProcess.Refresh()
         if ($azuriteProcess.HasExited) {
             Write-Error-Custom "Azurite failed to start. Check logs at: $azuriteDataPath\debug.log"
+            Write-Host "Exit code: $($azuriteProcess.ExitCode)" -ForegroundColor Red
             exit 1
         }
         
@@ -137,6 +148,30 @@ if (!$SkipAzurite) {
     Write-Warning-Custom "Skipping Azurite startup"
     Write-Host ""
 }
+
+# Build Azure Functions
+Write-Info "Building Azure Functions project..."
+try {
+    Push-Location $backendRoot
+    
+    $buildOutput = dotnet build Quotes.Backend.sln --configuration Debug --verbosity quiet 2>&1
+    
+    if ($LASTEXITCODE -ne 0) {
+        Write-Error-Custom "Failed to build Azure Functions project"
+        Write-Host $buildOutput -ForegroundColor Red
+        Stop-AllProcesses
+        exit 1
+    }
+    
+    Write-Success "Build completed successfully"
+    Pop-Location
+} catch {
+    Write-Error-Custom "Build error: $_"
+    Pop-Location
+    Stop-AllProcesses
+    exit 1
+}
+Write-Host ""
 
 # Start Azure Functions
 Write-Info "Starting Azure Functions..."

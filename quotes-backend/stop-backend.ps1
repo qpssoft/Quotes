@@ -10,17 +10,17 @@
 
 function Write-Info {
     param([string]$Message)
-    Write-Host "ℹ️  $Message" -ForegroundColor Cyan
+    Write-Host "INFO: $Message" -ForegroundColor Cyan
 }
 
 function Write-Success {
     param([string]$Message)
-    Write-Host "✅ $Message" -ForegroundColor Green
+    Write-Host "SUCCESS: $Message" -ForegroundColor Green
 }
 
 function Write-Warning-Custom {
     param([string]$Message)
-    Write-Host "⚠️  $Message" -ForegroundColor Yellow
+    Write-Host "WARNING: $Message" -ForegroundColor Yellow
 }
 
 Write-Info "=== Stopping Quotes Backend Services ==="
@@ -37,7 +37,8 @@ if ($azuriteProcesses) {
             Write-Success "Stopped Azurite (PID: $($proc.Id))"
             $stopped++
         } catch {
-            Write-Warning-Custom "Could not stop Azurite process: $_"
+            $errorMsg = $_.Exception.Message
+            Write-Warning-Custom "Could not stop Azurite process: $errorMsg"
         }
     }
 } else {
@@ -53,7 +54,8 @@ if ($funcProcesses) {
             Write-Success "Stopped Azure Functions (PID: $($proc.Id))"
             $stopped++
         } catch {
-            Write-Warning-Custom "Could not stop Functions process: $_"
+            $errorMsg = $_.Exception.Message
+            Write-Warning-Custom "Could not stop Functions process: $errorMsg"
         }
     }
 } else {
@@ -62,7 +64,12 @@ if ($funcProcesses) {
 
 # Stop dotnet processes related to Functions
 $dotnetProcesses = Get-Process -Name "dotnet" -ErrorAction SilentlyContinue | Where-Object {
-    $_.CommandLine -like "*Quotes.Functions*"
+    try {
+        $cmdLine = (Get-CimInstance Win32_Process -Filter "ProcessId = $($_.Id)" -ErrorAction SilentlyContinue).CommandLine
+        $cmdLine -like "*Quotes.Functions*"
+    } catch {
+        $false
+    }
 }
 if ($dotnetProcesses) {
     foreach ($proc in $dotnetProcesses) {
@@ -71,23 +78,33 @@ if ($dotnetProcesses) {
             Write-Success "Stopped dotnet process (PID: $($proc.Id))"
             $stopped++
         } catch {
-            Write-Warning-Custom "Could not stop dotnet process: $_"
+            $errorMsg = $_.Exception.Message
+            Write-Warning-Custom "Could not stop dotnet process: $errorMsg"
         }
     }
 }
 
 # Stop npm/node processes for Quotes Admin
 $nodeProcesses = Get-Process -Name "node" -ErrorAction SilentlyContinue | Where-Object {
-    $_.CommandLine -like "*react-scripts*" -or $_.CommandLine -like "*quotes-admin*"
+    try {
+        $cmdLine = (Get-CimInstance Win32_Process -Filter "ProcessId = $($_.Id)" -ErrorAction SilentlyContinue).CommandLine
+        $cmdLine -like "*react-scripts*" -or $cmdLine -like "*quotes-admin*"
+    } catch {
+        $false
+    }
 }
 if ($nodeProcesses) {
     foreach ($proc in $nodeProcesses) {
         try {
-            Stop-Process -Id $proc.Id -Force
+            Stop-Process -Id $proc.Id -Force -ErrorAction Stop
             Write-Success "Stopped Quotes Admin node process (PID: $($proc.Id))"
             $stopped++
         } catch {
-            Write-Warning-Custom "Could not stop node process: $_"
+            # Process may have already been killed by a parent process
+            if ($_.Exception.Message -notmatch "Cannot find a process") {
+                $errorMsg = $_.Exception.Message
+                Write-Warning-Custom "Could not stop node process: $errorMsg"
+            }
         }
     }
 }
@@ -105,8 +122,69 @@ if ($npmProcesses) {
                 $stopped++
             }
         } catch {
-            Write-Warning-Custom "Could not stop npm process: $_"
+            $errorMsg = $_.Exception.Message
+            Write-Warning-Custom "Could not stop npm process: $errorMsg"
         }
+    }
+}
+
+Write-Host ""
+
+# Aggressively kill any remaining related processes
+Write-Info "Checking for any remaining processes..."
+
+# Kill any remaining processes by port
+$portsToCheck = @(7071, 10000, 10001, 10002, 3000)
+foreach ($port in $portsToCheck) {
+    try {
+        $connections = Get-NetTCPConnection -LocalPort $port -ErrorAction SilentlyContinue
+        foreach ($conn in $connections) {
+            $processId = $conn.OwningProcess
+            if ($processId) {
+                $process = Get-Process -Id $processId -ErrorAction SilentlyContinue
+                if ($process) {
+                    try {
+                        Stop-Process -Id $processId -Force -ErrorAction Stop
+                        Write-Success "Killed process on port $port (PID: $processId, Name: $($process.Name))"
+                        $stopped++
+                    } catch {
+                        $errorMsg = $_.Exception.Message
+                        Write-Warning-Custom "Could not kill process $processId on port $port - $errorMsg"
+                    }
+                }
+            }
+        }
+    } catch {
+        # Port not in use, continue
+    }
+}
+
+# Final sweep: kill by process name pattern (more aggressive)
+$processesToKill = @(
+    @{Name="azurite"; Pattern="azurite"},
+    @{Name="func"; Pattern="func"},
+    @{Name="node"; Pattern="react-scripts|quotes-admin|webpack"},
+    @{Name="dotnet"; Pattern="Quotes.Functions"}
+)
+
+foreach ($procInfo in $processesToKill) {
+    try {
+        $procs = Get-Process -Name $procInfo.Name -ErrorAction SilentlyContinue
+        foreach ($proc in $procs) {
+            try {
+                $commandLine = (Get-CimInstance Win32_Process -Filter "ProcessId = $($proc.Id)" -ErrorAction SilentlyContinue).CommandLine
+                if ($commandLine -and $commandLine -match $procInfo.Pattern) {
+                    Stop-Process -Id $proc.Id -Force -ErrorAction Stop
+                    Write-Success "Force killed $($procInfo.Name) process (PID: $($proc.Id))"
+                    $stopped++
+                }
+            } catch {
+                $errorMsg = $_.Exception.Message
+                Write-Warning-Custom "Could not force kill $($procInfo.Name) process: $errorMsg"
+            }
+        }
+    } catch {
+        # Process not found, continue
     }
 }
 
@@ -114,5 +192,9 @@ Write-Host ""
 if ($stopped -eq 0) {
     Write-Warning-Custom "No backend services were running"
 } else {
-    Write-Success "Stopped $stopped process(es)"
+    Write-Success "Stopped $stopped process(es) total"
 }
+
+Write-Host ""
+Write-Info "All backend services stopped"
+Write-Host ""

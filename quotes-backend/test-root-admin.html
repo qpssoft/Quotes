@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Root Admin Login Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            margin-top: 0;
+        }
+        button {
+            padding: 12px 24px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            width: 100%;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 14px;
+        }
+        .success {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        .error {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        .info {
+            background-color: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+        }
+        .credentials {
+            background-color: #fff3cd;
+            border: 1px solid #ffc107;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .credentials h3 {
+            margin-top: 0;
+            color: #856404;
+        }
+        .credentials code {
+            background: #f8f9fa;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔐 Root Admin Login Test</h1>
+        
+        <div class="credentials">
+            <h3>Root Admin Credentials</h3>
+            <p><strong>Email:</strong> <code>root@quotes.com</code></p>
+            <p><strong>Name:</strong> <code>Root Administrator</code></p>
+            <p><strong>Provider:</strong> <code>system</code></p>
+        </div>
+
+        <button onclick="testRootLogin()">Login as Root Admin</button>
+        
+        <div id="result"></div>
+    </div>
+
+    <script>
+        async function testRootLogin() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<div class="result info">Logging in...</div>';
+            
+            try {
+                const response = await fetch('http://localhost:7071/api/v1/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify({
+                        email: 'root@quotes.com',
+                        name: 'Root Administrator',
+                        provider: 'system'
+                    })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    
+                    // Store tokens
+                    localStorage.setItem('accessToken', data.accessToken);
+                    localStorage.setItem('refreshToken', data.refreshToken);
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    
+                    resultDiv.innerHTML = `
+                        <div class="result success">
+                            <h3>✅ Root Admin Login Successful!</h3>
+                            <p><strong>User ID:</strong> ${data.user.id}</p>
+                            <p><strong>Email:</strong> ${data.user.email}</p>
+                            <p><strong>Name:</strong> ${data.user.name}</p>
+                            <p><strong>Role:</strong> <span style="color: #28a745; font-weight: bold;">${data.user.role}</span></p>
+                            <p><strong>Provider:</strong> ${data.user.provider}</p>
+                            <hr style="margin: 15px 0;">
+                            <p><strong>Access Token:</strong><br/>${data.accessToken.substring(0, 60)}...</p>
+                            <p><strong>Expires In:</strong> ${data.expiresIn} seconds (${data.expiresIn / 60} minutes)</p>
+                            <hr style="margin: 15px 0;">
+                            <p style="color: #28a745; font-weight: bold;">✓ Tokens stored in localStorage</p>
+                            <p style="margin-top: 15px;">
+                                <strong>Next Step:</strong><br/>
+                                Go to <a href="http://localhost:3000" target="_blank">Admin Portal</a> and you should be automatically logged in!
+                            </p>
+                        </div>
+                    `;
+                } else {
+                    const error = await response.json();
+                    resultDiv.innerHTML = `
+                        <div class="result error">
+                            <h3>⚠️ Login Failed</h3>
+                            <p><strong>Status:</strong> ${response.status}</p>
+                            <p><strong>Error:</strong> ${JSON.stringify(error)}</p>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="result error">
+                        <h3>❌ Connection Error</h3>
+                        <p><strong>Error:</strong> ${error.message}</p>
+                        <p><strong>Check:</strong></p>
+                        <ul>
+                            <li>Is the API running at http://localhost:7071?</li>
+                            <li>Are there any CORS errors in the console?</li>
+                            <li>Try refreshing the page and testing again</li>
+                        </ul>
+                    </div>
+                `;
+                console.error('Login Error:', error);
+            }
+        }
+    </script>
+</body>
+</html>

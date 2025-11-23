@@ -58,6 +58,9 @@ public class AuthFunction
             
             if (user == null)
             {
+                // Special handling for root admin
+                var isRootAdmin = loginRequest.Email.Equals("root@quotes.com", StringComparison.OrdinalIgnoreCase);
+                
                 // Create new user
                 user = new User
                 {
@@ -65,11 +68,24 @@ public class AuthFunction
                     Email = loginRequest.Email,
                     Name = loginRequest.Name ?? loginRequest.Email.Split('@')[0],
                     Provider = loginRequest.Provider ?? "email",
-                    Role = "Authenticated",
+                    Role = isRootAdmin ? "Admin" : "Authenticated",
                     CreatedAt = DateTime.UtcNow,
                     LastLogin = DateTime.UtcNow,
                     IsActive = true
                 };
+
+                // Add special claims for root admin
+                if (isRootAdmin)
+                {
+                    user.Claims = new Dictionary<string, string>
+                    {
+                        { "IsRootAdmin", "true" },
+                        { "CanManageUsers", "true" },
+                        { "CanManageQuotes", "true" },
+                        { "CanAccessAllFeatures", "true" }
+                    };
+                    _logger.LogInformation("Creating root admin user");
+                }
 
                 await _userRepository.AddAsync(user);
                 _logger.LogInformation($"New user created: {user.Id}");
