@@ -121,6 +121,40 @@ class QuotesApiService {
       throw error;
     }
   }
+
+  async getSubmissions(): Promise<Quote[]> {
+    try {
+      const response = await axios.get<Quote[]>(`${API_BASE_URL}/admin/submissions`, {
+        headers: this.getHeaders(),
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Get submissions failed:', error);
+      throw error;
+    }
+  }
+
+  async approveQuote(id: string): Promise<void> {
+    try {
+      await axios.put(`${API_BASE_URL}/admin/quotes/${id}/approve`, {}, {
+        headers: this.getHeaders(),
+      });
+    } catch (error) {
+      console.error('Approve quote failed:', error);
+      throw error;
+    }
+  }
+
+  async rejectQuote(id: string, reason?: string): Promise<void> {
+    try {
+      await axios.put(`${API_BASE_URL}/admin/quotes/${id}/reject`, { reason }, {
+        headers: this.getHeaders(),
+      });
+    } catch (error) {
+      console.error('Reject quote failed:', error);
+      throw error;
+    }
+  }
 }
 
 export const quotesApi = new QuotesApiService();

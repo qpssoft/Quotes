@@ -5,6 +5,7 @@ import { Login } from './components/Login';
 import { Dashboard } from './pages/Dashboard';
 import { QuotesPage } from './pages/QuotesPage';
 import { UsersPage } from './pages/UsersPage';
+import { SubmissionsPage } from './pages/SubmissionsPage';
 import './App.css';
 
 // Protected route component
@@ -56,6 +57,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <UsersPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/submissions"
+            element={
+              <ProtectedRoute>
+                <SubmissionsPage />
               </ProtectedRoute>
             }
           />
