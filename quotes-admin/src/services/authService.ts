@@ -3,6 +3,58 @@ import axios, { AxiosError } from 'axios';
 // API base URL - will be configured via environment variables
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:7071/api/v1';
 
+// Enable mock authentication for testing
+const USE_MOCK_AUTH = process.env.REACT_APP_MOCK_AUTH === 'true';
+
+// Mock test accounts
+const MOCK_ACCOUNTS = {
+  ADMIN: {
+    email: 'admin@test.com',
+    user: {
+      Id: 'test-admin-001',
+      Email: 'admin@test.com',
+      Name: 'Test Admin',
+      Role: 'Admin',
+      Provider: 'email',
+      ProfilePicture: undefined,
+      CreatedAt: new Date().toISOString(),
+      LastLogin: new Date().toISOString(),
+    },
+    accessToken: 'mock_admin_access_token_' + Date.now(),
+    refreshToken: 'mock_admin_refresh_token_' + Date.now(),
+  },
+  CONTRIBUTOR: {
+    email: 'contributor@test.com',
+    user: {
+      Id: 'test-contributor-001',
+      Email: 'contributor@test.com',
+      Name: 'Test Contributor',
+      Role: 'Contributor',
+      Provider: 'email',
+      ProfilePicture: undefined,
+      CreatedAt: new Date().toISOString(),
+      LastLogin: new Date().toISOString(),
+    },
+    accessToken: 'mock_contributor_access_token_' + Date.now(),
+    refreshToken: 'mock_contributor_refresh_token_' + Date.now(),
+  },
+  USER: {
+    email: 'user@test.com',
+    user: {
+      Id: 'test-user-001',
+      Email: 'user@test.com',
+      Name: 'Test User',
+      Role: 'Authenticated',
+      Provider: 'email',
+      ProfilePicture: undefined,
+      CreatedAt: new Date().toISOString(),
+      LastLogin: new Date().toISOString(),
+    },
+    accessToken: 'mock_user_access_token_' + Date.now(),
+    refreshToken: 'mock_user_refresh_token_' + Date.now(),
+  },
+};
+
 // Auth endpoints
 const AUTH_ENDPOINTS = {
   LOGIN: `${API_BASE_URL}/auth/login`,
@@ -54,6 +106,11 @@ class AuthService {
    * Login with email (for MVP - OAuth providers will redirect here)
    */
   async login(request: LoginRequest): Promise<LoginResponse> {
+    // Use mock authentication if enabled
+    if (USE_MOCK_AUTH) {
+      return this.mockLogin(request);
+    }
+
     try {
       const response = await axios.post<LoginResponse>(AUTH_ENDPOINTS.LOGIN, request);
       
@@ -67,6 +124,42 @@ class AuthService {
       console.error('Login failed:', error);
       throw this.handleError(error);
     }
+  }
+
+  /**
+   * Mock login for testing purposes
+   */
+  private mockLogin(request: LoginRequest): Promise<LoginResponse> {
+    console.log('[MOCK AUTH] Using mock authentication');
+    
+    // Determine which mock account to use based on email
+    let mockAccount = MOCK_ACCOUNTS.USER;
+    
+    if (request.email === MOCK_ACCOUNTS.ADMIN.email) {
+      mockAccount = MOCK_ACCOUNTS.ADMIN;
+    } else if (request.email === MOCK_ACCOUNTS.CONTRIBUTOR.email) {
+      mockAccount = MOCK_ACCOUNTS.CONTRIBUTOR;
+    }
+    
+    // Override name if provided
+    if (request.name) {
+      mockAccount.user.Name = request.name;
+    }
+    
+    const response: LoginResponse = {
+      accessToken: mockAccount.accessToken,
+      refreshToken: mockAccount.refreshToken,
+      expiresIn: 3600,
+      user: { ...mockAccount.user },
+    };
+    
+    // Store tokens and user data
+    this.setAccessToken(response.accessToken);
+    this.setRefreshToken(response.refreshToken);
+    this.setUser(response.user);
+    
+    console.log('[MOCK AUTH] Login successful:', response.user);
+    return Promise.resolve(response);
   }
 
   /**
