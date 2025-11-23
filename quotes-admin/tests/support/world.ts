@@ -14,8 +14,8 @@ export class QuotesAdminWorld extends World {
 
   async init() {
     this.browser = await chromium.launch({
-      headless: process.env['HEADLESS'] !== 'false',
-      slowMo: process.env['SLOWMO'] ? parseInt(process.env['SLOWMO']) : 0,
+      headless: process.env['HEADLESS'] === 'true', // Default to visible browser
+      slowMo: process.env['SLOWMO'] ? parseInt(process.env['SLOWMO']) : 100, // Default 100ms delay
     });
     this.context = await this.browser.newContext({
       viewport: { width: 1280, height: 720 },

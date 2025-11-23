@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import './Login.css';
 
 export function Login() {
   const { login, isLoading, error } = useAuth();
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [loginError, setLoginError] = useState<string | null>(null);
@@ -23,7 +25,8 @@ export function Login() {
         name: name || email.split('@')[0],
         provider: 'email',
       });
-      // Redirect will happen automatically after successful login
+      // Use window.location for hard navigation to ensure auth state is ready
+      // This avoids race conditions with React Router's ProtectedRoute checks
       window.location.href = '/dashboard';
     } catch (err) {
       setLoginError(err instanceof Error ? err.message : 'Login failed');
