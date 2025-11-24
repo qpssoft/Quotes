@@ -327,7 +327,7 @@
 **Purpose**: Final testing, optimization, documentation, production deployment
 
 - [X] T176 [P] Update README.md with feature overview, architecture diagram, setup instructions
-- [ ] T177 [P] Write deployment guide in docs/deployment.md (Bicep deployment steps, Key Vault setup, Azure AD B2C configuration)
+- [X] T177 [P] Write deployment guide in docs/deployment.md (Bicep deployment steps, Key Vault setup, Azure AD B2C configuration)
 - [X] T178 [P] Write client integration guide in docs/client-integration.md (API endpoints, authentication flow, TypeScript SDK examples)
 - [ ] T179 [P] Write quickstart.md for local development (prerequisites, running Functions locally, running Admin Center locally)
 - [ ] T180 Code cleanup: remove dead code, ensure consistent naming, refactor duplicated logic
