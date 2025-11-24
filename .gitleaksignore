@@ -1,0 +1,22 @@
+# Gitleaks ignore file for false positive secrets
+# This file documents known safe "secrets" that are not actual security risks
+
+# Azurite local development emulator key (public, well-known key for local dev only)
+# Used in: scripts/upload-seed-*.ps1, docs/PHASE4_TESTING_GUIDE.md
+Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==
+
+# Example JWT tokens in documentation (truncated placeholders, not real tokens)
+# Used in: docs/*.md, quotes-backend/ROOT_ADMIN_GUIDE.md, specs/**/*.md
+eyJhbGciOiJIUzI1NiIs
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
+
+# Example refresh tokens in documentation (sample data, not real tokens)
+4mFHub+rckGbG+Ul9DXOLDWrMpYmbMVr1cy6Yz2rncA=
+UhuBU5uyKX266+yk8NIe18yKUvjW6irFsLfHXyWFMuU=
+
+# Placeholder text in documentation (literal strings to be replaced by users)
+YOUR_ACCESS_TOKEN
+ADMIN_ACCESS_TOKEN
+
+# GitHub Security Advisory ID (public reference, not a secret)
+GHSA-59j7-ghrg-fj52
