@@ -330,7 +330,7 @@
 - [X] T177 [P] Write deployment guide in docs/deployment.md (Bicep deployment steps, Key Vault setup, Azure AD B2C configuration)
 - [X] T178 [P] Write client integration guide in docs/client-integration.md (API endpoints, authentication flow, TypeScript SDK examples)
 - [X] T179 [P] Write quickstart.md for local development (prerequisites, running Functions locally, running Admin Center locally)
-- [ ] T180 Code cleanup: remove dead code, ensure consistent naming, refactor duplicated logic
+- [X] T180 Code cleanup: remove dead code, ensure consistent naming, refactor duplicated logic (Created 5 helper classes, refactored all use cases and Function files, removed 500+ lines of duplicated code)
 - [ ] T181 Performance optimization: verify Blob Storage caching (5-minute TTL), analyze Application Insights metrics, tune rate limits
 - [ ] T182 [P] Load testing with k6: simulate 1000 concurrent users, verify 95% of requests <500ms, zero errors
 - [ ] T183 [P] Security scan: run GitHub secret scanning, Azure DevOps credential scanner, verify zero exposed secrets

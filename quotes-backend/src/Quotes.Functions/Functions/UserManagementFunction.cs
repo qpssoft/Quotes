@@ -1,10 +1,10 @@
 using System.Net;
-using System.Text.Json;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 using Quotes.Application.DTOs;
 using Quotes.Application.UseCases;
+using Quotes.Functions.Common;
 
 namespace Quotes.Functions.Functions;
 
@@ -42,41 +42,22 @@ public class UserManagementFunction
 
         try
         {
-            var response = req.CreateResponse();
-            AddCorsHeaders(response);
-
             // Check authentication
-            if (!context.Items.ContainsKey("IsAuthenticated") || !(bool)context.Items["IsAuthenticated"])
-            {
-                response.StatusCode = HttpStatusCode.Unauthorized;
-                await response.WriteAsJsonAsync(new { error = "Authentication required" });
-                return response;
-            }
-
-            var role = context.Items["Role"]?.ToString() ?? "Authenticated";
+            if (!AuthorizationHelper.IsAuthenticated(context))
+                return await AuthorizationHelper.CreateUnauthorizedResponse(req);
 
             // Only Admin can view users
-            if (role != "Admin")
-            {
-                response.StatusCode = HttpStatusCode.Forbidden;
-                await response.WriteAsJsonAsync(new { error = "Admin role required" });
-                return response;
-            }
+            if (!AuthorizationHelper.HasRole(context, "Admin"))
+                return await AuthorizationHelper.CreateForbiddenResponse(req, "Admin role required");
 
             // Get all users
             var users = await _getAllUsersUseCase.ExecuteAsync();
 
-            response.StatusCode = HttpStatusCode.OK;
-            await response.WriteAsJsonAsync(users);
-            return response;
+            return await ResponseHelper.CreateSuccessResponse(req, users);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error getting users");
-            var errorResponse = req.CreateResponse(HttpStatusCode.InternalServerError);
-            AddCorsHeaders(errorResponse);
-            await errorResponse.WriteAsJsonAsync(new { error = "Internal server error" });
-            return errorResponse;
+            return await ResponseHelper.CreateErrorResponse(req, _logger, ex, "Error getting users");
         }
     }
 
@@ -90,48 +71,25 @@ public class UserManagementFunction
 
         try
         {
-            var response = req.CreateResponse();
-            AddCorsHeaders(response);
-
             // Check authentication
-            if (!context.Items.ContainsKey("IsAuthenticated") || !(bool)context.Items["IsAuthenticated"])
-            {
-                response.StatusCode = HttpStatusCode.Unauthorized;
-                await response.WriteAsJsonAsync(new { error = "Authentication required" });
-                return response;
-            }
-
-            var role = context.Items["Role"]?.ToString() ?? "Authenticated";
+            if (!AuthorizationHelper.IsAuthenticated(context))
+                return await AuthorizationHelper.CreateUnauthorizedResponse(req);
 
             // Only Admin can view user details
-            if (role != "Admin")
-            {
-                response.StatusCode = HttpStatusCode.Forbidden;
-                await response.WriteAsJsonAsync(new { error = "Admin role required" });
-                return response;
-            }
+            if (!AuthorizationHelper.HasRole(context, "Admin"))
+                return await AuthorizationHelper.CreateForbiddenResponse(req, "Admin role required");
 
             // Get user
             var user = await _getUserByIdUseCase.ExecuteAsync(id);
 
             if (user == null)
-            {
-                response.StatusCode = HttpStatusCode.NotFound;
-                await response.WriteAsJsonAsync(new { error = "User not found" });
-                return response;
-            }
+                return await ResponseHelper.CreateNotFoundResponse(req, "User not found");
 
-            response.StatusCode = HttpStatusCode.OK;
-            await response.WriteAsJsonAsync(user);
-            return response;
+            return await ResponseHelper.CreateSuccessResponse(req, user);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, $"Error getting user {id}");
-            var errorResponse = req.CreateResponse(HttpStatusCode.InternalServerError);
-            AddCorsHeaders(errorResponse);
-            await errorResponse.WriteAsJsonAsync(new { error = "Internal server error" });
-            return errorResponse;
+            return await ResponseHelper.CreateErrorResponse(req, _logger, ex, $"Error getting user {id}");
         }
     }
 
@@ -145,70 +103,32 @@ public class UserManagementFunction
 
         try
         {
-            var response = req.CreateResponse();
-            AddCorsHeaders(response);
-
             // Check authentication
-            if (!context.Items.ContainsKey("IsAuthenticated") || !(bool)context.Items["IsAuthenticated"])
-            {
-                response.StatusCode = HttpStatusCode.Unauthorized;
-                await response.WriteAsJsonAsync(new { error = "Authentication required" });
-                return response;
-            }
-
-            var role = context.Items["Role"]?.ToString() ?? "Authenticated";
+            if (!AuthorizationHelper.IsAuthenticated(context))
+                return await AuthorizationHelper.CreateUnauthorizedResponse(req);
 
             // Only Admin can update users
-            if (role != "Admin")
-            {
-                response.StatusCode = HttpStatusCode.Forbidden;
-                await response.WriteAsJsonAsync(new { error = "Admin role required" });
-                return response;
-            }
+            if (!AuthorizationHelper.HasRole(context, "Admin"))
+                return await AuthorizationHelper.CreateForbiddenResponse(req, "Admin role required");
 
             // Parse request body
-            var body = await req.ReadAsStringAsync();
-            if (string.IsNullOrWhiteSpace(body))
-            {
-                response.StatusCode = HttpStatusCode.BadRequest;
-                await response.WriteAsJsonAsync(new { error = "Request body is required" });
-                return response;
-            }
-
-            var dto = JsonSerializer.Deserialize<UpdateUserDto>(body, new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            });
-
+            var dto = await ResponseHelper.ParseRequestBody<UpdateUserDto>(req);
             if (dto == null)
-            {
-                response.StatusCode = HttpStatusCode.BadRequest;
-                await response.WriteAsJsonAsync(new { error = "Invalid request body" });
-                return response;
-            }
+                return await ResponseHelper.CreateBadRequestResponse(req, "Invalid request body");
 
             // Update user
             var user = await _updateUserUseCase.ExecuteAsync(id, dto);
 
-            response.StatusCode = HttpStatusCode.OK;
-            await response.WriteAsJsonAsync(user);
-            return response;
+            return await ResponseHelper.CreateSuccessResponse(req, user);
         }
         catch (KeyNotFoundException ex)
         {
             _logger.LogWarning(ex, $"User {id} not found");
-            var errorResponse = req.CreateResponse(HttpStatusCode.NotFound);
-            AddCorsHeaders(errorResponse);
-            await errorResponse.WriteAsJsonAsync(new { error = ex.Message });
-            return errorResponse;
+            return await ResponseHelper.CreateNotFoundResponse(req, ex.Message);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, $"Error updating user {id}");
-            var errorResponse = req.CreateResponse(HttpStatusCode.InternalServerError);
-            AddCorsHeaders(errorResponse);
-            await errorResponse.WriteAsJsonAsync(new { error = "Internal server error" });
-            return errorResponse;
+            return await ResponseHelper.CreateErrorResponse(req, _logger, ex, $"Error updating user {id}");
         }
     }
 
@@ -222,48 +142,27 @@ public class UserManagementFunction
 
         try
         {
-            var response = req.CreateResponse();
-            AddCorsHeaders(response);
-
             // Check authentication
-            if (!context.Items.ContainsKey("IsAuthenticated") || !(bool)context.Items["IsAuthenticated"])
-            {
-                response.StatusCode = HttpStatusCode.Unauthorized;
-                await response.WriteAsJsonAsync(new { error = "Authentication required" });
-                return response;
-            }
-
-            var role = context.Items["Role"]?.ToString() ?? "Authenticated";
+            if (!AuthorizationHelper.IsAuthenticated(context))
+                return await AuthorizationHelper.CreateUnauthorizedResponse(req);
 
             // Only Admin can delete users
-            if (role != "Admin")
-            {
-                response.StatusCode = HttpStatusCode.Forbidden;
-                await response.WriteAsJsonAsync(new { error = "Admin role required" });
-                return response;
-            }
+            if (!AuthorizationHelper.HasRole(context, "Admin"))
+                return await AuthorizationHelper.CreateForbiddenResponse(req, "Admin role required");
 
             // Delete user
             await _deleteUserUseCase.ExecuteAsync(id);
 
-            response.StatusCode = HttpStatusCode.NoContent;
-            return response;
+            return ResponseHelper.CreateNoContentResponse(req);
         }
         catch (KeyNotFoundException ex)
         {
             _logger.LogWarning(ex, $"User {id} not found");
-            var errorResponse = req.CreateResponse(HttpStatusCode.NotFound);
-            AddCorsHeaders(errorResponse);
-            await errorResponse.WriteAsJsonAsync(new { error = ex.Message });
-            return errorResponse;
+            return await ResponseHelper.CreateNotFoundResponse(req, ex.Message);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, $"Error deleting user {id}");
-            var errorResponse = req.CreateResponse(HttpStatusCode.InternalServerError);
-            AddCorsHeaders(errorResponse);
-            await errorResponse.WriteAsJsonAsync(new { error = "Internal server error" });
-            return errorResponse;
+            return await ResponseHelper.CreateErrorResponse(req, _logger, ex, $"Error deleting user {id}");
         }
     }
 
@@ -277,49 +176,27 @@ public class UserManagementFunction
 
         try
         {
-            var response = req.CreateResponse();
-            AddCorsHeaders(response);
-
             // Check authentication
-            if (!context.Items.ContainsKey("IsAuthenticated") || !(bool)context.Items["IsAuthenticated"])
-            {
-                response.StatusCode = HttpStatusCode.Unauthorized;
-                await response.WriteAsJsonAsync(new { error = "Authentication required" });
-                return response;
-            }
-
-            var role = context.Items["Role"]?.ToString() ?? "Authenticated";
+            if (!AuthorizationHelper.IsAuthenticated(context))
+                return await AuthorizationHelper.CreateUnauthorizedResponse(req);
 
             // Only Admin can ban users
-            if (role != "Admin")
-            {
-                response.StatusCode = HttpStatusCode.Forbidden;
-                await response.WriteAsJsonAsync(new { error = "Admin role required" });
-                return response;
-            }
+            if (!AuthorizationHelper.HasRole(context, "Admin"))
+                return await AuthorizationHelper.CreateForbiddenResponse(req, "Admin role required");
 
             // Ban user
             var user = await _banUserUseCase.ExecuteAsync(id, banned: true);
 
-            response.StatusCode = HttpStatusCode.OK;
-            await response.WriteAsJsonAsync(user);
-            return response;
+            return await ResponseHelper.CreateSuccessResponse(req, user);
         }
         catch (KeyNotFoundException ex)
         {
             _logger.LogWarning(ex, $"User {id} not found");
-            var errorResponse = req.CreateResponse(HttpStatusCode.NotFound);
-            AddCorsHeaders(errorResponse);
-            await errorResponse.WriteAsJsonAsync(new { error = ex.Message });
-            return errorResponse;
+            return await ResponseHelper.CreateNotFoundResponse(req, ex.Message);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, $"Error banning user {id}");
-            var errorResponse = req.CreateResponse(HttpStatusCode.InternalServerError);
-            AddCorsHeaders(errorResponse);
-            await errorResponse.WriteAsJsonAsync(new { error = "Internal server error" });
-            return errorResponse;
+            return await ResponseHelper.CreateErrorResponse(req, _logger, ex, $"Error banning user {id}");
         }
     }
 
@@ -333,57 +210,27 @@ public class UserManagementFunction
 
         try
         {
-            var response = req.CreateResponse();
-            AddCorsHeaders(response);
-
             // Check authentication
-            if (!context.Items.ContainsKey("IsAuthenticated") || !(bool)context.Items["IsAuthenticated"])
-            {
-                response.StatusCode = HttpStatusCode.Unauthorized;
-                await response.WriteAsJsonAsync(new { error = "Authentication required" });
-                return response;
-            }
-
-            var role = context.Items["Role"]?.ToString() ?? "Authenticated";
+            if (!AuthorizationHelper.IsAuthenticated(context))
+                return await AuthorizationHelper.CreateUnauthorizedResponse(req);
 
             // Only Admin can unban users
-            if (role != "Admin")
-            {
-                response.StatusCode = HttpStatusCode.Forbidden;
-                await response.WriteAsJsonAsync(new { error = "Admin role required" });
-                return response;
-            }
+            if (!AuthorizationHelper.HasRole(context, "Admin"))
+                return await AuthorizationHelper.CreateForbiddenResponse(req, "Admin role required");
 
             // Unban user
             var user = await _banUserUseCase.ExecuteAsync(id, banned: false);
 
-            response.StatusCode = HttpStatusCode.OK;
-            await response.WriteAsJsonAsync(user);
-            return response;
+            return await ResponseHelper.CreateSuccessResponse(req, user);
         }
         catch (KeyNotFoundException ex)
         {
             _logger.LogWarning(ex, $"User {id} not found");
-            var errorResponse = req.CreateResponse(HttpStatusCode.NotFound);
-            AddCorsHeaders(errorResponse);
-            await errorResponse.WriteAsJsonAsync(new { error = ex.Message });
-            return errorResponse;
+            return await ResponseHelper.CreateNotFoundResponse(req, ex.Message);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, $"Error unbanning user {id}");
-            var errorResponse = req.CreateResponse(HttpStatusCode.InternalServerError);
-            AddCorsHeaders(errorResponse);
-            await errorResponse.WriteAsJsonAsync(new { error = "Internal server error" });
-            return errorResponse;
+            return await ResponseHelper.CreateErrorResponse(req, _logger, ex, $"Error unbanning user {id}");
         }
-    }
-
-    private void AddCorsHeaders(HttpResponseData response)
-    {
-        response.Headers.Add("Access-Control-Allow-Origin", "*");
-        response.Headers.Add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-        response.Headers.Add("Access-Control-Allow-Headers", "Content-Type, Authorization");
-        response.Headers.Add("Access-Control-Max-Age", "3600");
     }
 }

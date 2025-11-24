@@ -8,6 +8,7 @@ using Quotes.Core.Interfaces;
 using Quotes.Infrastructure.Auth;
 using Quotes.Functions.Middleware;
 using Quotes.Infrastructure.Services;
+using Quotes.Functions.Common;
 
 namespace Quotes.Functions.Functions;
 
@@ -47,11 +48,7 @@ public class AuthFunction
             });
 
             if (loginRequest == null || string.IsNullOrEmpty(loginRequest.Email))
-            {
-                var badRequest = req.CreateResponse(HttpStatusCode.BadRequest);
-                await badRequest.WriteAsJsonAsync(new { error = "Email is required" });
-                return badRequest;
-            }
+                return await ResponseHelper.CreateBadRequestResponse(req, "Email is required");
 
             // For MVP: Create or get user (simplified - no actual OAuth provider integration yet)
             var user = await _userRepository.GetByEmailAsync(loginRequest.Email);
@@ -119,8 +116,7 @@ public class AuthFunction
                 { "Provider", user.Provider }
             });
 
-            var response = req.CreateResponse(HttpStatusCode.OK);
-            await response.WriteAsJsonAsync(new
+            return await ResponseHelper.CreateSuccessResponse(req, new
             {
                 accessToken,
                 refreshToken,
@@ -135,8 +131,6 @@ public class AuthFunction
                     user.ProfilePicture
                 }
             });
-
-            return response;
         }
         catch (Exception ex)
         {
@@ -146,9 +140,7 @@ public class AuthFunction
                 { "Operation", "Login" },
                 { "Email", loginRequest?.Email ?? "unknown" }
             });
-            var errorResponse = req.CreateResponse(HttpStatusCode.InternalServerError);
-            await errorResponse.WriteAsJsonAsync(new { error = "Internal server error" });
-            return errorResponse;
+            return await ResponseHelper.CreateErrorResponse(req, _logger, ex, "Error during login");
         }
     }
 
@@ -158,28 +150,19 @@ public class AuthFunction
         FunctionContext context)
     {
         if (!context.IsAuthenticated())
-        {
             return req.CreateUnauthorizedResponse();
-        }
 
         var userId = context.GetUserId();
         if (string.IsNullOrEmpty(userId))
-        {
             return req.CreateUnauthorizedResponse();
-        }
 
         try
         {
             var user = await _userRepository.GetByIdAsync(userId);
             if (user == null)
-            {
-                var notFound = req.CreateResponse(HttpStatusCode.NotFound);
-                await notFound.WriteAsJsonAsync(new { error = "User not found" });
-                return notFound;
-            }
+                return await ResponseHelper.CreateNotFoundResponse(req, "User not found");
 
-            var response = req.CreateResponse(HttpStatusCode.OK);
-            await response.WriteAsJsonAsync(new
+            return await ResponseHelper.CreateSuccessResponse(req, new
             {
                 user.Id,
                 user.Email,
@@ -190,15 +173,10 @@ public class AuthFunction
                 user.CreatedAt,
                 user.LastLogin
             });
-
-            return response;
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error getting user profile");
-            var errorResponse = req.CreateResponse(HttpStatusCode.InternalServerError);
-            await errorResponse.WriteAsJsonAsync(new { error = "Internal server error" });
-            return errorResponse;
+            return await ResponseHelper.CreateErrorResponse(req, _logger, ex, "Error getting user profile");
         }
     }
 
@@ -244,9 +222,7 @@ public class AuthFunction
             {
                 { "Operation", "Logout" }
             });
-            var errorResponse = req.CreateResponse(HttpStatusCode.InternalServerError);
-            await errorResponse.WriteAsJsonAsync(new { error = "Internal server error" });
-            return errorResponse;
+            return await ResponseHelper.CreateErrorResponse(req, _logger, ex, "Error during logout");
         }
     }
     
@@ -266,11 +242,7 @@ public class AuthFunction
             });
 
             if (refreshRequest == null || string.IsNullOrEmpty(refreshRequest.RefreshToken))
-            {
-                var badRequest = req.CreateResponse(HttpStatusCode.BadRequest);
-                await badRequest.WriteAsJsonAsync(new { error = "Refresh token is required" });
-                return badRequest;
-            }
+                return await ResponseHelper.CreateBadRequestResponse(req, "Refresh token is required");
 
             // Find user with this refresh token
             var users = await _userRepository.GetAllAsync();
@@ -279,11 +251,7 @@ public class AuthFunction
                 u.RefreshTokenExpiry > DateTime.UtcNow);
 
             if (user == null)
-            {
-                var unauthorized = req.CreateResponse(HttpStatusCode.Unauthorized);
-                await unauthorized.WriteAsJsonAsync(new { error = "Invalid or expired refresh token" });
-                return unauthorized;
-            }
+                return await AuthorizationHelper.CreateUnauthorizedResponse(req, "Invalid or expired refresh token");
 
             // Generate new tokens
             var accessToken = _jwtTokenService.GenerateAccessToken(user);
@@ -301,15 +269,12 @@ public class AuthFunction
                 { "Email", user.Email }
             });
 
-            var response = req.CreateResponse(HttpStatusCode.OK);
-            await response.WriteAsJsonAsync(new
+            return await ResponseHelper.CreateSuccessResponse(req, new
             {
                 accessToken,
                 refreshToken = newRefreshToken,
                 expiresIn = 3600
             });
-
-            return response;
         }
         catch (Exception ex)
         {
@@ -318,9 +283,7 @@ public class AuthFunction
             {
                 { "Operation", "TokenRefresh" }
             });
-            var errorResponse = req.CreateResponse(HttpStatusCode.InternalServerError);
-            await errorResponse.WriteAsJsonAsync(new { error = "Internal server error" });
-            return errorResponse;
+            return await ResponseHelper.CreateErrorResponse(req, _logger, ex, "Error during token refresh");
         }
     }
 }

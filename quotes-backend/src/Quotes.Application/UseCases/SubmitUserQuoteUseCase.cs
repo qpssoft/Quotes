@@ -1,3 +1,4 @@
+using Quotes.Application.Common;
 using Quotes.Application.DTOs;
 using Quotes.Core.Entities;
 using Quotes.Core.Interfaces;
@@ -56,18 +57,6 @@ public class SubmitUserQuoteUseCase
             // Log but don't fail if email fails
         }
 
-        return new QuoteDto
-        {
-            Id = savedQuote.Id,
-            Content = savedQuote.Content,
-            Author = savedQuote.Author,
-            Category = savedQuote.Category,
-            Tags = savedQuote.Tags,
-            Language = savedQuote.Language,
-            Type = savedQuote.Type,
-            CreatedAt = savedQuote.CreatedAt,
-            CreatedBy = savedQuote.CreatedBy,
-            IsPublic = savedQuote.IsPublic
-        };
+        return QuoteMapper.ToDto(savedQuote);
     }
 }

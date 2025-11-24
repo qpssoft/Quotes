@@ -1,3 +1,4 @@
+using Quotes.Application.Common;
 using Quotes.Application.DTOs;
 using Quotes.Core.Entities;
 using Quotes.Core.Interfaces;
@@ -39,23 +40,6 @@ public class CreateQuoteUseCase
         // Save to repository
         var created = await _quoteRepository.AddAsync(quote);
 
-        return MapToDto(created);
-    }
-
-    private QuoteDto MapToDto(Quote quote)
-    {
-        return new QuoteDto
-        {
-            Id = quote.Id,
-            Content = quote.Content,
-            Author = quote.Author,
-            Category = quote.Category,
-            Tags = quote.Tags,
-            Language = quote.Language,
-            Type = quote.Type,
-            CreatedAt = quote.CreatedAt,
-            CreatedBy = quote.CreatedBy,
-            IsPublic = quote.IsPublic
-        };
+        return QuoteMapper.ToDto(created);
     }
 }

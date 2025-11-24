@@ -1,10 +1,10 @@
 using System.Net;
-using System.Text.Json;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 using Quotes.Application.DTOs;
 using Quotes.Application.UseCases;
+using Quotes.Functions.Common;
 
 namespace Quotes.Functions.Functions;
 
@@ -39,71 +39,34 @@ public class QuoteManagementFunction
 
         try
         {
-            var response = req.CreateResponse();
-            AddCorsHeaders(response);
-
             // Check authentication
-            if (!context.Items.ContainsKey("IsAuthenticated") || !(bool)context.Items["IsAuthenticated"])
-            {
-                response.StatusCode = HttpStatusCode.Unauthorized;
-                await response.WriteAsJsonAsync(new { error = "Authentication required" });
-                return response;
-            }
+            if (!AuthorizationHelper.IsAuthenticated(context))
+                return await AuthorizationHelper.CreateUnauthorizedResponse(req);
 
-            var userId = context.Items["UserId"]?.ToString();
-            var role = context.Items["Role"]?.ToString() ?? "Authenticated";
-
+            var userId = AuthorizationHelper.GetUserId(context);
+            
             // Only Admin and Contributor can create quotes
-            if (role != "Admin" && role != "Contributor")
-            {
-                response.StatusCode = HttpStatusCode.Forbidden;
-                await response.WriteAsJsonAsync(new { error = "Insufficient permissions. Contributor or Admin role required." });
-                return response;
-            }
+            if (!AuthorizationHelper.HasRole(context, "Admin", "Contributor"))
+                return await AuthorizationHelper.CreateForbiddenResponse(req, "Contributor or Admin role required");
 
             // Parse request body
-            var body = await req.ReadAsStringAsync();
-            if (string.IsNullOrWhiteSpace(body))
-            {
-                response.StatusCode = HttpStatusCode.BadRequest;
-                await response.WriteAsJsonAsync(new { error = "Request body is required" });
-                return response;
-            }
-
-            var dto = JsonSerializer.Deserialize<CreateQuoteDto>(body, new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            });
-
+            var dto = await ResponseHelper.ParseRequestBody<CreateQuoteDto>(req);
             if (dto == null)
-            {
-                response.StatusCode = HttpStatusCode.BadRequest;
-                await response.WriteAsJsonAsync(new { error = "Invalid request body" });
-                return response;
-            }
+                return await ResponseHelper.CreateBadRequestResponse(req, "Request body is required");
 
             // Create quote
             var quote = await _createQuoteUseCase.ExecuteAsync(dto, userId);
 
-            response.StatusCode = HttpStatusCode.Created;
-            await response.WriteAsJsonAsync(quote);
-            return response;
+            return await ResponseHelper.CreateSuccessResponse(req, quote, HttpStatusCode.Created);
         }
         catch (ArgumentException ex)
         {
             _logger.LogWarning(ex, "Validation error creating quote");
-            var errorResponse = req.CreateResponse(HttpStatusCode.BadRequest);
-            AddCorsHeaders(errorResponse);
-            await errorResponse.WriteAsJsonAsync(new { error = ex.Message });
-            return errorResponse;
+            return await ResponseHelper.CreateBadRequestResponse(req, ex.Message);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error creating quote");
-            var errorResponse = req.CreateResponse(HttpStatusCode.InternalServerError);
-            AddCorsHeaders(errorResponse);
-            await errorResponse.WriteAsJsonAsync(new { error = "Internal server error" });
-            return errorResponse;
+            return await ResponseHelper.CreateErrorResponse(req, _logger, ex, "Error creating quote");
         }
     }
 
@@ -117,78 +80,37 @@ public class QuoteManagementFunction
 
         try
         {
-            var response = req.CreateResponse();
-            AddCorsHeaders(response);
-
             // Check authentication
-            if (!context.Items.ContainsKey("IsAuthenticated") || !(bool)context.Items["IsAuthenticated"])
-            {
-                response.StatusCode = HttpStatusCode.Unauthorized;
-                await response.WriteAsJsonAsync(new { error = "Authentication required" });
-                return response;
-            }
-
-            var role = context.Items["Role"]?.ToString() ?? "Authenticated";
+            if (!AuthorizationHelper.IsAuthenticated(context))
+                return await AuthorizationHelper.CreateUnauthorizedResponse(req);
 
             // Only Admin can update quotes
-            if (role != "Admin")
-            {
-                response.StatusCode = HttpStatusCode.Forbidden;
-                await response.WriteAsJsonAsync(new { error = "Admin role required" });
-                return response;
-            }
+            if (!AuthorizationHelper.HasRole(context, "Admin"))
+                return await AuthorizationHelper.CreateForbiddenResponse(req, "Admin role required");
 
             // Parse request body
-            var body = await req.ReadAsStringAsync();
-            if (string.IsNullOrWhiteSpace(body))
-            {
-                response.StatusCode = HttpStatusCode.BadRequest;
-                await response.WriteAsJsonAsync(new { error = "Request body is required" });
-                return response;
-            }
-
-            var dto = JsonSerializer.Deserialize<UpdateQuoteDto>(body, new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            });
-
+            var dto = await ResponseHelper.ParseRequestBody<UpdateQuoteDto>(req);
             if (dto == null)
-            {
-                response.StatusCode = HttpStatusCode.BadRequest;
-                await response.WriteAsJsonAsync(new { error = "Invalid request body" });
-                return response;
-            }
+                return await ResponseHelper.CreateBadRequestResponse(req, "Invalid request body");
 
             // Update quote
             var quote = await _updateQuoteUseCase.ExecuteAsync(id, dto);
 
-            response.StatusCode = HttpStatusCode.OK;
-            await response.WriteAsJsonAsync(quote);
-            return response;
+            return await ResponseHelper.CreateSuccessResponse(req, quote);
         }
         catch (KeyNotFoundException ex)
         {
             _logger.LogWarning(ex, $"Quote {id} not found");
-            var errorResponse = req.CreateResponse(HttpStatusCode.NotFound);
-            AddCorsHeaders(errorResponse);
-            await errorResponse.WriteAsJsonAsync(new { error = ex.Message });
-            return errorResponse;
+            return await ResponseHelper.CreateNotFoundResponse(req, ex.Message);
         }
         catch (ArgumentException ex)
         {
             _logger.LogWarning(ex, "Validation error updating quote");
-            var errorResponse = req.CreateResponse(HttpStatusCode.BadRequest);
-            AddCorsHeaders(errorResponse);
-            await errorResponse.WriteAsJsonAsync(new { error = ex.Message });
-            return errorResponse;
+            return await ResponseHelper.CreateBadRequestResponse(req, ex.Message);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, $"Error updating quote {id}");
-            var errorResponse = req.CreateResponse(HttpStatusCode.InternalServerError);
-            AddCorsHeaders(errorResponse);
-            await errorResponse.WriteAsJsonAsync(new { error = "Internal server error" });
-            return errorResponse;
+            return await ResponseHelper.CreateErrorResponse(req, _logger, ex, $"Error updating quote {id}");
         }
     }
 
@@ -202,48 +124,27 @@ public class QuoteManagementFunction
 
         try
         {
-            var response = req.CreateResponse();
-            AddCorsHeaders(response);
-
             // Check authentication
-            if (!context.Items.ContainsKey("IsAuthenticated") || !(bool)context.Items["IsAuthenticated"])
-            {
-                response.StatusCode = HttpStatusCode.Unauthorized;
-                await response.WriteAsJsonAsync(new { error = "Authentication required" });
-                return response;
-            }
-
-            var role = context.Items["Role"]?.ToString() ?? "Authenticated";
+            if (!AuthorizationHelper.IsAuthenticated(context))
+                return await AuthorizationHelper.CreateUnauthorizedResponse(req);
 
             // Only Admin can delete quotes
-            if (role != "Admin")
-            {
-                response.StatusCode = HttpStatusCode.Forbidden;
-                await response.WriteAsJsonAsync(new { error = "Admin role required" });
-                return response;
-            }
+            if (!AuthorizationHelper.HasRole(context, "Admin"))
+                return await AuthorizationHelper.CreateForbiddenResponse(req, "Admin role required");
 
             // Delete quote
             await _deleteQuoteUseCase.ExecuteAsync(id);
 
-            response.StatusCode = HttpStatusCode.NoContent;
-            return response;
+            return ResponseHelper.CreateNoContentResponse(req);
         }
         catch (KeyNotFoundException ex)
         {
             _logger.LogWarning(ex, $"Quote {id} not found");
-            var errorResponse = req.CreateResponse(HttpStatusCode.NotFound);
-            AddCorsHeaders(errorResponse);
-            await errorResponse.WriteAsJsonAsync(new { error = ex.Message });
-            return errorResponse;
+            return await ResponseHelper.CreateNotFoundResponse(req, ex.Message);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, $"Error deleting quote {id}");
-            var errorResponse = req.CreateResponse(HttpStatusCode.InternalServerError);
-            AddCorsHeaders(errorResponse);
-            await errorResponse.WriteAsJsonAsync(new { error = "Internal server error" });
-            return errorResponse;
+            return await ResponseHelper.CreateErrorResponse(req, _logger, ex, $"Error deleting quote {id}");
         }
     }
 
@@ -256,47 +157,22 @@ public class QuoteManagementFunction
 
         try
         {
-            var response = req.CreateResponse();
-            AddCorsHeaders(response);
-
             // Check authentication
-            if (!context.Items.ContainsKey("IsAuthenticated") || !(bool)context.Items["IsAuthenticated"])
-            {
-                response.StatusCode = HttpStatusCode.Unauthorized;
-                await response.WriteAsJsonAsync(new { error = "Authentication required" });
-                return response;
-            }
+            if (!AuthorizationHelper.IsAuthenticated(context))
+                return await AuthorizationHelper.CreateUnauthorizedResponse(req);
 
-            var userId = context.Items["UserId"]?.ToString();
+            var userId = AuthorizationHelper.GetUserId(context);
             if (string.IsNullOrEmpty(userId))
-            {
-                response.StatusCode = HttpStatusCode.Unauthorized;
-                await response.WriteAsJsonAsync(new { error = "User ID not found in token" });
-                return response;
-            }
+                return await AuthorizationHelper.CreateUnauthorizedResponse(req, "User ID not found in token");
 
             // Get user quotes
             var quotes = await _getUserQuotesUseCase.ExecuteAsync(userId);
 
-            response.StatusCode = HttpStatusCode.OK;
-            await response.WriteAsJsonAsync(quotes);
-            return response;
+            return await ResponseHelper.CreateSuccessResponse(req, quotes);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error getting user quotes");
-            var errorResponse = req.CreateResponse(HttpStatusCode.InternalServerError);
-            AddCorsHeaders(errorResponse);
-            await errorResponse.WriteAsJsonAsync(new { error = "Internal server error" });
-            return errorResponse;
+            return await ResponseHelper.CreateErrorResponse(req, _logger, ex, "Error getting user quotes");
         }
-    }
-
-    private void AddCorsHeaders(HttpResponseData response)
-    {
-        response.Headers.Add("Access-Control-Allow-Origin", "*");
-        response.Headers.Add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-        response.Headers.Add("Access-Control-Allow-Headers", "Content-Type, Authorization");
-        response.Headers.Add("Access-Control-Max-Age", "3600");
     }
 }

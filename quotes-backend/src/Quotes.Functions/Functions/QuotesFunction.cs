@@ -7,6 +7,7 @@ using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
 using Microsoft.OpenApi.Models;
 using Quotes.Application.UseCases;
 using Quotes.Infrastructure.Services;
+using Quotes.Functions.Common;
 
 namespace Quotes.Functions.Functions;
 
@@ -43,10 +44,6 @@ public class QuotesFunction
 
         try
         {
-            // Add CORS headers
-            var response = req.CreateResponse();
-            AddCorsHeaders(response);
-
             // Parse query parameters
             var query = System.Web.HttpUtility.ParseQueryString(req.Url.Query);
             var category = query["category"];
@@ -60,9 +57,7 @@ public class QuotesFunction
             if (_cacheService.TryGet<IEnumerable<Application.DTOs.QuoteDto>>(cacheKey, out var cachedQuotes) && cachedQuotes != null)
             {
                 _logger.LogInformation("Returning cached quotes");
-                response.StatusCode = HttpStatusCode.OK;
-                await response.WriteAsJsonAsync(cachedQuotes);
-                return response;
+                return await ResponseHelper.CreateSuccessResponse(req, cachedQuotes);
             }
 
             // Fetch from repository
@@ -71,17 +66,11 @@ public class QuotesFunction
             // Cache results
             _cacheService.Set(cacheKey, quotes, TimeSpan.FromMinutes(5));
 
-            response.StatusCode = HttpStatusCode.OK;
-            await response.WriteAsJsonAsync(quotes);
-            return response;
+            return await ResponseHelper.CreateSuccessResponse(req, quotes);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error getting quotes");
-            var errorResponse = req.CreateResponse(HttpStatusCode.InternalServerError);
-            AddCorsHeaders(errorResponse);
-            await errorResponse.WriteAsJsonAsync(new { error = "Internal server error" });
-            return errorResponse;
+            return await ResponseHelper.CreateErrorResponse(req, _logger, ex, "Error getting quotes");
         }
     }
 
@@ -99,45 +88,28 @@ public class QuotesFunction
 
         try
         {
-            // Add CORS headers
-            var response = req.CreateResponse();
-            AddCorsHeaders(response);
-
             // Try cache
             var cacheKey = $"quote_{id}";
             if (_cacheService.TryGet<Application.DTOs.QuoteDto>(cacheKey, out var cachedQuote) && cachedQuote != null)
             {
                 _logger.LogInformation("Returning cached quote");
-                response.StatusCode = HttpStatusCode.OK;
-                await response.WriteAsJsonAsync(cachedQuote);
-                return response;
+                return await ResponseHelper.CreateSuccessResponse(req, cachedQuote);
             }
 
             // Fetch from repository
             var quote = await _getQuoteByIdUseCase.ExecuteAsync(id);
 
             if (quote == null)
-            {
-                var notFoundResponse = req.CreateResponse(HttpStatusCode.NotFound);
-                AddCorsHeaders(notFoundResponse);
-                await notFoundResponse.WriteAsJsonAsync(new { error = "Quote not found" });
-                return notFoundResponse;
-            }
+                return await ResponseHelper.CreateNotFoundResponse(req, "Quote not found");
 
             // Cache result
             _cacheService.Set(cacheKey, quote, TimeSpan.FromMinutes(5));
 
-            response.StatusCode = HttpStatusCode.OK;
-            await response.WriteAsJsonAsync(quote);
-            return response;
+            return await ResponseHelper.CreateSuccessResponse(req, quote);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, $"Error getting quote {id}");
-            var errorResponse = req.CreateResponse(HttpStatusCode.InternalServerError);
-            AddCorsHeaders(errorResponse);
-            await errorResponse.WriteAsJsonAsync(new { error = "Internal server error" });
-            return errorResponse;
+            return await ResponseHelper.CreateErrorResponse(req, _logger, ex, $"Error getting quote {id}");
         }
     }
 
@@ -147,26 +119,8 @@ public class QuotesFunction
     {
         _logger.LogInformation("Health check called");
         var response = req.CreateResponse(HttpStatusCode.OK);
-        AddCorsHeaders(response);
+        CorsHelper.AddCorsHeaders(response);
         response.WriteString("Healthy");
         return response;
-    }
-
-    private void AddCorsHeaders(HttpResponseData response)
-    {
-        // Allow multiple origins for development and production
-        var allowedOrigins = new[]
-        {
-            "http://localhost:4200",  // Angular dev
-            "http://localhost:3000",  // React dev
-            "http://localhost:5173",  // Vite dev
-            "https://*.github.io",    // GitHub Pages (wildcard not supported, need specific)
-            "file://*"                // Electron/React Native (wildcard not supported)
-        };
-
-        response.Headers.Add("Access-Control-Allow-Origin", "*"); // For MVP, allow all
-        response.Headers.Add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-        response.Headers.Add("Access-Control-Allow-Headers", "Content-Type, Authorization");
-        response.Headers.Add("Access-Control-Max-Age", "3600");
     }
 }

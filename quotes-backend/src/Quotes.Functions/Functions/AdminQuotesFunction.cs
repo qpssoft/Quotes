@@ -3,6 +3,7 @@ using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 using Quotes.Application.UseCases;
 using Quotes.Core.Interfaces;
+using Quotes.Functions.Common;
 using System.Net;
 using System.Text.Json;
 
@@ -34,48 +35,32 @@ public class AdminQuotesFunction
     {
         _logger.LogInformation("GetSubmissions endpoint called");
 
-        var response = req.CreateResponse();
-        AddCorsHeaders(response);
-
         if (req.Method == "OPTIONS")
         {
-            response.StatusCode = HttpStatusCode.OK;
-            return response;
+            var optionsResponse = req.CreateResponse(HttpStatusCode.OK);
+            CorsHelper.AddCorsHeaders(optionsResponse);
+            return optionsResponse;
         }
 
         try
         {
             // Check authentication
-            if (!context.Items.ContainsKey("IsAuthenticated") || !(bool)context.Items["IsAuthenticated"])
-            {
-                response.StatusCode = HttpStatusCode.Unauthorized;
-                await response.WriteAsJsonAsync(new { error = "Authentication required" });
-                return response;
-            }
+            if (!AuthorizationHelper.IsAuthenticated(context))
+                return await AuthorizationHelper.CreateUnauthorizedResponse(req);
 
             // Check admin role
-            var role = context.Items["Role"]?.ToString() ?? "Authenticated";
-            if (role != "Admin")
-            {
-                response.StatusCode = HttpStatusCode.Forbidden;
-                await response.WriteAsJsonAsync(new { error = "Admin access required" });
-                return response;
-            }
+            if (!AuthorizationHelper.HasRole(context, "Admin"))
+                return await AuthorizationHelper.CreateForbiddenResponse(req, "Admin access required");
 
             // For now, return empty array since we don't have user submission storage yet
             // This will be implemented when user submission feature is added
             var submissions = new List<object>();
             
-            response.StatusCode = HttpStatusCode.OK;
-            await response.WriteAsJsonAsync(submissions);
-            return response;
+            return await ResponseHelper.CreateSuccessResponse(req, submissions);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error getting submissions");
-            response.StatusCode = HttpStatusCode.InternalServerError;
-            await response.WriteAsJsonAsync(new { error = "Internal server error" });
-            return response;
+            return await ResponseHelper.CreateErrorResponse(req, _logger, ex, "Error getting submissions");
         }
     }
 
@@ -87,61 +72,41 @@ public class AdminQuotesFunction
     {
         _logger.LogInformation($"ApproveQuote endpoint called for quote ID: {id}");
 
-        var response = req.CreateResponse();
-        AddCorsHeaders(response);
-
         if (req.Method == "OPTIONS")
         {
-            response.StatusCode = HttpStatusCode.OK;
-            return response;
+            var optionsResponse = req.CreateResponse(HttpStatusCode.OK);
+            CorsHelper.AddCorsHeaders(optionsResponse);
+            return optionsResponse;
         }
 
         try
         {
             // Check authentication
-            if (!context.Items.ContainsKey("IsAuthenticated") || !(bool)context.Items["IsAuthenticated"])
-            {
-                response.StatusCode = HttpStatusCode.Unauthorized;
-                await response.WriteAsJsonAsync(new { error = "Authentication required" });
-                return response;
-            }
+            if (!AuthorizationHelper.IsAuthenticated(context))
+                return await AuthorizationHelper.CreateUnauthorizedResponse(req);
 
             // Check admin role
-            var role = context.Items["Role"]?.ToString() ?? "Authenticated";
-            if (role != "Admin")
-            {
-                response.StatusCode = HttpStatusCode.Forbidden;
-                await response.WriteAsJsonAsync(new { error = "Admin access required" });
-                return response;
-            }
+            if (!AuthorizationHelper.HasRole(context, "Admin"))
+                return await AuthorizationHelper.CreateForbiddenResponse(req, "Admin access required");
 
-            var userId = context.Items["UserId"]?.ToString();
+            var userId = AuthorizationHelper.GetUserId(context);
             await _approveQuoteUseCase.ExecuteAsync(id, userId);
 
-            response.StatusCode = HttpStatusCode.OK;
-            await response.WriteAsJsonAsync(new { message = "Quote approved successfully" });
-            return response;
+            return await ResponseHelper.CreateSuccessResponse(req, new { message = "Quote approved successfully" });
         }
         catch (KeyNotFoundException ex)
         {
             _logger.LogWarning(ex, $"Quote not found: {id}");
-            response.StatusCode = HttpStatusCode.NotFound;
-            await response.WriteAsJsonAsync(new { error = $"Quote with ID {id} not found" });
-            return response;
+            return await ResponseHelper.CreateNotFoundResponse(req, $"Quote with ID {id} not found");
         }
         catch (ArgumentException ex)
         {
             _logger.LogWarning(ex, $"Invalid quote data: {id}");
-            response.StatusCode = HttpStatusCode.BadRequest;
-            await response.WriteAsJsonAsync(new { error = ex.Message });
-            return response;
+            return await ResponseHelper.CreateBadRequestResponse(req, ex.Message);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, $"Error approving quote {id}");
-            response.StatusCode = HttpStatusCode.InternalServerError;
-            await response.WriteAsJsonAsync(new { error = "Internal server error" });
-            return response;
+            return await ResponseHelper.CreateErrorResponse(req, _logger, ex, $"Error approving quote {id}");
         }
     }
 
@@ -153,33 +118,22 @@ public class AdminQuotesFunction
     {
         _logger.LogInformation($"RejectQuote endpoint called for quote ID: {id}");
 
-        var response = req.CreateResponse();
-        AddCorsHeaders(response);
-
         if (req.Method == "OPTIONS")
         {
-            response.StatusCode = HttpStatusCode.OK;
-            return response;
+            var optionsResponse = req.CreateResponse(HttpStatusCode.OK);
+            CorsHelper.AddCorsHeaders(optionsResponse);
+            return optionsResponse;
         }
 
         try
         {
             // Check authentication
-            if (!context.Items.ContainsKey("IsAuthenticated") || !(bool)context.Items["IsAuthenticated"])
-            {
-                response.StatusCode = HttpStatusCode.Unauthorized;
-                await response.WriteAsJsonAsync(new { error = "Authentication required" });
-                return response;
-            }
+            if (!AuthorizationHelper.IsAuthenticated(context))
+                return await AuthorizationHelper.CreateUnauthorizedResponse(req);
 
             // Check admin role
-            var role = context.Items["Role"]?.ToString() ?? "Authenticated";
-            if (role != "Admin")
-            {
-                response.StatusCode = HttpStatusCode.Forbidden;
-                await response.WriteAsJsonAsync(new { error = "Admin access required" });
-                return response;
-            }
+            if (!AuthorizationHelper.HasRole(context, "Admin"))
+                return await AuthorizationHelper.CreateForbiddenResponse(req, "Admin access required");
 
             // Read rejection reason from request body (optional)
             string? rejectionReason = null;
@@ -200,33 +154,19 @@ public class AdminQuotesFunction
                 // Ignore parse errors for rejection reason
             }
 
-            var userId = context.Items["UserId"]?.ToString();
+            var userId = AuthorizationHelper.GetUserId(context);
             await _rejectQuoteUseCase.ExecuteAsync(id, userId, rejectionReason);
 
-            response.StatusCode = HttpStatusCode.OK;
-            await response.WriteAsJsonAsync(new { message = "Quote rejected successfully" });
-            return response;
+            return await ResponseHelper.CreateSuccessResponse(req, new { message = "Quote rejected successfully" });
         }
         catch (KeyNotFoundException ex)
         {
             _logger.LogWarning(ex, $"Quote not found: {id}");
-            response.StatusCode = HttpStatusCode.NotFound;
-            await response.WriteAsJsonAsync(new { error = $"Quote with ID {id} not found" });
-            return response;
+            return await ResponseHelper.CreateNotFoundResponse(req, $"Quote with ID {id} not found");
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, $"Error rejecting quote {id}");
-            response.StatusCode = HttpStatusCode.InternalServerError;
-            await response.WriteAsJsonAsync(new { error = "Internal server error" });
-            return response;
+            return await ResponseHelper.CreateErrorResponse(req, _logger, ex, $"Error rejecting quote {id}");
         }
-    }
-
-    private void AddCorsHeaders(HttpResponseData response)
-    {
-        response.Headers.Add("Access-Control-Allow-Origin", "*");
-        response.Headers.Add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-        response.Headers.Add("Access-Control-Allow-Headers", "Content-Type, Authorization");
     }
 }
