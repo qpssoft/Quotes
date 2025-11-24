@@ -68,3 +68,7 @@ build/
 /quotes-backend/packages/
 /quotes-backend/src/Quotes.Core/bin
 /quotes-admin/test-results
+/quotes-backend/tests/Quotes.Infrastructure.Tests/obj
+/quotes-backend/tests/Quotes.Core.Tests/obj
+/quotes-backend/tests/Quotes.Core.Tests/bin
+/quotes-backend/tests/Quotes.Application.Tests/obj
