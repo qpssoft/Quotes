@@ -7,8 +7,11 @@ export function Dashboard() {
   const { user, refreshUser, isLoading } = useAuth();
 
   useEffect(() => {
-    // Refresh user data on mount
-    refreshUser();
+    // Only refresh user data from backend if not using mock auth
+    const useMockAuth = process.env.REACT_APP_MOCK_AUTH === 'true';
+    if (!useMockAuth) {
+      refreshUser();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

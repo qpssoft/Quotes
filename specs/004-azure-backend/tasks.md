@@ -272,8 +272,8 @@
 - [ ] T141 [P] [US4] Create Dashboard component in quotes-admin/src/pages/Dashboard.tsx (overview of public quotes, user-submitted quotes, stats)
 - [ ] T142 [P] [US4] Create QuotesPage component in quotes-admin/src/pages/QuotesPage.tsx (manage all public quotes)
 - [ ] T143 [P] [US4] Create SubmissionsPage component in quotes-admin/src/pages/SubmissionsPage.tsx (moderate user-submitted quotes)
-- [ ] T144 [P] [US4] Create QuoteList component in quotes-admin/src/components/QuoteList.tsx (displays quotes with pagination, search, filtering)
-- [ ] T145 [P] [US4] Create QuoteEditor component in quotes-admin/src/components/QuoteEditor.tsx (edit quote form with content, author, category)
+- [X] T144 [P] [US4] Create QuoteList component in quotes-admin/src/components/QuoteList.tsx (displays quotes with pagination, search, filtering)
+- [X] T145 [P] [US4] Create QuoteEditor component in quotes-admin/src/components/QuoteEditor.tsx (edit quote form with content, author, category)
 - [ ] T146 [P] [US4] Create Layout component in quotes-admin/src/components/Layout.tsx (navigation sidebar, header, responsive)
 - [ ] T147 [US4] Implement quotesApi.ts functions: approveQuote, rejectQuote, updateQuote, deleteQuote, getSubmissions
 - [ ] T148 [US4] Setup React Router routes in quotes-admin/src/App.tsx (/admin/quotes, /admin/users, /admin/submissions)

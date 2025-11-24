@@ -43,13 +43,16 @@ export function AuthProvider({ children }: AuthProviderProps) {
         if (storedUser) {
           setUser(storedUser);
           
-          // Optionally refresh user data from backend
-          try {
-            const currentUser = await authService.getCurrentUser();
-            setUser(currentUser);
-          } catch (err) {
-            // If refresh fails, use stored user data
-            console.warn('Failed to refresh user data:', err);
+          // Only refresh user data from backend if not using mock auth
+          const useMockAuth = process.env.REACT_APP_MOCK_AUTH === 'true';
+          if (!useMockAuth) {
+            try {
+              const currentUser = await authService.getCurrentUser();
+              setUser(currentUser);
+            } catch (err) {
+              // If refresh fails, use stored user data
+              console.warn('Failed to refresh user data:', err);
+            }
           }
         }
       }
