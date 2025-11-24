@@ -274,8 +274,8 @@
 - [ ] T143 [P] [US4] Create SubmissionsPage component in quotes-admin/src/pages/SubmissionsPage.tsx (moderate user-submitted quotes)
 - [X] T144 [P] [US4] Create QuoteList component in quotes-admin/src/components/QuoteList.tsx (displays quotes with pagination, search, filtering)
 - [X] T145 [P] [US4] Create QuoteEditor component in quotes-admin/src/components/QuoteEditor.tsx (edit quote form with content, author, category)
-- [ ] T146 [P] [US4] Create Layout component in quotes-admin/src/components/Layout.tsx (navigation sidebar, header, responsive)
-- [ ] T147 [US4] Implement quotesApi.ts functions: approveQuote, rejectQuote, updateQuote, deleteQuote, getSubmissions
+- [X] T146 [P] [US4] Create Layout component in quotes-admin/src/components/Layout.tsx (navigation sidebar, header, responsive)
+- [X] T147 [US4] Implement quotesApi.ts functions: approveQuote, rejectQuote, updateQuote, deleteQuote, getSubmissions
 - [ ] T148 [US4] Setup React Router routes in quotes-admin/src/App.tsx (/admin/quotes, /admin/users, /admin/submissions)
 - [ ] T149 [US4] Deploy Admin Center to Azure Static Web App (dev environment)
 - [ ] T150 [US4] Test admin login: log in with admin account, verify access to Admin Center
