@@ -3,6 +3,9 @@ using System.Text.Json;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
+using Microsoft.OpenApi.Models;
 using Quotes.Core.Entities;
 using Quotes.Core.Interfaces;
 using Quotes.Infrastructure.Auth;
@@ -32,6 +35,12 @@ public class AuthFunction
     }
 
     [Function("Login")]
+    [OpenApiOperation(operationId: "Login", tags: new[] { "Authentication" }, Summary = "User login", Description = "Authenticate user with email and password, returns JWT access and refresh tokens")]
+    [OpenApiRequestBody(contentType: "application/json", bodyType: typeof(object), Required = true, Description = "Login credentials (email, password, name, provider)")]
+    [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(object), Description = "Login successful, returns tokens and user info")]
+    [OpenApiResponseWithBody(statusCode: HttpStatusCode.BadRequest, contentType: "application/json", bodyType: typeof(object), Description = "Invalid request (missing email/password)")]
+    [OpenApiResponseWithBody(statusCode: HttpStatusCode.Unauthorized, contentType: "application/json", bodyType: typeof(object), Description = "Invalid credentials")]
+    [OpenApiResponseWithBody(statusCode: HttpStatusCode.InternalServerError, contentType: "application/json", bodyType: typeof(object), Description = "Internal server error")]
     public async Task<HttpResponseData> Login(
         [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "v1/auth/login")] HttpRequestData req,
         FunctionContext context)
@@ -144,8 +153,12 @@ public class AuthFunction
         }
     }
 
-    [Function("GetCurrentUser")]
-    public async Task<HttpResponseData> GetCurrentUser(
+    [Function("GetCurrentUser")]    [OpenApiOperation(operationId: "GetCurrentUser", tags: new[] { "Authentication" }, Summary = "Get current user", Description = "Retrieve authenticated user's profile information")]
+    [OpenApiSecurity("bearer_auth", SecuritySchemeType.Http, Scheme = OpenApiSecuritySchemeType.Bearer, BearerFormat = "JWT")]
+    [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Application.DTOs.UserDto), Description = "User profile retrieved successfully")]
+    [OpenApiResponseWithBody(statusCode: HttpStatusCode.Unauthorized, contentType: "application/json", bodyType: typeof(object), Description = "Not authenticated or invalid token")]
+    [OpenApiResponseWithBody(statusCode: HttpStatusCode.NotFound, contentType: "application/json", bodyType: typeof(object), Description = "User not found")]
+    [OpenApiResponseWithBody(statusCode: HttpStatusCode.InternalServerError, contentType: "application/json", bodyType: typeof(object), Description = "Internal server error")]    public async Task<HttpResponseData> GetCurrentUser(
         [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v1/users/me")] HttpRequestData req,
         FunctionContext context)
     {
@@ -181,6 +194,11 @@ public class AuthFunction
     }
 
     [Function("Logout")]
+    [OpenApiOperation(operationId: "Logout", tags: new[] { "Authentication" }, Summary = "User logout", Description = "Invalidate user's refresh token and log out")]
+    [OpenApiSecurity("bearer_auth", SecuritySchemeType.Http, Scheme = OpenApiSecuritySchemeType.Bearer, BearerFormat = "JWT")]
+    [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(object), Description = "Logout successful")]
+    [OpenApiResponseWithBody(statusCode: HttpStatusCode.Unauthorized, contentType: "application/json", bodyType: typeof(object), Description = "Not authenticated")]
+    [OpenApiResponseWithBody(statusCode: HttpStatusCode.InternalServerError, contentType: "application/json", bodyType: typeof(object), Description = "Internal server error")]
     public async Task<HttpResponseData> Logout(
         [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "v1/auth/logout")] HttpRequestData req,
         FunctionContext context)
@@ -227,6 +245,12 @@ public class AuthFunction
     }
     
     [Function("RefreshToken")]
+    [OpenApiOperation(operationId: "RefreshToken", tags: new[] { "Authentication" }, Summary = "Refresh access token", Description = "Exchange refresh token for new access and refresh tokens")]
+    [OpenApiRequestBody(contentType: "application/json", bodyType: typeof(object), Required = true, Description = "Refresh token (refreshToken field)")]
+    [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(object), Description = "Tokens refreshed successfully")]
+    [OpenApiResponseWithBody(statusCode: HttpStatusCode.BadRequest, contentType: "application/json", bodyType: typeof(object), Description = "Invalid request (missing refresh token)")]
+    [OpenApiResponseWithBody(statusCode: HttpStatusCode.Unauthorized, contentType: "application/json", bodyType: typeof(object), Description = "Invalid or expired refresh token")]
+    [OpenApiResponseWithBody(statusCode: HttpStatusCode.InternalServerError, contentType: "application/json", bodyType: typeof(object), Description = "Internal server error")]
     public async Task<HttpResponseData> RefreshToken(
         [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "v1/auth/refresh")] HttpRequestData req,
         FunctionContext context)

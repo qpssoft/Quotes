@@ -2,6 +2,9 @@ using System.Net;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
+using Microsoft.OpenApi.Models;
 using Quotes.Application.DTOs;
 using Quotes.Application.UseCases;
 using Quotes.Functions.Common;
@@ -31,6 +34,14 @@ public class QuoteManagementFunction
     }
 
     [Function("CreateQuote")]
+    [OpenApiOperation(operationId: "CreateQuote", tags: new[] { "Quote Management" }, Summary = "Create new quote", Description = "Create a new quote (Contributor or Admin only)")]
+    [OpenApiRequestBody(contentType: "application/json", bodyType: typeof(CreateQuoteDto), Required = true, Description = "Quote data")]
+    [OpenApiSecurity("bearer_auth", SecuritySchemeType.Http, Scheme = OpenApiSecuritySchemeType.Bearer, BearerFormat = "JWT")]
+    [OpenApiResponseWithBody(statusCode: HttpStatusCode.Created, contentType: "application/json", bodyType: typeof(QuoteDto), Description = "Quote created successfully")]
+    [OpenApiResponseWithBody(statusCode: HttpStatusCode.BadRequest, contentType: "application/json", bodyType: typeof(object), Description = "Invalid quote data")]
+    [OpenApiResponseWithBody(statusCode: HttpStatusCode.Unauthorized, contentType: "application/json", bodyType: typeof(object), Description = "Not authenticated")]
+    [OpenApiResponseWithBody(statusCode: HttpStatusCode.Forbidden, contentType: "application/json", bodyType: typeof(object), Description = "Contributor or Admin role required")]
+    [OpenApiResponseWithBody(statusCode: HttpStatusCode.InternalServerError, contentType: "application/json", bodyType: typeof(object), Description = "Internal server error")]
     public async Task<HttpResponseData> CreateQuote(
         [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "v1/quotes")] HttpRequestData req,
         FunctionContext context)
@@ -71,6 +82,16 @@ public class QuoteManagementFunction
     }
 
     [Function("UpdateQuote")]
+    [OpenApiOperation(operationId: "UpdateQuote", tags: new[] { "Quote Management" }, Summary = "Update quote", Description = "Update an existing quote (Admin only)")]
+    [OpenApiParameter(name: "id", In = ParameterLocation.Path, Required = true, Type = typeof(string), Description = "Quote ID")]
+    [OpenApiRequestBody(contentType: "application/json", bodyType: typeof(UpdateQuoteDto), Required = true, Description = "Updated quote data")]
+    [OpenApiSecurity("bearer_auth", SecuritySchemeType.Http, Scheme = OpenApiSecuritySchemeType.Bearer, BearerFormat = "JWT")]
+    [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(QuoteDto), Description = "Quote updated successfully")]
+    [OpenApiResponseWithBody(statusCode: HttpStatusCode.BadRequest, contentType: "application/json", bodyType: typeof(object), Description = "Invalid quote data")]
+    [OpenApiResponseWithBody(statusCode: HttpStatusCode.Unauthorized, contentType: "application/json", bodyType: typeof(object), Description = "Not authenticated")]
+    [OpenApiResponseWithBody(statusCode: HttpStatusCode.Forbidden, contentType: "application/json", bodyType: typeof(object), Description = "Admin role required")]
+    [OpenApiResponseWithBody(statusCode: HttpStatusCode.NotFound, contentType: "application/json", bodyType: typeof(object), Description = "Quote not found")]
+    [OpenApiResponseWithBody(statusCode: HttpStatusCode.InternalServerError, contentType: "application/json", bodyType: typeof(object), Description = "Internal server error")]
     public async Task<HttpResponseData> UpdateQuote(
         [HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "v1/quotes/{id}")] HttpRequestData req,
         string id,
@@ -115,6 +136,14 @@ public class QuoteManagementFunction
     }
 
     [Function("DeleteQuote")]
+    [OpenApiOperation(operationId: "DeleteQuote", tags: new[] { "Quote Management" }, Summary = "Delete quote", Description = "Delete an existing quote (Admin only)")]
+    [OpenApiParameter(name: "id", In = ParameterLocation.Path, Required = true, Type = typeof(string), Description = "Quote ID")]
+    [OpenApiSecurity("bearer_auth", SecuritySchemeType.Http, Scheme = OpenApiSecuritySchemeType.Bearer, BearerFormat = "JWT")]
+    [OpenApiResponseWithBody(statusCode: HttpStatusCode.NoContent, contentType: "application/json", bodyType: typeof(void), Description = "Quote deleted successfully")]
+    [OpenApiResponseWithBody(statusCode: HttpStatusCode.Unauthorized, contentType: "application/json", bodyType: typeof(object), Description = "Not authenticated")]
+    [OpenApiResponseWithBody(statusCode: HttpStatusCode.Forbidden, contentType: "application/json", bodyType: typeof(object), Description = "Admin role required")]
+    [OpenApiResponseWithBody(statusCode: HttpStatusCode.NotFound, contentType: "application/json", bodyType: typeof(object), Description = "Quote not found")]
+    [OpenApiResponseWithBody(statusCode: HttpStatusCode.InternalServerError, contentType: "application/json", bodyType: typeof(object), Description = "Internal server error")]
     public async Task<HttpResponseData> DeleteQuote(
         [HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "v1/quotes/{id}")] HttpRequestData req,
         string id,
@@ -149,6 +178,11 @@ public class QuoteManagementFunction
     }
 
     [Function("GetMyQuotes")]
+    [OpenApiOperation(operationId: "GetMyQuotes", tags: new[] { "Quote Management" }, Summary = "Get my quotes", Description = "Retrieve all quotes created by the authenticated user")]
+    [OpenApiSecurity("bearer_auth", SecuritySchemeType.Http, Scheme = OpenApiSecuritySchemeType.Bearer, BearerFormat = "JWT")]
+    [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(QuoteDto[]), Description = "List of user's quotes")]
+    [OpenApiResponseWithBody(statusCode: HttpStatusCode.Unauthorized, contentType: "application/json", bodyType: typeof(object), Description = "Not authenticated")]
+    [OpenApiResponseWithBody(statusCode: HttpStatusCode.InternalServerError, contentType: "application/json", bodyType: typeof(object), Description = "Internal server error")]
     public async Task<HttpResponseData> GetMyQuotes(
         [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v1/users/me/quotes")] HttpRequestData req,
         FunctionContext context)
