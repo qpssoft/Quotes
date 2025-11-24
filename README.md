@@ -10,6 +10,10 @@ This is a monorepo containing multiple components:
 Quotes/
 ├── quotes-platform/     # Main Angular application (Web)
 ├── quotes-native/       # React Native application (Mobile + Web)
+├── quotes-backend/      # Azure Functions API (Backend)
+├── quotes-admin/        # Admin center (React + Static Web App)
+├── quotes-electron/     # Electron desktop application
+├── infrastructure/      # Azure Bicep templates for deployment
 ├── specs/              # Feature specifications and design documents
 ├── documents/          # Additional documentation and references
 ├── .specify/           # Specify framework configuration and templates
@@ -44,6 +48,82 @@ npm start
 Visit `http://localhost:4200/` in your browser.
 
 ## 📦 Main Components
+
+### quotes-backend/
+
+Azure Functions-based REST API providing:
+
+- **RESTful API**: 19 documented endpoints with OpenAPI/Swagger
+- **Authentication**: JWT-based auth with access/refresh tokens
+- **Role-Based Access**: Anonymous, Authenticated, Contributor, Admin roles
+- **Quote Management**: CRUD operations with submission workflow
+- **User Management**: Admin panel for user moderation
+- **Rate Limiting**: Role-based request limits (100-1000 req/min)
+- **Blob Storage**: Azure Storage for quotes and user data
+- **Application Insights**: Telemetry and monitoring
+- **CORS Support**: Cross-origin requests for web clients
+
+**Technology Stack:**
+- .NET 8 (Isolated Worker)
+- Azure Functions v4
+- Azure Storage (Blob)
+- Azure Key Vault (secrets)
+- Azure Application Insights
+- OpenAPI/Swagger documentation
+- JWT authentication (HS256)
+
+**API Endpoints:**
+- Public: GET /v1/quotes, GET /v1/quotes/{id}
+- Auth: POST /v1/auth/login, GET /v1/auth/me, POST /v1/auth/logout, POST /v1/auth/refresh
+- Quotes: POST /v1/quotes, PUT /v1/quotes/{id}, DELETE /v1/quotes/{id}, GET /v1/users/me/quotes
+- Admin: GET /v1/admin/submissions, PUT /v1/admin/quotes/{id}/approve, PUT /v1/admin/quotes/{id}/reject
+- Users: GET /v1/admin/users, PUT /v1/admin/users/{id}, DELETE /v1/admin/users/{id}, PUT /v1/admin/users/{id}/ban
+
+**Key Documentation:**
+- [Backend README](./quotes-backend/README.md)
+- [API Documentation](./docs/client-integration.md)
+- [Key Vault Configuration](./KEY_VAULT_CONFIG.md)
+- [Security Scan Report](./SECURITY_SCAN_REPORT.md)
+
+### quotes-admin/
+
+React-based admin center for content moderation:
+
+- **Submission Moderation**: Review and approve/reject user submissions
+- **User Management**: Admin panel for managing users and roles
+- **Quote Management**: CRUD interface for quotes
+- **Authentication UI**: Login/logout with role management
+- **Static Web App**: Deployed to Azure Static Web Apps
+
+**Technology Stack:**
+- React 18+
+- TypeScript 5.x
+- Azure Static Web Apps
+- JWT authentication
+
+**Key Documentation:**
+- [Admin README](./quotes-admin/README.md)
+
+### quotes-electron/
+
+Cross-platform desktop application:
+
+- **Windows Support**: Native Windows application with installer
+- **macOS Support**: DMG installer with code signing
+- **Linux Support**: AppImage and Snap packages
+- **System Integration**: System tray, global shortcuts, auto-launch
+- **Auto-Update**: Built-in update mechanism
+
+**Technology Stack:**
+- Electron 28+
+- TypeScript 5.x
+- electron-builder for packaging
+
+**Key Documentation:**
+- [Electron README](./quotes-electron/README.md)
+- [Windows Packaging Guide](./quotes-electron/WINDOWS_PACKAGING_TEST.md)
+- [macOS Packaging Guide](./quotes-electron/MACOS_PACKAGING_GUIDE.md)
+- [Linux Packaging Guide](./quotes-electron/LINUX_PACKAGING_GUIDE.md)
 
 ### quotes-platform/
 
@@ -175,6 +255,120 @@ quotes-platform/src/app/
 ```
 
 ## 🌍 Deployment
+
+### Azure Backend (Production)
+
+The backend API is deployed to Azure using Infrastructure as Code (Bicep):
+
+**Azure Resources:**
+- **Function App**: `quotes-func-{env}` - Serverless API
+- **Storage Account**: `quotesstorage{env}` - Blob storage for data
+- **Key Vault**: `quotes-kv-{env}` - Secrets management
+- **Application Insights**: `quotes-insights-{env}` - Monitoring
+- **Static Web App**: `quotes-admin-{env}` - Admin center
+- **App Configuration**: `quotes-appconfig-{env}` - Configuration management
+
+**Environments:**
+- `dev`: Development environment for testing
+- `staging`: Pre-production environment
+- `production`: Live production environment
+
+#### Prerequisites
+
+- Azure subscription
+- Azure CLI 2.50+ or Azure PowerShell
+- .NET 8 SDK
+- Azure Functions Core Tools v4
+
+#### Deploy to Azure
+
+1. **Login to Azure:**
+   ```bash
+   az login
+   az account set --subscription <your-subscription-id>
+   ```
+
+2. **Deploy Infrastructure:**
+   ```bash
+   cd infrastructure
+   
+   # Deploy to dev environment
+   az deployment sub create \
+     --location eastus \
+     --template-file main.bicep \
+     --parameters environment=dev
+   
+   # Deploy to production
+   az deployment sub create \
+     --location eastus \
+     --template-file main.bicep \
+     --parameters environment=production
+   ```
+
+3. **Configure Key Vault Secrets:**
+   ```bash
+   # See KEY_VAULT_CONFIG.md for detailed instructions
+   
+   # Set JWT secret (generate secure 256-bit key)
+   az keyvault secret set \
+     --vault-name quotes-kv-production \
+     --name JwtSecretKey \
+     --value "<your-secure-key>"
+   
+   # Verify all secrets
+   cd infrastructure
+   pwsh ./verify-keyvault.ps1 -Environment production
+   ```
+
+4. **Deploy Function App:**
+   ```bash
+   cd quotes-backend/src/Quotes.Functions
+   
+   # Build and deploy
+   dotnet publish -c Release
+   
+   # Deploy to Azure
+   func azure functionapp publish quotes-func-production
+   ```
+
+5. **Deploy Admin Center:**
+   ```bash
+   cd quotes-admin
+   
+   # Build
+   npm run build
+   
+   # Deploy to Azure Static Web App
+   swa deploy ./build \
+     --app-name quotes-admin-production \
+     --env production
+   ```
+
+#### Verify Deployment
+
+```bash
+# Test health endpoint
+curl https://quotes-func-production.azurewebsites.net/api/health
+
+# Test API endpoint
+curl https://quotes-func-production.azurewebsites.net/api/v1/quotes
+
+# View Swagger documentation
+open https://quotes-func-production.azurewebsites.net/api/swagger/ui
+```
+
+#### Monitoring
+
+- **Application Insights**: Monitor performance and errors
+- **Azure Portal**: View resource metrics and logs
+- **Log Analytics**: Query application logs
+
+```bash
+# View recent logs
+az monitor app-insights query \
+  --app quotes-insights-production \
+  --analytics-query "traces | take 100"
+```
 
 ### GitHub Pages
 
