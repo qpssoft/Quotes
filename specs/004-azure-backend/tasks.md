@@ -145,11 +145,11 @@
 - [X] T066 [US1] Add CORS headers for client origins (localhost, GitHub Pages, Electron, React Native)
 - [X] T067 [US1] Add Application Insights logging for quote retrieval (request ID, duration, result count)
 - [X] T068 [P] [US1] Upload seed data (data_vi.json, data_en.json) to Azure Blob Storage quotes container
-- [ ] T069 [US1] Test quote retrieval: curl https://<function-app>.azurewebsites.net/api/v1/quotes
-- [ ] T070 [US1] Test filtering: curl "https://<function-app>.azurewebsites.net/api/v1/quotes?category=wisdom&language=vi"
-- [ ] T071 [US1] Test single quote: curl https://<function-app>.azurewebsites.net/api/v1/quotes/{id}
-- [ ] T072 [US1] Verify rate limiting: exceed 100 requests/min, expect 429 Too Many Requests
-- [ ] T073 [US1] Verify response time: 95% of requests <500ms via Application Insights
+- [X] T069 [US1] Test quote retrieval: curl https://<function-app>.azurewebsites.net/api/v1/quotes
+- [X] T070 [US1] Test filtering: curl "https://<function-app>.azurewebsites.net/api/v1/quotes?category=wisdom&language=vi"
+- [X] T071 [US1] Test single quote: curl https://<function-app>.azurewebsites.net/api/v1/quotes/{id}
+- [X] T072 [US1] Verify rate limiting: exceed 100 requests/min, expect 429 Too Many Requests
+- [X] T073 [US1] Verify response time: 95% of requests <500ms via Application Insights
 
 **Checkpoint**: User Story 1 complete and independently testable. MVP functional.
 
