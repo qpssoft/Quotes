@@ -119,7 +119,7 @@ public class QuotesFunction
     {
         _logger.LogInformation("Health check called");
         var response = req.CreateResponse(HttpStatusCode.OK);
-        CorsHelper.AddCorsHeaders(response);
+        // CORS headers are added by CorsMiddleware
         response.WriteString("Healthy");
         return response;
     }

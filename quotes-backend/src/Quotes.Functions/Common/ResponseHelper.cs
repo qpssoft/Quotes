@@ -24,7 +24,7 @@ public static class ResponseHelper
         HttpStatusCode statusCode = HttpStatusCode.OK)
     {
         var response = req.CreateResponse(statusCode);
-        CorsHelper.AddCorsHeaders(response);
+        // CORS headers are added by CorsMiddleware
         await response.WriteAsJsonAsync(data);
         return response;
     }
@@ -35,7 +35,7 @@ public static class ResponseHelper
     public static HttpResponseData CreateNoContentResponse(HttpRequestData req)
     {
         var response = req.CreateResponse(HttpStatusCode.NoContent);
-        CorsHelper.AddCorsHeaders(response);
+        // CORS headers are added by CorsMiddleware
         return response;
     }
 
@@ -47,7 +47,7 @@ public static class ResponseHelper
         string message)
     {
         var response = req.CreateResponse(HttpStatusCode.BadRequest);
-        CorsHelper.AddCorsHeaders(response);
+        // CORS headers are added by CorsMiddleware
         await response.WriteAsJsonAsync(new { error = message });
         return response;
     }
@@ -60,7 +60,7 @@ public static class ResponseHelper
         string message)
     {
         var response = req.CreateResponse(HttpStatusCode.NotFound);
-        CorsHelper.AddCorsHeaders(response);
+        // CORS headers are added by CorsMiddleware
         await response.WriteAsJsonAsync(new { error = message });
         return response;
     }
@@ -76,7 +76,7 @@ public static class ResponseHelper
     {
         logger.LogError(ex, message);
         var response = req.CreateResponse(HttpStatusCode.InternalServerError);
-        CorsHelper.AddCorsHeaders(response);
+        // CORS headers are added by CorsMiddleware
         await response.WriteAsJsonAsync(new { error = message });
         return response;
     }

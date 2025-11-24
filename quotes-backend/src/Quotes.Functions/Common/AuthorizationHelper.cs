@@ -55,7 +55,7 @@ public static class AuthorizationHelper
         string message = "Authentication required")
     {
         var response = req.CreateResponse(HttpStatusCode.Unauthorized);
-        CorsHelper.AddCorsHeaders(response);
+        // CORS headers are added by CorsMiddleware
         await response.WriteAsJsonAsync(new { error = message });
         return response;
     }
@@ -68,7 +68,7 @@ public static class AuthorizationHelper
         string message = "Insufficient permissions")
     {
         var response = req.CreateResponse(HttpStatusCode.Forbidden);
-        CorsHelper.AddCorsHeaders(response);
+        // CORS headers are added by CorsMiddleware
         await response.WriteAsJsonAsync(new { error = message });
         return response;
     }

@@ -1,21 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import './Login.css';
 
 export function Login() {
-  const { login, isLoading, error } = useAuth();
+  const { login, isLoading, error, user } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [loginError, setLoginError] = useState<string | null>(null);
 
+  // Redirect authenticated users to dashboard
+  useEffect(() => {
+    if (user) {
+      navigate('/dashboard', { replace: true });
+    }
+  }, [user, navigate]);
+
   const handleEmailLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoginError(null);
 
-    if (!email) {
+    // Validate email
+    if (!email || email.trim() === '') {
       setLoginError('Email is required');
+      return;
+    }
+
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setLoginError('Please enter a valid email address');
+      return;
+    }
+
+    // Validate name
+    if (!name || name.trim() === '') {
+      setLoginError('Name is required');
       return;
     }
 
@@ -29,7 +50,13 @@ export function Login() {
       // This avoids race conditions with React Router's ProtectedRoute checks
       window.location.href = '/dashboard';
     } catch (err) {
-      setLoginError(err instanceof Error ? err.message : 'Login failed');
+      const errorMessage = err instanceof Error ? err.message : 'Login failed';
+      // Check for network errors
+      if (errorMessage.includes('Network Error') || errorMessage.includes('ERR_FAILED')) {
+        setLoginError('Unable to connect to the server. Please check if the backend is running.');
+      } else {
+        setLoginError(errorMessage);
+      }
     }
   };
 
@@ -48,7 +75,7 @@ export function Login() {
         </div>
 
         {(error || loginError) && (
-          <div className="error-message">
+          <div className="error-message" role="alert">
             {error || loginError}
           </div>
         )}
@@ -68,7 +95,7 @@ export function Login() {
           </div>
 
           <div className="form-group">
-            <label htmlFor="name">Name (optional)</label>
+            <label htmlFor="name">Name</label>
             <input
               id="name"
               type="text"
@@ -76,6 +103,7 @@ export function Login() {
               onChange={(e) => setName(e.target.value)}
               placeholder="Enter your name"
               disabled={isLoading}
+              required
             />
           </div>
 

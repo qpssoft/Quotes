@@ -64,8 +64,21 @@ public class AuthFunction
             
             if (user == null)
             {
-                // Special handling for root admin
+                // Special handling for pre-defined test users
                 var isRootAdmin = loginRequest.Email.Equals("root@quotes.com", StringComparison.OrdinalIgnoreCase);
+                var isTestAdmin = loginRequest.Email.Equals("admin@test.com", StringComparison.OrdinalIgnoreCase);
+                var isTestEditor = loginRequest.Email.Equals("editor@test.com", StringComparison.OrdinalIgnoreCase);
+                
+                // Determine role based on email
+                string userRole = "Authenticated";
+                if (isRootAdmin || isTestAdmin)
+                {
+                    userRole = "Admin";
+                }
+                else if (isTestEditor)
+                {
+                    userRole = "Contributor";
+                }
                 
                 // Create new user
                 user = new User
@@ -74,7 +87,7 @@ public class AuthFunction
                     Email = loginRequest.Email,
                     Name = loginRequest.Name ?? loginRequest.Email.Split('@')[0],
                     Provider = loginRequest.Provider ?? "email",
-                    Role = isRootAdmin ? "Admin" : "Authenticated",
+                    Role = userRole,
                     CreatedAt = DateTime.UtcNow,
                     LastLogin = DateTime.UtcNow,
                     IsActive = true
@@ -94,18 +107,24 @@ public class AuthFunction
                 }
 
                 await _userRepository.AddAsync(user);
-                _logger.LogInformation($"New user created: {user.Id}");
+                _logger.LogInformation($"New user created: {user.Id} with role: {user.Role}");
                 _telemetry.TrackEvent("UserCreated", new Dictionary<string, string>
                 {
                     { "UserId", user.Id },
                     { "Email", user.Email },
-                    { "Provider", user.Provider }
+                    { "Provider", user.Provider },
+                    { "Role", user.Role }
                 });
             }
             else
             {
-                // Update last login
+                // Update last login and name if provided
                 user.LastLogin = DateTime.UtcNow;
+                if (!string.IsNullOrWhiteSpace(loginRequest.Name) && loginRequest.Name != user.Name)
+                {
+                    user.Name = loginRequest.Name;
+                    _logger.LogInformation($"Updated user name: {user.Id}");
+                }
                 await _userRepository.UpdateAsync(user);
             }
 

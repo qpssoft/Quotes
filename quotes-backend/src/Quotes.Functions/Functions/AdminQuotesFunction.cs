@@ -44,13 +44,6 @@ public class AdminQuotesFunction
     {
         _logger.LogInformation("GetSubmissions endpoint called");
 
-        if (req.Method == "OPTIONS")
-        {
-            var optionsResponse = req.CreateResponse(HttpStatusCode.OK);
-            CorsHelper.AddCorsHeaders(optionsResponse);
-            return optionsResponse;
-        }
-
         try
         {
             // Check authentication
@@ -89,13 +82,6 @@ public class AdminQuotesFunction
         string id)
     {
         _logger.LogInformation($"ApproveQuote endpoint called for quote ID: {id}");
-
-        if (req.Method == "OPTIONS")
-        {
-            var optionsResponse = req.CreateResponse(HttpStatusCode.OK);
-            CorsHelper.AddCorsHeaders(optionsResponse);
-            return optionsResponse;
-        }
 
         try
         {
@@ -145,13 +131,6 @@ public class AdminQuotesFunction
         string id)
     {
         _logger.LogInformation($"RejectQuote endpoint called for quote ID: {id}");
-
-        if (req.Method == "OPTIONS")
-        {
-            var optionsResponse = req.CreateResponse(HttpStatusCode.OK);
-            CorsHelper.AddCorsHeaders(optionsResponse);
-            return optionsResponse;
-        }
 
         try
         {
