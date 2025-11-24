@@ -335,13 +335,13 @@
 - [ ] T182 [P] Load testing with k6: simulate 1000 concurrent users, verify 95% of requests <500ms, zero errors
 - [ ] T183 [P] Security scan: run GitHub secret scanning, Azure DevOps credential scanner, verify zero exposed secrets
 - [ ] T184 Verify all secrets in Key Vault: OAuth secrets, storage connection strings, SendGrid API key, Application Insights key
-- [ ] T185 [P] Unit tests for Core layer: entity validation, interface contracts (xUnit)
-- [ ] T186 [P] Unit tests for Application layer: use case logic with mocked repositories (xUnit + Moq)
-- [ ] T187 [P] Integration tests for Infrastructure layer: Blob Storage read/write, Key Vault secret retrieval (xUnit + Azure SDK)
+- [X] T185 [P] Unit tests for Core layer: entity validation, interface contracts (xUnit)
+- [X] T186 [P] Unit tests for Application layer: use case logic with mocked repositories (xUnit + Moq)
+- [X] T187 [P] Integration tests for Infrastructure layer: Blob Storage read/write, Key Vault secret retrieval (xUnit + Azure SDK)
 - [ ] T188 [P] E2E tests for Admin Center: login flow, quote approval flow, user management flow (Playwright - optional)
 - [ ] T189 Cost verification: check Azure Cost Management, verify <$20/month for 10K users (if exceeds, optimize Azure AD B2C usage)
 - [ ] T190 Swagger documentation review: verify all API endpoints documented with request/response schemas, authentication requirements
-- [ ] T191 CORS verification: test from all client origins (localhost, GitHub Pages, Electron, React Native)
+- [X] T191 CORS verification: test from all client origins (localhost, GitHub Pages, Electron, React Native)
 - [ ] T192 RBAC verification: test all endpoints with different roles (Anonymous, Authenticated, Contributor, Admin), verify correct 401/403 responses
 - [ ] T193 Deploy to staging environment: run Bicep deployment with staging.parameters.json
 - [ ] T194 Staging smoke tests: verify all 6 user stories functional in staging
