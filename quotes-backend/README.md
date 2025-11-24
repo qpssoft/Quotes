@@ -119,6 +119,23 @@ dotnet build Quotes.Backend.sln
 dotnet test
 ```
 
+### Run API Tests
+
+Test all API endpoints locally:
+
+```powershell
+cd quotes-backend
+.\scripts\test-api-locally.ps1
+```
+
+This will test:
+- Quote retrieval (GET /api/v1/quotes)
+- Filtering by language, category, author
+- Single quote retrieval by ID
+- Rate limiting (burst traffic)
+- Response time (target <500ms)
+- Health endpoint
+
 ### Clean Build
 
 ```powershell
@@ -233,3 +250,27 @@ quotes-backend/
 - **[CORS_FIX_SUMMARY.md](CORS_FIX_SUMMARY.md)** - CORS implementation and troubleshooting
 - **[TESTING.md](TESTING.md)** - Testing guide and test accounts
 - **[DEPLOYMENT.md](../DEPLOYMENT.md)** - Azure deployment instructions
+
+## Recent Updates
+
+### CORS Fix (November 2025)
+- ✅ Removed duplicate CORS configuration from `host.json`
+- ✅ CORS now handled exclusively by `CorsMiddleware.cs`
+- ✅ Fixes `Access-Control-Allow-Origin: *,http://localhost:3000` duplicate header error
+- ✅ Supports all localhost ports for development
+- ✅ Proper credentials support and preflight handling
+
+### API Testing (November 2025)
+- ✅ Created automated test suite (`scripts/test-api-locally.ps1`)
+- ✅ Tests T069-T073 (User Story 1 validation)
+- ✅ 90.91% pass rate (10/11 tests passing)
+- ✅ Average response time: 5.67ms (well under 500ms target)
+- ✅ US1 (Anonymous Quote Access) validated locally
+
+### Admin Center Components
+- ✅ Layout component with sidebar navigation
+- ✅ QuoteList component with filtering and pagination
+- ✅ QuoteEditor component for CRUD operations
+- ✅ Complete quotesApi service with all endpoints
+- ✅ React Router routes configured
+- ✅ Mock authentication for development testing

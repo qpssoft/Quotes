@@ -276,7 +276,7 @@
 - [X] T145 [P] [US4] Create QuoteEditor component in quotes-admin/src/components/QuoteEditor.tsx (edit quote form with content, author, category)
 - [X] T146 [P] [US4] Create Layout component in quotes-admin/src/components/Layout.tsx (navigation sidebar, header, responsive)
 - [X] T147 [US4] Implement quotesApi.ts functions: approveQuote, rejectQuote, updateQuote, deleteQuote, getSubmissions
-- [ ] T148 [US4] Setup React Router routes in quotes-admin/src/App.tsx (/admin/quotes, /admin/users, /admin/submissions)
+- [X] T148 [US4] Setup React Router routes in quotes-admin/src/App.tsx (/admin/quotes, /admin/users, /admin/submissions)
 - [ ] T149 [US4] Deploy Admin Center to Azure Static Web App (dev environment)
 - [ ] T150 [US4] Test admin login: log in with admin account, verify access to Admin Center
 - [ ] T151 [US4] Test non-admin access: log in with regular user, verify 403 Forbidden when accessing Admin Center
@@ -326,7 +326,7 @@
 
 **Purpose**: Final testing, optimization, documentation, production deployment
 
-- [ ] T176 [P] Update README.md with feature overview, architecture diagram, setup instructions
+- [X] T176 [P] Update README.md with feature overview, architecture diagram, setup instructions
 - [ ] T177 [P] Write deployment guide in docs/deployment.md (Bicep deployment steps, Key Vault setup, Azure AD B2C configuration)
 - [ ] T178 [P] Write client integration guide in docs/client-integration.md (API endpoints, authentication flow, TypeScript SDK examples)
 - [ ] T179 [P] Write quickstart.md for local development (prerequisites, running Functions locally, running Admin Center locally)
