@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RotationService } from '../../core/services/rotation.service';
 import { AudioService } from '../../core/services/audio.service';
 import { ElectronService } from '../../core/services/electron.service';
+import { DataService } from '../../core/services/data.service';
 
 /**
  * Rotation control buttons (play/pause, next)
@@ -19,6 +20,7 @@ export class RotationControlsComponent implements OnInit, OnDestroy {
   private rotationService = inject(RotationService);
   private audioService = inject(AudioService);
   private electronService = inject(ElectronService);
+  private dataService = inject(DataService);
 
   // Reactive signals from rotation service
   timer = this.rotationService.timer;
@@ -29,6 +31,10 @@ export class RotationControlsComponent implements OnInit, OnDestroy {
 
   get isAudioEnabled(): boolean {
     return this.rotationService.isAudioEnabled();
+  }
+
+  get isBackendAvailable(): boolean {
+    return this.dataService.isBackendAvailable();
   }
 
   ngOnInit(): void {
@@ -113,5 +119,21 @@ export class RotationControlsComponent implements OnInit, OnDestroy {
    */
   getPlayPauseIcon(): string {
     return this.isPlaying ? '⏸' : '▶';
+  }
+
+  /**
+   * Get backend connection status label
+   */
+  getBackendStatusLabel(): string {
+    return this.isBackendAvailable ? '🟢 API Backend' : '🔴 Local Data';
+  }
+
+  /**
+   * Get backend connection status description
+   */
+  getBackendStatusDescription(): string {
+    return this.isBackendAvailable 
+      ? 'Connected to backend API' 
+      : 'Using local quote data';
   }
 }

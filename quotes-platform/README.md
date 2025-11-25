@@ -28,6 +28,7 @@ A modern web application for displaying and browsing Buddhist wisdom quotes, Vie
 - Node.js 20.x or higher
 - npm 10.x or higher
 - Angular CLI 18.x or higher
+- **Optional**: Azure Functions backend running on port 7071 (see Backend Integration)
 
 ### Installation
 
@@ -44,6 +45,34 @@ ng serve
 ```
 
 Open your browser and navigate to `http://localhost:4200/`
+
+### Backend Integration (Optional)
+
+The app can fetch quotes from the Azure Functions backend API. If the backend is not available, it automatically falls back to local JSON data.
+
+**To use backend API:**
+
+1. Start the backend (from `quotes-backend` directory):
+   ```powershell
+   .\start-backend.ps1
+   ```
+
+2. Test the backend connection:
+   ```powershell
+   cd quotes-platform
+   .\scripts\test-backend-api.ps1
+   ```
+
+3. Start the Angular app (it will automatically connect):
+   ```bash
+   npm start
+   ```
+
+**Connection Status**: Look for the status indicator in the controls:
+- 🟢 **API Backend** = Connected to backend
+- 🔴 **Local Data** = Using fallback JSON
+
+For detailed API integration documentation, see [API_INTEGRATION.md](./API_INTEGRATION.md)
 
 ### Development Server
 
@@ -125,6 +154,8 @@ For detailed deployment configuration, troubleshooting, and GitHub Pages setup, 
 - **Language**: TypeScript 5.5+
 - **Styling**: SCSS with CSS Custom Properties
 - **State Management**: Angular Signals
+- **HTTP Client**: Angular HttpClient with RxJS
+- **Backend API**: Azure Functions (.NET) - Optional
 - **Storage**: Browser LocalStorage API
 - **Fonts**: Google Fonts (Noto Serif, Georgia, Merriweather, Lora, Playfair Display, Crimson Text)
 - **Build Tool**: Angular CLI with esbuild
@@ -138,7 +169,7 @@ quotes-platform/
 │   ├── app/
 │   │   ├── core/
 │   │   │   ├── models/          # TypeScript interfaces and types
-│   │   │   └── services/        # Data, storage, audio, rotation services
+│   │   │   └── services/        # API, data, storage, audio, rotation services
 │   │   ├── features/
 │   │   │   ├── controls/        # Rotation controls component
 │   │   │   ├── quote-display/   # Continuous display component
@@ -146,9 +177,10 @@ quotes-platform/
 │   │   └── shared/
 │   │       └── components/
 │   │           └── quote-card/  # Reusable quote card component
+│   ├── environments/           # API configuration (dev/prod)
 │   ├── assets/
 │   │   └── data/
-│   │       └── quotes.json      # Quote database
+│   │       └── quotes.json      # Quote database (fallback)
 │   ├── styles/
 │   │   └── theme.css            # Buddhist-inspired theme variables
 │   └── index.html

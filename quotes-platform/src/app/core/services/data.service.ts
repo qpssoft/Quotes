@@ -1,5 +1,7 @@
-import { Injectable } from '@angular/core';
-import { Quote } from '../models';
+import { Injectable, inject } from '@angular/core';
+import { Quote, mapApiQuoteToQuote } from '../models';
+import { ApiService } from './api.service';
+import { firstValueFrom } from 'rxjs';
 
 /**
  * Service for loading and caching quote data
@@ -8,11 +10,14 @@ import { Quote } from '../models';
   providedIn: 'root',
 })
 export class DataService {
+  private apiService = inject(ApiService);
   private quotes: Quote[] = [];
   private quotesCache = new Map<string, Quote>();
+  private useBackendApi = true; // Flag to enable/disable backend API
+  private backendAvailable = false;
 
   /**
-   * Load quotes from JSON file
+   * Load quotes from backend API or fallback to local JSON
    */
   async loadQuotes(): Promise<Quote[]> {
     if (this.quotes.length > 0) {
@@ -20,29 +25,48 @@ export class DataService {
     }
 
     try {
-      const response = await fetch('data/quotes.json');
-      
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      
-      this.quotes = await response.json();
-      
-      // Validate data
-      if (!Array.isArray(this.quotes) || this.quotes.length === 0) {
-        throw new Error('Invalid quotes data format');
-      }
-      
-      // Build cache for fast ID lookups
-      this.quotes.forEach((quote) => {
-        this.quotesCache.set(quote.id, quote);
-      });
+      // Try to load from backend API first
+      if (this.useBackendApi) {
+        console.log('Loading quotes from backend API...');
+        const apiQuotes = await firstValueFrom(
+          this.apiService.getAllQuotes({ language: 'vi' })
+        );
 
-      return this.quotes;
+        this.quotes = apiQuotes.map(mapApiQuoteToQuote);
+        this.backendAvailable = true;
+        console.log(`Loaded ${this.quotes.length} quotes from backend API`);
+      }
     } catch (error) {
-      console.error('Failed to load quotes:', error);
-      throw error; // Re-throw for app-level error handling
+      console.warn('Failed to load quotes from backend API, falling back to local JSON:', error);
+      this.backendAvailable = false;
+      
+      // Fallback to local JSON file
+      try {
+        const response = await fetch('data/quotes.json');
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        this.quotes = await response.json();
+        console.log(`Loaded ${this.quotes.length} quotes from local JSON`);
+      } catch (localError) {
+        console.error('Failed to load quotes from local JSON:', localError);
+        throw new Error('Unable to load quotes from either backend API or local file');
+      }
     }
+
+    // Validate data
+    if (!Array.isArray(this.quotes) || this.quotes.length === 0) {
+      throw new Error('Invalid quotes data format or empty dataset');
+    }
+
+    // Build cache for fast ID lookups
+    this.quotes.forEach((quote) => {
+      this.quotesCache.set(quote.id, quote);
+    });
+
+    return this.quotes;
   }
 
   /**
@@ -91,5 +115,31 @@ export class DataService {
    */
   filterByCategory(category: string): Quote[] {
     return this.quotes.filter((quote) => quote.category === category);
+  }
+
+  /**
+   * Check if backend API is available
+   */
+  isBackendAvailable(): boolean {
+    return this.backendAvailable;
+  }
+
+  /**
+   * Enable or disable backend API usage
+   */
+  setUseBackendApi(use: boolean): void {
+    this.useBackendApi = use;
+    // Clear cache to force reload
+    this.quotes = [];
+    this.quotesCache.clear();
+  }
+
+  /**
+   * Reload quotes from source (useful after toggling backend API)
+   */
+  async reloadQuotes(): Promise<Quote[]> {
+    this.quotes = [];
+    this.quotesCache.clear();
+    return this.loadQuotes();
   }
 }

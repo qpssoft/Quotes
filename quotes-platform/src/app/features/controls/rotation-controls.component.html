@@ -83,5 +83,12 @@
         <option [value]="60" [selected]="timer().interval === 60">60 giây (1 phút)</option>
       </select>
     </div>
+
+    <!-- Backend connection status -->
+    <div class="backend-status" [title]="getBackendStatusDescription()">
+      <span class="status-indicator" [class.connected]="isBackendAvailable">
+        {{ getBackendStatusLabel() }}
+      </span>
+    </div>
   </div>
 </div>
