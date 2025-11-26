@@ -1,0 +1,20 @@
+{
+  "Authentication": {
+    "Google": {
+      "ClientId": "1042385210742-1p06qd5bvmll5pgvuemss3hvg1q9od3g.apps.googleusercontent.com",
+      "ClientSecret": "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"
+    },
+    "Facebook": {
+      "AppId": "2322781871488221",
+      "AppSecret": "161a20e37903975f830df6b89991049e"
+    },
+    "Microsoft": {
+      "ClientId": "jWB8Q~6hZFEzzwpfUVcY73dCYaSUqid4S4wQVdrl",
+      "ClientSecret": "b633d70f-ba16-4393-93df-4e251cf3de3c",
+      "TenantId": "common"
+    },
+  },
+  "ClientApp": {
+    "Url": "http://localhost:4200/"
+  }
+}
