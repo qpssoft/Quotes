@@ -74,3 +74,7 @@ build/
 /quotes-backend/tests/Quotes.Application.Tests/obj
 /quotes-backend/src/Quotes.Functions/publish
 quotes-backend/src/Quotes.Functions/quotes-functions.zip
+/infrastructure/latest-logs/LogFiles
+/infrastructure/latest-logs
+infrastructure/function-logs.zip
+infrastructure/latest-logs.zip

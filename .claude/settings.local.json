@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(az functionapp config appsettings list:*)",
+      "Bash(az functionapp config set:*)",
+      "Bash(az functionapp config appsettings set:*)",
+      "Bash(az functionapp restart:*)",
+      "Bash(curl:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
