@@ -1,0 +1,18 @@
+﻿{
+    "functionAppName":  {
+                            "type":  "String",
+                            "value":  "quotes-func-dev"
+                        },
+    "keyVaultName":  {
+                         "type":  "String",
+                         "value":  "quotes-kv-dev"
+                     },
+    "resourceGroupName":  {
+                              "type":  "String",
+                              "value":  "quotes-backend-rg-dev"
+                          },
+    "storageAccountName":  {
+                               "type":  "String",
+                               "value":  "quotesstoragedev"
+                           }
+}

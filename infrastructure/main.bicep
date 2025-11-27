@@ -82,20 +82,21 @@ module functionApp './modules/functionApp.bicep' = {
   dependsOn: [storage, keyVault, appInsights]
 }
 
-// Static Web App
-module staticWebApp './modules/staticWebApp.bicep' = {
-  name: 'staticWebApp'
-  scope: resourceGroup(resourceGroupName)
-  params: {
-    name: 'quotes-admin-${environment}'
-    location: location
-    environment: environment
-  }
-  dependsOn: [rg]
-}
+// Static Web App - Temporarily disabled (not available in all regions)
+// TODO: Deploy separately to a supported region (westus2, centralus, eastus2, westeurope, eastasia)
+// module staticWebApp './modules/staticWebApp.bicep' = {
+//   name: 'staticWebApp'
+//   scope: resourceGroup(resourceGroupName)
+//   params: {
+//     name: 'quotes-admin-${environment}'
+//     location: location
+//     environment: environment
+//   }
+//   dependsOn: [rg]
+// }
 
 output resourceGroupName string = resourceGroupName
 output storageAccountName string = storage.outputs.storageAccountName
 output functionAppName string = functionApp.outputs.functionAppName
-output staticWebAppName string = staticWebApp.outputs.staticWebAppName
+// output staticWebAppName string = staticWebApp.outputs.staticWebAppName
 output keyVaultName string = keyVault.outputs.keyVaultName

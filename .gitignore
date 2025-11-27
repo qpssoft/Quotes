@@ -72,3 +72,5 @@ build/
 /quotes-backend/tests/Quotes.Core.Tests/obj
 /quotes-backend/tests/Quotes.Core.Tests/bin
 /quotes-backend/tests/Quotes.Application.Tests/obj
+/quotes-backend/src/Quotes.Functions/publish
+quotes-backend/src/Quotes.Functions/quotes-functions.zip
